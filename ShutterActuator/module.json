@@ -1,0 +1,14 @@
+{
+  "id": "{4C9FA479-414D-E5D7-D68F-B269E30263FF}",
+  "name": "Shutter Actuator",
+  "type": 3,
+  "vendor": "",
+  "aliases": [
+    "Rollladensteuerung",
+    "Jalousiesteuerung"
+  ],
+  "parentRequirements": [],
+  "childRequirements": [],
+  "implemented": [],
+  "prefix": "TSA"
+}

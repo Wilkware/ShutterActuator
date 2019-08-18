@@ -1,0 +1,44 @@
+{
+  "elements": [
+    {"type": "ExpansionPanel", "caption": "Explanation",
+      "items": [
+        {"type": "Label", "caption": "The position of a shutter on HomeMatic devices is calculated linearly on the basis of the set time and thus on the basis of the running time. However, this position does not have to correspond to the degree of actual opening, i.e. 25% running time is not equal to 25% opening. In order to achieve an exact approach to the correct opening, an assignment of position and corresponding running time must be made. Since the percentage opening degree with HM of 100% means 'Open' and 0% means 'Closed', but with 25% it is assumed that the roller shutter has only been lowered 1/4, the assignment is exactly the other way round."}
+      ]
+    },
+    {"type": "Label", "caption": "Please select the vatiable for receive and transmit the level(position).\nNormally the LEVEL variable to indicate the real position is in channel 3, and the LEVEL variable to control the position is on channel 4." 
+    },
+    {"type": "RowLayout",
+      "items": [
+        {"type": "SelectVariable", "name": "ReceiverVariable", "caption": "Receiver (3:LEVEL)"},
+        {"type": "SelectVariable", "name": "TransmitterVariable", "caption": "Transmitter (4:LEVEL)"}
+      ]
+    },    
+    {"type": "Label", "caption": "Please measure the running time for the respective position and enter the corresponding values!" 
+    },
+    {"type": "RowLayout",
+      "items": [
+        { "type": "NumberSpinner", "name": "Position0",  "caption": "Open/Up (0%):", "digits": 2, "suffix": "%"},
+        { "type": "NumberSpinner", "name": "Position25", "caption": "Quarter (25%):", "digits": 2, "suffix": "%"},
+        { "type": "NumberSpinner", "name": "Position50", "caption": "Half (50%):", "digits": 2, "suffix": "%"}
+      ]
+    },    
+    {"type": "RowLayout",
+      "items": [
+        { "type": "NumberSpinner", "name": "Position75",  "caption": "Three quarter (75%):", "digits": 2, "suffix": "%"},
+        { "type": "NumberSpinner", "name": "Position99",  "caption": "Almost closed (99%):", "digits": 2, "suffix": "%"},
+        { "type": "NumberSpinner", "name": "Position100", "caption": "Close/Down (100%):", "digits": 2, "suffix": "%"}
+      ]
+    }    
+  ],
+  "actions": [
+    {"type": "Label", "caption": "Use the button to measure the right values! The 'SHOW'-Button will display the internal level of the shutter!" },
+    {"type": "RowLayout",
+      "items": [
+        {"type": "Button", "caption": "UP", "onClick": "TSA_Up($id);"},
+        {"type": "Button", "caption": "STOP", "onClick": "TSA_Stop($id);"},
+        {"type": "Button", "caption": "DOWN", "onClick": "TSA_Down($id);"},
+        {"type": "Button", "caption": "SHOW", "onClick": "echo 'Position: '.TSA_Level($id).' %';"}
+      ]
+    }
+  ]
+}
