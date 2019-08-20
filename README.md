@@ -4,9 +4,12 @@
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 [![StyleCI](https://github.styleci.io/repos/203026578/shield?style=flat)](https://github.styleci.io/repos/203026578)
 
-# Rollladensteuerung
+# Toolmatic Shutter Actuator (Rollladensteuerung)
 
-Modul zur Übersetzung der Laufzeit des Rollladenmotors zur Position der Lamellen.
+Die *Toolmatic Bibliothek* ist eine kleine Tool-Sammlung im Zusammenhang mit HomeMatic/IP Geräten.  
+Hauptsächlich beinhaltet sie kleine Erweiterung zur Automatisierung von Aktoren oder erleichtert das Steuern von Geräten bzw. bietet mehr Komfort bei der Bedienung.  
+  
+Die *Rollladensteuerung* dient zur Ansteuerung der korrekten Öffnungsposition in Abhängigkeit der Motor-Laufzeit.
 
 ## Inhaltverzeichnis
 
@@ -21,7 +24,7 @@ Modul zur Übersetzung der Laufzeit des Rollladenmotors zur Position der Lamelle
 
 ### 1. Funktionsumfang
 
-* Ansteuerung der korrekten Öffnungsposition in Abhängigkeit der Laufzeit
+* Übersetzung der Laufzeit des Rollladenmotors zur Position der Lamellen.
 
 ### 2. Voraussetzungen
 
@@ -29,13 +32,13 @@ Modul zur Übersetzung der Laufzeit des Rollladenmotors zur Position der Lamelle
 
 ### 3. Software-Installation
 
-* Über den Modul Store das Modul 'Shutter Actuator' installieren.
+* Über den Modul Store das Modul *Toolmatic Shutter Actuator* installieren.
 * Alternativ Über das Modul-Control folgende URL hinzufügen.  
 `https://github.com/Wilkware/IPSymconShutterActuator` oder `git://github.com/Wilkware/IPSymconShutterActuator.git`
 
 ### 4. Einrichten der Instanzen in IP-Symcon
 
-* Unter "Instanz hinzufügen" ist das 'Rollladensteuerung'-Modul (Alias: Jalousiesteuerung) unter dem Hersteller '(Sonstige)' aufgeführt.
+* Unter 'Instanz hinzufügen' ist das *Rollladensteuerung*-Modul (Alias: *Jalousiesteuerung*) unter dem Hersteller '(Geräte)' aufgeführt.
 
 __Konfigurationsseite__:
 
