@@ -224,7 +224,7 @@ trait ProfileHelper
         } else {
             $profile = IPS_GetVariableProfile($name);
             if ($profile['ProfileType'] != $vartype) {
-                throw new Exception('Variable profile type does not match for profile '.$name);
+                throw new Exception('Variable profile type does not match for profile ' . $name);
             }
         }
     }
@@ -378,11 +378,11 @@ trait DebugHelper
     {
         if (is_object($data)) {
             foreach ($data as $key => $value) {
-                $this->SendDebug($msg.':'.$key, $value, 1);
+                $this->SendDebug($msg . ':' . $key, $value, 1);
             }
         } elseif (is_array($data)) {
             foreach ($data as $key => $value) {
-                $this->SendDebug($msg.':'.$key, $value, 0);
+                $this->SendDebug($msg . ':' . $key, $value, 0);
             }
         } elseif (is_bool($data)) {
             parent::SendDebug($msg, ($data ? 'TRUE' : 'FALSE'), 0);

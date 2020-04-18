@@ -1,11 +1,14 @@
 <?php
 
-require_once __DIR__.'/../libs/traits.php';  // Allgemeine Funktionen
+declare(strict_types=1);
+
+require_once __DIR__ . '/../libs/traits.php';  // Allgemeine Funktionen
 
 // CLASS ShutterActuator
 class ShutterActuator extends IPSModule
 {
-    use ProfileHelper, DebugHelper;
+    use ProfileHelper;
+    use DebugHelper;
 
     public function Create()
     {
@@ -66,11 +69,11 @@ class ShutterActuator extends IPSModule
             case VM_UPDATE:
                 // ReceiverVariable
                 if ($senderID != $this->ReadPropertyInteger('ReceiverVariable')) {
-                    $this->SendDebug('MessageSink', 'SenderID: '.$senderID.' unbekannt!');
+                    $this->SendDebug('MessageSink', 'SenderID: ' . $senderID . ' unbekannt!');
                 } else {
                     // Aenderungen auslesen
                     if ($data[1] == true) { // OnChange - neuer Wert?
-                        $this->SendDebug('MessageSink', 'Level: '.$data[2].' => '.$data[0]);
+                        $this->SendDebug('MessageSink', 'Level: ' . $data[2] . ' => ' . $data[0]);
                         $this->LevelToPosition($data[0]);
                     } else { // OnChange - keine Zustandsaenderung
                         $this->SendDebug('MessageSink', 'Level unveraendert - keine Wertaenderung');
@@ -90,7 +93,7 @@ class ShutterActuator extends IPSModule
         //$this->SendDebug('RequestAction', 'Ident: '.$ident.' Value: '.$value, 0);
         switch ($ident) {
             case 'Position':
-                $this->SendDebug('RequestAction', 'Neue Position gewählt: '.$value, 0);
+                $this->SendDebug('RequestAction', 'Neue Position gewählt: ' . $value, 0);
                 $this->PositionToLevel($value);
                 break;
             default:
@@ -164,7 +167,7 @@ class ShutterActuator extends IPSModule
         $vid = $this->ReadPropertyInteger('ReceiverVariable');
         if ($vid != 0) {
             $level = GetValue($vid);
-            $this->SendDebug('Level', 'Aktuelle interne Position ist: '.$level);
+            $this->SendDebug('Level', 'Aktuelle interne Position ist: ' . $level);
 
             return sprintf('%.2f', $level);
         } else {
@@ -206,7 +209,7 @@ class ShutterActuator extends IPSModule
             $pos = 0;
         }
         // Zuordnen
-        $this->SendDebug('LevelToPosition', 'Level '.$level.' erreicht, d.h. Position: '.$pos);
+        $this->SendDebug('LevelToPosition', 'Level ' . $level . ' erreicht, d.h. Position: ' . $pos);
         SetValue($id, $pos);
     }
 
@@ -259,7 +262,7 @@ class ShutterActuator extends IPSModule
             default:
                 $level = $pos100;
         }
-        $this->SendDebug('PositionToLevel', 'Fahre auf Position: '.$position.', d.h. Level: '.$level);
+        $this->SendDebug('PositionToLevel', 'Fahre auf Position: ' . $position . ', d.h. Level: ' . $level);
         RequestAction($vid, $level);
     }
 }
