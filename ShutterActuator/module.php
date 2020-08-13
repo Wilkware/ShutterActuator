@@ -178,6 +178,23 @@ class ShutterActuator extends IPSModule
     }
 
     /**
+     * This function will be available automatically after the module is imported with the module control.
+     * Using the custom prefix this function will be callable from PHP and JSON-RPC through:.
+     *
+     * TSA_Position($id, $position);
+     */
+    public function Position(int $position)
+    {
+        $vid = $this->ReadPropertyInteger('TransmitterVariable');
+        if ($vid != 0) {
+            $this->SendDebug('Position', 'Rollladen auf Postion' . $position . '% fahren!');
+            $this->PositionToLevel($position);
+        } else {
+            $this->SendDebug('Down', 'Variable zum steuern des Rollladens nicht gesetzt!');
+        }
+    }
+
+    /**
      * Map Level to Position.
      *
      * @param float $level Shutter level value
