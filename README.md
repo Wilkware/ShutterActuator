@@ -2,7 +2,7 @@
 
 [![Version](https://img.shields.io/badge/Symcon-PHP--Modul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
 [![Product](https://img.shields.io/badge/Symcon%20Version-5.0%20%3E-blue.svg)](https://www.symcon.de/produkt/)
-[![Version](https://img.shields.io/badge/Modul%20Version-1.1.20190818-orange.svg)](https://github.com/Wilkware/IPSymconShutterActuator)
+[![Version](https://img.shields.io/badge/Modul%20Version-1.2.20200813-orange.svg)](https://github.com/Wilkware/IPSymconShutterActuator)
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 [![Actions](https://github.com/Wilkware/IPSymconShutterActuator/workflows/Check%20Style/badge.svg)](https://github.com/Wilkware/IPSymconShutterActuator/actions)
 
@@ -75,23 +75,47 @@ Die erzeugten Variable kann direkt ins Webfront verlinkt werden.
 
 ### 7. PHP-Befehlsreferenz
 
-`float TSA_Level(int $InstanzID);`  
-Liefert die aktuelle Position (Level) des Rollladens.  
-Die Funktion liefert die prozentualen Level (00 - 1.0) als Rückgabewert zurück. Im Fehlerfall wird -1 zurückgegeben.
+```php
+void TSA_Up(int $InstanzID);
+```
 
-`void TSA_Up(int $InstanzID);`  
 Fährt den Rollladen ganz hoch.  
 Die Funktion liefert keinerlei Rückgabewert.  
 
-`void TSA_Down(int $InstanzID);`  
+```php
+void TSA_Down(int $InstanzID);
+```
+
 Fährt den Rollladen ganz nach unten.  
 Die Funktion liefert keinerlei Rückgabewert.  
 
-`void TSA_Stop(int $InstanzID);`  
+```php
+void TSA_Stop(int $InstanzID);
+```
+
 Hält den Rollladen sofort an.  
 Die Funktion liefert keinerlei Rückgabewert.  
 
+```php
+float TSA_Level(int $InstanzID);
+```
+
+Liefert die aktuelle Position (Level) des Rollladens.  
+Die Funktion liefert die prozentualen Level (00 - 1.0) als Rückgabewert zurück. Im Fehlerfall wird -1 zurückgegeben.
+
+```php
+float TSA_Position(int $InstanzID, int $Position);
+```
+
+Fährt den Rollladen an die übergebene Postion (0-100).  
+Die Funktion liefert keinerlei Rückgabewert.  
+
 ### 8. Versionshistorie
+
+v1.2.20200813
+
+* _NEU_: Funktion zum Anfahren einer bestimmeten Position hinzugefügt
+* _FIX_: Dokumentation überarbeitet
 
 v1.1.20190818
 
