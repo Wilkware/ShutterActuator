@@ -104,7 +104,7 @@ Liefert die aktuelle Position (Level) des Rollladens.
 Die Funktion liefert die prozentualen Level (00 - 1.0) als Rückgabewert zurück. Im Fehlerfall wird -1 zurückgegeben.
 
 ```php
-float TSA_Position(int $InstanzID, int $Position);
+void TSA_Position(int $InstanzID, int $Position);
 ```
 
 Fährt den Rollladen an die übergebene Postion (0-100).  
