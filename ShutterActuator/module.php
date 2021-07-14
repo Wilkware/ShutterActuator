@@ -150,7 +150,7 @@ class ShutterActuator extends IPSModule
             $pid = IPS_GetParent($vid);
             $this->SendDebug(__FUNCTION__, 'Shutter stopped!');
             HM_WriteValueBoolean($pid, 'STOP', true);
-            //RequestAction($vid, true);
+        //RequestAction($vid, true);
         } else {
             $this->SendDebug(__FUNCTION__, 'VVariable to control the shutter not set!');
         }
