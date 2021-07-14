@@ -1,5 +1,17 @@
 <?php
 
+/**
+ * traits.php
+ *
+ * Central entry point to the traits library.
+ *
+ * @package       traits
+ * @author        Heiko Wilknitz <heiko@wilkware.de>
+ * @copyright     2020 Heiko Wilknitz
+ * @link          https://wilkware.de
+ * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
+ */
+
 declare(strict_types=1);
 
 if (!defined('IPS_BASE')) {
@@ -171,223 +183,7 @@ if (!defined('vtBoolean')) { //Nur wenn Konstanten noch nicht bekannt sind.
 }
 
 /**
- * Helper class for create variable profiles.
+ * Include all helper trait classes.
  */
-trait ProfileHelper
-{
-    /**
-     * Create the profile for the given type, values and associations.
-     *
-     * @param string $vartype      Type of the variable.
-     * @param string $name         Profil name.
-     * @param string $icon         Icon to display.
-     * @param string $prefix       Variable prefix.
-     * @param string $suffix       Variable suffix.
-     * @param int    $minvalue     Minimum value.
-     * @param int    $maxvalue     Maximum value.
-     * @param int    $stepsize     Increment.
-     * @param int    $digits       Decimal places.
-     * @param array  $associations Associations of the values.
-     */
-    protected function RegisterProfile($vartype, $name, $icon, $prefix = '', $suffix = '', $minvalue = 0, $maxvalue = 0, $stepsize = 0, $digits = 0, $associations = null)
-    {
-        if (!IPS_VariableProfileExists($name)) {
-            switch ($vartype) {
-                case vtBoolean:
-                    $this->RegisterProfileBoolean($name, $icon, $prefix, $suffix, $associations);
-                    break;
-                case vtInteger:
-                    $this->RegisterProfileInteger($name, $icon, $prefix, $suffix, $minvalue, $maxvalue, $stepsize, $digits, $associations);
-                    break;
-                case vtFloat:
-                    $this->RegisterProfileFloat($name, $icon, $prefix, $suffix, $minvalue, $maxvalue, $stepsize, $digits, $associations);
-                    break;
-                case vtString:
-                    $this->RegisterProfileString($name, $icon);
-                    break;
-            }
-        }
-
-        return $name;
-    }
-
-    /**
-     * Create the profile for the given type with the passed name.
-     *
-     * @param string $name    Profil name.
-     * @param string $vartype Type of the variable.
-     */
-    protected function RegisterProfileType($name, $vartype)
-    {
-        if (!IPS_VariableProfileExists($name)) {
-            IPS_CreateVariableProfile($name, $vartype);
-        } else {
-            $profile = IPS_GetVariableProfile($name);
-            if ($profile['ProfileType'] != $vartype) {
-                throw new Exception('Variable profile type does not match for profile ' . $name);
-            }
-        }
-    }
-
-    /**
-     * Create a profile for boolean values.
-     *
-     * @param string $name   Profil name.
-     * @param string $icon   Icon to display.
-     * @param string $prefix Variable prefix.
-     * @param string $suffix Variable suffix.
-     * @param array  $asso   Associations of the values.
-     */
-    protected function RegisterProfileBoolean($name, $icon, $prefix, $suffix, $asso)
-    {
-        $this->RegisterProfileType($name, vtBoolean);
-
-        IPS_SetVariableProfileIcon($name, $icon);
-        IPS_SetVariableProfileText($name, $prefix, $suffix);
-
-        if (($asso !== null) && (count($asso) !== 0)) {
-            foreach ($asso as $ass) {
-                IPS_SetVariableProfileAssociation($name, $ass[0], $ass[1], $ass[2], $ass[3]);
-            }
-        }
-    }
-
-    /**
-     * Create a profile for integer values.
-     *
-     * @param string $name     Profil name.
-     * @param string $icon     Icon to display.
-     * @param string $prefix   Variable prefix.
-     * @param string $suffix   Variable suffix.
-     * @param int    $minvalue Minimum value.
-     * @param int    $maxvalue Maximum value.
-     * @param int    $stepsize Increment.
-     * @param int    $digits   Decimal places.
-     * @param array  $asso     Associations of the values.
-     */
-    protected function RegisterProfileInteger($name, $icon, $prefix, $suffix, $minvalue, $maxvalue, $stepsize, $digits, $asso)
-    {
-        $this->RegisterProfileType($name, vtInteger);
-
-        IPS_SetVariableProfileIcon($name, $icon);
-        IPS_SetVariableProfileText($name, $prefix, $suffix);
-        IPS_SetVariableProfileDigits($name, $digits);
-
-        if (($asso !== null) && (count($asso) !== 0)) {
-            $minvalue = 0;
-            $maxvalue = 0;
-        }
-        IPS_SetVariableProfileValues($name, $minvalue, $maxvalue, $stepsize);
-
-        if (($asso !== null) && (count($asso) !== 0)) {
-            foreach ($asso as $ass) {
-                IPS_SetVariableProfileAssociation($name, $ass[0], $ass[1], $ass[2], $ass[3]);
-            }
-        }
-    }
-
-    /**
-     * Create a profile for float values.
-     *
-     * @param string $name     Profil name.
-     * @param string $icon     Icon to display.
-     * @param string $prefix   Variable prefix.
-     * @param string $suffix   Variable suffix.
-     * @param int    $minvalue Minimum value.
-     * @param int    $maxvalue Maximum value.
-     * @param int    $stepsize Increment.
-     * @param int    $digits   Decimal places.
-     * @param array  $asso     Associations of the values.
-     */
-    protected function RegisterProfileFloat($name, $icon, $prefix, $suffix, $minvalue, $maxvalue, $stepsize, $digits, $asso)
-    {
-        $this->RegisterProfileType($name, vtFloat);
-
-        IPS_SetVariableProfileIcon($name, $icon);
-        IPS_SetVariableProfileText($name, $prefix, $suffix);
-        IPS_SetVariableProfileDigits($name, $digits);
-
-        if (($asso !== null) && (count($asso) !== 0)) {
-            $minvalue = 0;
-            $maxvalue = 0;
-        }
-        IPS_SetVariableProfileValues($name, $minvalue, $maxvalue, $stepsize);
-
-        if (($asso !== null) && (count($asso) !== 0)) {
-            foreach ($asso as $ass) {
-                IPS_SetVariableProfileAssociation($name, $ass[0], $ass[1], $ass[2], $ass[3]);
-            }
-        }
-    }
-
-    /**
-     * Create a profile for string values.
-     *
-     * @param string $name   Profil name.
-     * @param string $icon   Icon to display.
-     * @param string $prefix Variable prefix.
-     * @param string $suffix Variable suffix.
-     */
-    protected function RegisterProfileString($name, $icon, $prefix, $suffix)
-    {
-        $this->RegisterProfileType($name, IPSVarType::vtString);
-
-        IPS_SetVariableProfileText($name, $prefix, $suffix);
-        IPS_SetVariableProfileIcon($name, $icon);
-    }
-}
-
-/**
- * Helper class to create timer and events.
- */
-trait TimerHelper
-{
-    /**
-     * Update interval for a cyclic timer.
-     *
-     * @param string $ident  Name and ident of the timer.
-     * @param int    $hour   Start hour.
-     * @param int    $minute Start minute.
-     * @param int    $second Start second.
-     */
-    protected function UpdateTimerInterval($ident, $hour, $minute, $second)
-    {
-        $now = new DateTime();
-        $target = new DateTime();
-        $target->modify('+1 day');
-        $target->setTime($hour, $minute, $second);
-        $diff = $target->getTimestamp() - $now->getTimestamp();
-        $interval = $diff * 1000;
-        $this->SetTimerInterval($ident, $interval);
-    }
-}
-
-/**
- * Helper class for the debug output.
- */
-trait DebugHelper
-{
-    /**
-     * Adds functionality to serialize arrays and objects.
-     *
-     * @param string $msg    Title of the debug message.
-     * @param mixed  $data   Data output.
-     * @param int    $format Output format.
-     */
-    protected function SendDebug($msg, $data, $format = 0)
-    {
-        if (is_object($data)) {
-            foreach ($data as $key => $value) {
-                $this->SendDebug($msg . ':' . $key, $value, 1);
-            }
-        } elseif (is_array($data)) {
-            foreach ($data as $key => $value) {
-                $this->SendDebug($msg . ':' . $key, $value, 0);
-            }
-        } elseif (is_bool($data)) {
-            parent::SendDebug($msg, ($data ? 'TRUE' : 'FALSE'), 0);
-        } else {
-            parent::SendDebug($msg, $data, $format);
-        }
-    }
-}
+require_once __DIR__ . '/../libs/DebugHelper.php';
+require_once __DIR__ . '/../libs/ProfileHelper.php';

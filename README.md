@@ -1,8 +1,8 @@
 # Toolmatic Shutter Actuator (Rollladensteuerung)
 
 [![Version](https://img.shields.io/badge/Symcon-PHP--Modul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
-[![Product](https://img.shields.io/badge/Symcon%20Version-5.0%20%3E-blue.svg)](https://www.symcon.de/produkt/)
-[![Version](https://img.shields.io/badge/Modul%20Version-1.2.20200813-orange.svg)](https://github.com/Wilkware/IPSymconShutterActuator)
+[![Product](https://img.shields.io/badge/Symcon%20Version-5.2-blue.svg)](https://www.symcon.de/produkt/)
+[![Version](https://img.shields.io/badge/Modul%20Version-2.0.20210712-orange.svg)](https://github.com/Wilkware/IPSymconShutterActuator)
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 [![Actions](https://github.com/Wilkware/IPSymconShutterActuator/workflows/Check%20Style/badge.svg)](https://github.com/Wilkware/IPSymconShutterActuator/actions)
 
@@ -28,7 +28,7 @@ Die *Rollladensteuerung* dient zur Ansteuerung der korrekten Öffnungsposition i
 
 ### 2. Voraussetzungen
 
-* IP-Symcon ab Version 5.0
+* IP-Symcon ab Version 5.2
 
 ### 3. Software-Installation
 
@@ -38,14 +38,23 @@ Die *Rollladensteuerung* dient zur Ansteuerung der korrekten Öffnungsposition i
 
 ### 4. Einrichten der Instanzen in IP-Symcon
 
-* Unter 'Instanz hinzufügen' ist das *Rollladensteuerung*-Modul (Alias: *Jalousiesteuerung*) unter dem Hersteller '(Geräte)' aufgeführt.
+* Unter "Instanz hinzufügen" ist das *'Rollladensteuerung'*-Modul (Alias: *'Jalousiesteuerung'*) unter dem Hersteller _'(Geräte)'_ aufgeführt.
 
 __Konfigurationsseite__:
 
+Einstellungsbereich:
+
+> Geräte ...
+
+Name           | Beschreibung
+---------------| ---------------------------------
+Empfänger      | Positions-Variable des Rollladen-Steuergerätes (Kanal 3:LEVEL)
+Sender         | Schalt-Variable des Rollladen-Steuergerätes (Kanal 4:LEVEL)
+
+> Ansteuerung ...
+
 Name                          | Beschreibung
 ------------------------------| ---------------------------------
-Empfänger (3:LEVEL)           | Positions-Variable des Rollladen-Steuergerätes
-Sender (4:LEVEL)              | Schalt-Variable des Rollladen-Steuergerätes
 Geöffnet/Oben (0%)            | Levelwert bei geöffneten Rollläden
 Viertel (25%)                 | Levelwert bei virtel geschlossenen Rollläden
 Mitte (50%)                   | Levelwert bei halb geschlossenen Rollläden
@@ -53,7 +62,16 @@ Dreiviertel (75%)             | Levelwert bei dreiviertel geschlossenen Rollläd
 Blickdicht (99%)              | Levelwert bei fast geschlossenen Rollläden
 Geschlossen/Unten (100%)      | Levelwert bei geschlossenen Rollläden
 
-Die Laufzeit (Level) muss vorher manuell gestoppt und aus der 'Level' Gerätevariable ausgelesen werden!
+Die Laufzeit (Level) muss vorher manuell gestoppt und aus der 'Level' Gerätevariable ausgelesen werden (siehe nachfolgenden Aktionsbereich)!
+
+Aktionsbereich:
+
+Aktion         | Beschreibung
+-------------- | ------------------------------------------------------------
+HOCH           | Startet das Hochfahren des Rollladens
+STOP           | Stoppt den Rollladen an aktueller Position
+RUNTER         | Startet das Runterfahren des Rollladens
+ANZEIGEN       | Zeigt die interne Position (0.0 - 1.0%) des Geätes an
 
 ### 5. Statusvariablen und Profile
 
@@ -61,13 +79,13 @@ Die Statusvariablen werden automatisch angelegt. Das Löschen einzelner kann zu 
 
 Name                 | Typ       | Beschreibung
 -------------------- | --------- | ----------------
-Position             | Float     | Öffnungsgrad des Rollladens
+Position             | Integer   | Öffnungsgrad des Rollladens
 
 Folgende Profile werden angelegt:
 
 Name                 | Typ       | Beschreibung
 -------------------- | --------- | ----------------
-TSA.Position         | Float     | Öffnungsgrad in Prozent(-schritte)
+HM.ShutterActuator   | Integer   | Öffnungsgrad in Prozent(-schritte) (0% = Auf, 25%, 50%, 75%, 99%, 100% = Zu)
 
 ### 6. WebFront
 
@@ -112,6 +130,14 @@ Die Funktion liefert keinerlei Rückgabewert.
 
 ### 8. Versionshistorie
 
+v2.0.20210712
+
+* _NEU_: Konfigurationsformular überarbeitet und vereinheitlicht
+* _FIX_: Übersetzungen nachgezogen
+* _FIX_: Interne Bibliotheken überarbeitet und vereinheitlicht
+* _FIX_: Debug Meldungen überarbeitet
+* _FIX_: Dokumentation überarbeitet
+
 v1.2.20200813
 
 * _NEU_: Funktion zum Anfahren einer bestimmeten Position hinzugefügt
@@ -128,11 +154,15 @@ v1.0.20190415
 
 ## Entwickler
 
-* Heiko Wilknitz ([@wilkware](https://github.com/wilkware))
+Seit nunmehr über 10 Jahren fasziniert mich das Thema Haussteuerung. In den letzten Jahren betätige ich mich auch intensiv in der IP-Symcon Community und steuere dort verschiedenste Skript und Module bei. Ihr findet mich dort unter dem Namen @pitti ;-)
+
+[![GitHub](https://img.shields.io/badge/GitHub-@wilkware-blueviolet.svg?logo=github)](https://wilkware.github.io/)
 
 ## Spenden
 
-Die Software ist für die nicht kommzerielle Nutzung kostenlos, Schenkungen als Unterstützung für den Entwickler bitte hier:
+Die Software ist für die nicht kommzerielle Nutzung kostenlos, über eine Spende bei Gefallen des Moduls würde ich mich freuen.
+
+[![PayPal](https://img.shields.io/badge/PayPal-spenden-blue.svg?logo=paypal)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8816166)
 
 ## Lizenz
 

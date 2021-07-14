@@ -1,9 +1,12 @@
 {
-  "id": "{CD040D40-8809-789E-323B-B68F45F8548A}",
-  "author": "Wilkware (@Pitti)",
-  "name": "Toolmatic Shutter Actuator",
-  "url": "https://github.com/Wilkware",
-  "version": "1.2",
-  "build": 20200813,
-  "date": 1597276800
+    "id": "{CD040D40-8809-789E-323B-B68F45F8548A}",
+    "author": "Wilkware (@Pitti)",
+    "name": "Toolmatic Shutter Actuator",
+    "url": "https://github.com/Wilkware",
+    "compatibility": {
+        "version": "5.2"
+    },
+    "version": "2.0",
+    "build": 20210712,
+    "date": 1626084000
 }

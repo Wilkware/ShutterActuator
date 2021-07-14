@@ -2,7 +2,8 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/../libs/traits.php';  // Allgemeine Funktionen
+// Allgemeine Funktionen
+require_once __DIR__ . '/../libs/_traits.php';
 
 // CLASS ShutterActuator
 class ShutterActuator extends IPSModule
@@ -35,7 +36,7 @@ class ShutterActuator extends IPSModule
         }
         // Never delete this line!
         parent::ApplyChanges();
-        // Variable Profile
+        // Profiles
         $association = [
             [0, 'Auf', '', 0x00FF00],
             [25, '25 %%', '', 0x00FF00],
@@ -64,19 +65,19 @@ class ShutterActuator extends IPSModule
      */
     public function MessageSink($timeStamp, $senderID, $message, $data)
     {
-        //$this->SendDebug('MessageSink', 'SenderId: '.$senderID.' Data: '.print_r($data, true), 0);
+        //$this->SendDebug(__FUNCTION__, 'SenderId: '.$senderID.' Data: '.print_r($data, true), 0);
         switch ($message) {
             case VM_UPDATE:
                 // ReceiverVariable
                 if ($senderID != $this->ReadPropertyInteger('ReceiverVariable')) {
-                    $this->SendDebug('MessageSink', 'SenderID: ' . $senderID . ' unbekannt!');
+                    $this->SendDebug(__FUNCTION__, 'SenderID: ' . $senderID . ' unknown!');
                 } else {
                     // Aenderungen auslesen
                     if ($data[1] == true) { // OnChange - neuer Wert?
-                        $this->SendDebug('MessageSink', 'Level: ' . $data[2] . ' => ' . $data[0]);
+                        $this->SendDebug(__FUNCTION__, 'Level: ' . $data[2] . ' => ' . $data[0]);
                         $this->LevelToPosition($data[0]);
                     } else { // OnChange - keine Zustandsaenderung
-                        $this->SendDebug('MessageSink', 'Level unveraendert - keine Wertaenderung');
+                        $this->SendDebug(__FUNCTION__, 'Level unchanged - no change in value!');
                     }
                 }
                 break;
@@ -84,20 +85,21 @@ class ShutterActuator extends IPSModule
     }
 
     /**
-     * RequestAction - SDK function.
+     * RequestAction (SDK function).
      *
-     * @param float $level Shutter level value
+     * @param string $ident Ident.
+     * @param string $value Value.
      */
     public function RequestAction($ident, $value)
     {
         //$this->SendDebug('RequestAction', 'Ident: '.$ident.' Value: '.$value, 0);
         switch ($ident) {
             case 'Position':
-                $this->SendDebug('RequestAction', 'Neue Position gewählt: ' . $value, 0);
+                $this->SendDebug(__FUNCTION__, 'New position selected: ' . $value, 0);
                 $this->PositionToLevel($value);
                 break;
             default:
-                throw new Exception('Invalid Ident');
+                throw new Exception('Invalid ident!');
         }
     }
 
@@ -111,10 +113,10 @@ class ShutterActuator extends IPSModule
     {
         $vid = $this->ReadPropertyInteger('TransmitterVariable');
         if ($vid != 0) {
-            $this->SendDebug('Up', 'Rollladen hochfahren!');
+            $this->SendDebug(__FUNCTION__, 'Raise shutter!');
             RequestAction($vid, 1.0);
         } else {
-            $this->SendDebug('Up', 'Variable zum steuern des Rollladens nicht gesetzt!');
+            $this->SendDebug(__FUNCTION__, 'Variable to control the shutter not set!');
         }
     }
 
@@ -128,10 +130,10 @@ class ShutterActuator extends IPSModule
     {
         $vid = $this->ReadPropertyInteger('TransmitterVariable');
         if ($vid != 0) {
-            $this->SendDebug('Down', 'Rollladen runterfahren!');
+            $this->SendDebug(__FUNCTION__, 'Lower shutter!');
             RequestAction($vid, 0.0);
         } else {
-            $this->SendDebug('Down', 'Variable zum steuern des Rollladens nicht gesetzt!');
+            $this->SendDebug(__FUNCTION__, 'Variable to control the shutter not set!');
         }
     }
 
@@ -146,11 +148,11 @@ class ShutterActuator extends IPSModule
         $vid = $this->ReadPropertyInteger('TransmitterVariable');
         if ($vid != 0) {
             $pid = IPS_GetParent($vid);
-            $this->SendDebug('Stop', 'Rollladen angehalten!');
+            $this->SendDebug(__FUNCTION__, 'Shutter stopped!');
             HM_WriteValueBoolean($pid, 'STOP', true);
-        //RequestAction($vid, true);
+            //RequestAction($vid, true);
         } else {
-            $this->SendDebug('Stop', 'Variable zum steuern des Rollladens nicht gesetzt!');
+            $this->SendDebug(__FUNCTION__, 'VVariable to control the shutter not set!');
         }
     }
 
@@ -167,12 +169,10 @@ class ShutterActuator extends IPSModule
         $vid = $this->ReadPropertyInteger('ReceiverVariable');
         if ($vid != 0) {
             $level = GetValue($vid);
-            $this->SendDebug('Level', 'Aktuelle interne Position ist: ' . $level);
-
+            $this->SendDebug(__FUNCTION__, 'Current internal position is: ' . $level);
             return sprintf('%.2f', $level);
         } else {
-            $this->SendDebug('Level', 'Variable zum auslesen der Rollladenposition nicht gesetzt!');
-
+            $this->SendDebug(__FUNCTION__, 'Variable to control the shutter not set!');
             return '-1';
         }
     }
@@ -187,10 +187,10 @@ class ShutterActuator extends IPSModule
     {
         $vid = $this->ReadPropertyInteger('TransmitterVariable');
         if ($vid != 0) {
-            $this->SendDebug('Position', 'Rollladen auf Postion' . $position . '% fahren!');
+            $this->SendDebug(__FUNCTION__, 'Move roller shutter to position ' . $position . '%!');
             $this->PositionToLevel($position);
         } else {
-            $this->SendDebug('Down', 'Variable zum steuern des Rollladens nicht gesetzt!');
+            $this->SendDebug(__FUNCTION__, 'Variable to control the shutter not set!');
         }
     }
 
@@ -201,8 +201,6 @@ class ShutterActuator extends IPSModule
      */
     private function LevelToPosition(float $level)
     {
-        // Position Variable
-        $id = $this->GetIDForIdent('Position');
         // Mapping values
         $pos000 = $this->ReadPropertyFloat('Position0');
         $pos025 = $this->ReadPropertyFloat('Position25');
@@ -226,8 +224,8 @@ class ShutterActuator extends IPSModule
             $pos = 0;
         }
         // Zuordnen
-        $this->SendDebug('LevelToPosition', 'Level ' . $level . ' erreicht, d.h. Position: ' . $pos);
-        SetValue($id, $pos);
+        $this->SendDebug(__FUNCTION__, 'Level ' . $level . ' reached, i.e. position: ' . $pos);
+        $this->SetValueInteger('Position', $pos);
     }
 
     /**
@@ -279,7 +277,43 @@ class ShutterActuator extends IPSModule
             default:
                 $level = $pos100;
         }
-        $this->SendDebug('PositionToLevel', 'Fahre auf Position: ' . $position . ', d.h. Level: ' . $level);
+        $this->SendDebug(__FUNCTION__, 'Move to position: ' . $position . ', i.e. pevel: ' . $level);
         RequestAction($vid, $level);
+    }
+
+    /**
+     * Update a boolean value.
+     *
+     * @param string $ident Ident of the boolean variable
+     * @param bool   $value Value of the boolean variable
+     */
+    private function SetValueBoolean(string $ident, bool $value)
+    {
+        $id = $this->GetIDForIdent($ident);
+        SetValueBoolean($id, $value);
+    }
+
+    /**
+     * Update a string value.
+     *
+     * @param string $ident Ident of the string variable
+     * @param string $value Value of the string variable
+     */
+    private function SetValueString(string $ident, string $value)
+    {
+        $id = $this->GetIDForIdent($ident);
+        SetValueString($id, $value);
+    }
+
+    /**
+     * Update a integer value.
+     *
+     * @param string $ident Ident of the integer variable
+     * @param int    $value Value of the integer variable
+     */
+    private function SetValueInteger(string $ident, int $value)
+    {
+        $id = $this->GetIDForIdent($ident);
+        SetValueInteger($id, $value);
     }
 }
