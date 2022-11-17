@@ -1,26 +1,23 @@
-# Toolmatic Shutter Actuator (Rollladensteuerung)
+# Rollladensteuerung (Shutter Actuator)
 
 [![Version](https://img.shields.io/badge/Symcon-PHP--Modul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
 [![Product](https://img.shields.io/badge/Symcon%20Version-5.2-blue.svg)](https://www.symcon.de/produkt/)
-[![Version](https://img.shields.io/badge/Modul%20Version-2.0.20210712-orange.svg)](https://github.com/Wilkware/IPSymconShutterActuator)
+[![Version](https://img.shields.io/badge/Modul%20Version-3.0.20221117-orange.svg)](https://github.com/Wilkware/IPSymconShutterActuator)
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 [![Actions](https://github.com/Wilkware/IPSymconShutterActuator/workflows/Check%20Style/badge.svg)](https://github.com/Wilkware/IPSymconShutterActuator/actions)
 
-Die *Toolmatic Bibliothek* ist eine kleine Tool-Sammlung im Zusammenhang mit HomeMatic/IP Geräten.  
-Hauptsächlich beinhaltet sie kleine Erweiterung zur Automatisierung von Aktoren oder erleichtert das Steuern von Geräten bzw. bietet mehr Komfort bei der Bedienung.  
-  
-Die *Rollladensteuerung* dient zur Ansteuerung der korrekten Öffnungsposition in Abhängigkeit der Motor-Laufzeit.
+Das Modul dient zur Ansteuerung der korrekten Öffnungsposition in Abhängigkeit der Motor-laufzeit. Dabei wird die nicht lineare Laufzeit des Motors zur Position der Lamellen übersetzt.
 
 ## Inhaltverzeichnis
 
-1. [Funktionsumfang](#1-funktionsumfang)
-2. [Voraussetzungen](#2-voraussetzungen)
-3. [Installation](#3-installation)
-4. [Einrichten der Instanzen in IP-Symcon](#4-einrichten-der-instanzen-in-ip-symcon)
-5. [Statusvariablen und Profile](#5-statusvariablen-und-profile)
-6. [WebFront](#6-webfront)
-7. [PHP-Befehlsreferenz](#7-php-befehlsreferenz)
-8. [Versionshistorie](#8-versionshistorie)
+1. [Funktionsumfang](#user-content-1-funktionsumfang)
+2. [Voraussetzungen](#user-content-2-voraussetzungen)
+3. [Installation](#user-content-3-installation)
+4. [Einrichten der Instanzen in IP-Symcon](#user-content-4-einrichten-der-instanzen-in-ip-symcon)
+5. [Statusvariablen und Profile](#user-content-5-statusvariablen-und-profile)
+6. [WebFront](#user-content-6-webfront)
+7. [PHP-Befehlsreferenz](#user-content-7-php-befehlsreferenz)
+8. [Versionshistorie](#user-content-8-versionshistorie)
 
 ### 1. Funktionsumfang
 
@@ -32,17 +29,21 @@ Die *Rollladensteuerung* dient zur Ansteuerung der korrekten Öffnungsposition i
 
 ### 3. Software-Installation
 
-* Über den Modul Store das Modul *Toolmatic Shutter Actuator* installieren.
+* Über den Modul Store das Modul _Shutter Actuator_ installieren.
 * Alternativ Über das Modul-Control folgende URL hinzufügen.  
 `https://github.com/Wilkware/IPSymconShutterActuator` oder `git://github.com/Wilkware/IPSymconShutterActuator.git`
 
 ### 4. Einrichten der Instanzen in IP-Symcon
 
-* Unter "Instanz hinzufügen" ist das *'Rollladensteuerung'*-Modul (Alias: *'Jalousiesteuerung'*) unter dem Hersteller _'(Geräte)'_ aufgeführt.
+* Unter "Instanz hinzufügen" ist das _'Rollladensteuerung'_-Modul (Alias: _'Jalousiesteuerung'_) unter dem Hersteller _'(Geräte)'_ aufgeführt.
 
 __Konfigurationsseite__:
 
 Einstellungsbereich:
+
+> Erläuterng ...
+
+Kurze Erläterung der Funktionsweise der Ansteuerung.
 
 > Geräte ...
 
@@ -130,6 +131,12 @@ Die Funktion liefert keinerlei Rückgabewert.
 
 ### 8. Versionshistorie
 
+v3.0.20221117
+
+* _NEU_: Konfigurationsformular überarbeitet und vereinheitlicht
+* _FIX_: Interne Bibliotheken überarbeitet und vereinheitlicht
+* _FIX_: Dokumentation überarbeitet
+
 v2.0.20210712
 
 * _NEU_: Konfigurationsformular überarbeitet und vereinheitlicht
@@ -156,14 +163,16 @@ v1.0.20190415
 
 Seit nunmehr über 10 Jahren fasziniert mich das Thema Haussteuerung. In den letzten Jahren betätige ich mich auch intensiv in der IP-Symcon Community und steuere dort verschiedenste Skript und Module bei. Ihr findet mich dort unter dem Namen @pitti ;-)
 
-[![GitHub](https://img.shields.io/badge/GitHub-@wilkware-blueviolet.svg?logo=github)](https://wilkware.github.io/)
+[![GitHub](https://img.shields.io/badge/GitHub-@wilkware-181717.svg?style=for-the-badge&logo=github)](https://wilkware.github.io/)
 
 ## Spenden
 
 Die Software ist für die nicht kommzerielle Nutzung kostenlos, über eine Spende bei Gefallen des Moduls würde ich mich freuen.
 
-[![PayPal](https://img.shields.io/badge/PayPal-spenden-blue.svg?logo=paypal)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8816166)
+[![PayPal](https://img.shields.io/badge/PayPal-spenden-00457C.svg?style=for-the-badge&logo=paypal)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8816166)
 
 ## Lizenz
 
-[![Licence](https://licensebuttons.net/i/l/by-nc-sa/transparent/00/00/00/88x31-e.png)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 4.0 International
+
+[![Licence](https://img.shields.io/badge/License-CC_BY--NC--SA_4.0-EF9421.svg?style=for-the-badge&logo=creativecommons)](https://creativecommons.org/licenses/by-nc-sa/4.0/)

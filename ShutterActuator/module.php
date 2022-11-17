@@ -8,8 +8,9 @@ require_once __DIR__ . '/../libs/_traits.php';
 // CLASS ShutterActuator
 class ShutterActuator extends IPSModule
 {
-    use ProfileHelper;
     use DebugHelper;
+    use ProfileHelper;
+    use VariableHelper;
 
     public function Create()
     {
@@ -81,7 +82,7 @@ class ShutterActuator extends IPSModule
                     }
                 }
                 break;
-          }
+        }
     }
 
     /**
@@ -279,41 +280,5 @@ class ShutterActuator extends IPSModule
         }
         $this->SendDebug(__FUNCTION__, 'Move to position: ' . $position . ', i.e. pevel: ' . $level);
         RequestAction($vid, $level);
-    }
-
-    /**
-     * Update a boolean value.
-     *
-     * @param string $ident Ident of the boolean variable
-     * @param bool   $value Value of the boolean variable
-     */
-    private function SetValueBoolean(string $ident, bool $value)
-    {
-        $id = $this->GetIDForIdent($ident);
-        SetValueBoolean($id, $value);
-    }
-
-    /**
-     * Update a string value.
-     *
-     * @param string $ident Ident of the string variable
-     * @param string $value Value of the string variable
-     */
-    private function SetValueString(string $ident, string $value)
-    {
-        $id = $this->GetIDForIdent($ident);
-        SetValueString($id, $value);
-    }
-
-    /**
-     * Update a integer value.
-     *
-     * @param string $ident Ident of the integer variable
-     * @param int    $value Value of the integer variable
-     */
-    private function SetValueInteger(string $ident, int $value)
-    {
-        $id = $this->GetIDForIdent($ident);
-        SetValueInteger($id, $value);
     }
 }

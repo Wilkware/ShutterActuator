@@ -1,30 +1,32 @@
 {
-  "translations": {
-    "de": {
-        "\nToolmatic Shutter Actuator\n ": "\nRollladensteuerung\n ",
-        "The shutter control is used to control the correct opening position depending on the motor running time.": "Die Rollladensteuerung dient zur Ansteuerung der korrekten Öffnungsposition in Abhängigkeit der Motor-Laufzeit.",
-        "Devices ...": "Geräte ...",
-        "Control ...": "Ansteuerung ...",
-        "Explanation ...": "Erläuterung ...",
-        "The position of a shutter on HomeMatic devices is calculated linearly on the basis of the set time and thus on the basis of the running time. However, this position does not have to correspond to the degree of actual opening, i.e. 25% running time is not equal to 25% opening. In order to achieve an exact approach to the correct opening, an assignment of position and corresponding running time must be made. Since the percentage opening degree with HM of 100% means 'Open' and 0% means 'Closed', but with 25% it is assumed that the roller shutter has only been lowered 1/4, the assignment is exactly the other way round.": "Die Postion eines Rollladens wird bei den HomeMatic Geräten anhand der eingestellten Zeit und somit anhand der Laufzeit linear berechnet. Diese Position muss aber nicht dem Grad der tatsächlichen Öffnung entsprechen, d.h. 25% Laufzeit sind nicht gleich 25% Öffnung. Um eine genaue Anfahrt der korrekten Öffnung zu erreichen, muss eine Zuordnung von Position und entsprechender Laufzeit vorgenommen werden. Da der prozentuale Öffnungsgrad bei HM von 100% gleich 'Offen' und 0% gleich 'Geschlossen' bedeutet, man aber bei 25% offen davon ausgeht das der Rolladen nur 1/4 runtergefahren ist, erfolgt die Zuordnung hier genau umgekehrt.",
-        "Mapping:": "Zuordnung:",
-        "Level": "Laufzeit",
-        "Position": "Position",
-        "Please select the vatiable for receive and transmit the level(position).\nNormally the LEVEL variable to indicate the real position is in channel 3, and the LEVEL variable to control the position is on channel 4.": "Bitte wählen Sie die Variablen für den Empfang und die Übertragung der Position (Level) aus.\nNormalerweise befindet sich die LEVEL-Variable zur Anzeige der realen Position in Kanal 3,\nund die LEVEL-Variable zur Steuerung der Position befindet sich auf Kanal 4.",
-        "Receiver (3:LEVEL):": "Empfänger (3:LEVEL):",
-        "Transmitter (4:LEVEL):": "Sender (4:LEVEL):",
-        "Please measure the running time for the respective position and enter the corresponding values!": "Bitte messen Sie die Laufzeit für die jeweilige Position und geben Sie die entsprechenden Werte ein!",
-        "Open/Up (0%):": "Geöffnet/Oben (0%):",
-        "Quarter (25%):": "Viertel (25%):",
-        "Half (50%):": "Mitte (50%):",
-        "Three quarter (75%):": "Dreiviertel (75%):",
-        "Almost closed (99%):": "Blickdicht (99%):",
-        "Close/Down (100%):": "Geschlossen/Unten (100%):",
-        "Use the button to measure the right values! The 'SHOW'-Button will display the internal level of the shutter!": "Verwenden Sie die Schaltflächen, um die richtigen Werte zu ermitteln! Der 'ANZEIGE'-Button zeigt die interne Position des Rollladens an!",
-        "UP": "HOCH",
-        "STOP": "STOP",
-        "DOWN": "RUNTER",
-        "SHOW": "ANZEIGEN"
+    "translations": {
+        "de": {
+            "\nShutter Actuator\n ": "\nRollladensteuerung\n ",
+            "The shutter control is used to control the correct opening position depending on the motor running time.": "Die Rollladensteuerung dient zur Ansteuerung der korrekten Öffnungsposition in Abhängigkeit der Motor-Laufzeit.",
+            "Devices ...": "Geräte ...",
+            "Control ...": "Ansteuerung ...",
+            "Explanation ...": "Erläuterung ...",
+            "The position of a shutter on HomeMatic devices is calculated linearly on the basis of the set time and thus on the basis of the running time. However, this position does not have to correspond to the degree of actual opening, i.e. 25% running time is not equal to 25% opening. In order to achieve an exact approach to the correct opening, an assignment of position and corresponding running time must be made. Since the percentage opening degree with HM of 100% means 'Open' and 0% means 'Closed', but with 25% it is assumed that the roller shutter has only been lowered 1/4, the assignment is exactly the other way round.": "Die Postion eines Rollladens wird bei den HomeMatic Geräten anhand der eingestellten Zeit und somit anhand der Laufzeit linear berechnet. Diese Position muss aber nicht dem Grad der tatsächlichen Öffnung entsprechen, d.h. 25% Laufzeit sind nicht gleich 25% Öffnung. Um eine genaue Anfahrt der korrekten Öffnung zu erreichen, muss eine Zuordnung von Position und entsprechender Laufzeit vorgenommen werden. Da der prozentuale Öffnungsgrad bei HM von 100% gleich 'Offen' und 0% gleich 'Geschlossen' bedeutet, man aber bei 25% offen davon ausgeht das der Rolladen nur 1/4 runtergefahren ist, erfolgt die Zuordnung hier genau umgekehrt.",
+            "Mapping:": "Zuordnung:",
+            "Level": "Laufzeit",
+            "Position": "Position",
+            "Please select the vatiable for receive and transmit the level(position).\nNormally the LEVEL variable to indicate the real position is in channel 3, and the LEVEL variable to control the position is on channel 4.": "Bitte wählen Sie die Variablen für den Empfang und die Übertragung der Position (Level) aus.\nNormalerweise befindet sich die LEVEL-Variable zur Anzeige der realen Position in Kanal 3,\nund die LEVEL-Variable zur Steuerung der Position befindet sich auf Kanal 4.",
+            "Receiver (3:LEVEL):": "Empfänger (3:LEVEL):",
+            "Transmitter (4:LEVEL):": "Sender (4:LEVEL):",
+            "Please measure the running time for the respective position and enter the corresponding values!": "Bitte messen Sie die Laufzeit für die jeweilige Position und geben Sie die entsprechenden Werte ein!",
+            "Open/Up (0%):": "Geöffnet/Oben (0%):",
+            "Quarter (25%):": "Viertel (25%):",
+            "Half (50%):": "Mitte (50%):",
+            "Three quarter (75%):": "Dreiviertel (75%):",
+            "Almost closed (99%):": "Blickdicht (99%):",
+            "Close/Down (100%):": "Geschlossen/Unten (100%):",
+            "Use the button to measure the right values! The 'SHOW'-Button will display the internal level of the shutter!": "Verwenden Sie die Schaltflächen, um die richtigen Werte zu ermitteln! Der 'ANZEIGE'-Button zeigt die interne Position des Rollladens an!",
+            "UP": "HOCH",
+            "STOP": "STOP",
+            "DOWN": "RUNTER",
+            "SHOW": "ANZEIGEN",
+            "Source code, donation and licence ...": "Quellcode, Spende und Lizenz ...",
+            "The software is free of charge for non-commercial use, I would appreciate a donation if you like the module.": "Die Software ist für die nicht kommzerielle Nutzung kostenlos, über eine Spende bei Gefallen des Moduls würde ich mich sehr freuen."
+        }
     }
-  }
 }
