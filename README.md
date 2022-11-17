@@ -1,7 +1,7 @@
 # Rollladensteuerung (Shutter Actuator)
 
 [![Version](https://img.shields.io/badge/Symcon-PHP--Modul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
-[![Product](https://img.shields.io/badge/Symcon%20Version-5.2-blue.svg)](https://www.symcon.de/produkt/)
+[![Product](https://img.shields.io/badge/Symcon%20Version-6.0-blue.svg)](https://www.symcon.de/produkt/)
 [![Version](https://img.shields.io/badge/Modul%20Version-3.0.20221117-orange.svg)](https://github.com/Wilkware/IPSymconShutterActuator)
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 [![Actions](https://github.com/Wilkware/IPSymconShutterActuator/workflows/Check%20Style/badge.svg)](https://github.com/Wilkware/IPSymconShutterActuator/actions)
@@ -25,7 +25,7 @@ Das Modul dient zur Ansteuerung der korrekten Öffnungsposition in Abhängigkeit
 
 ### 2. Voraussetzungen
 
-* IP-Symcon ab Version 5.2
+* IP-Symcon ab Version 6.0
 
 ### 3. Software-Installation
 
@@ -134,7 +134,9 @@ Die Funktion liefert keinerlei Rückgabewert.
 v3.0.20221117
 
 * _NEU_: Konfigurationsformular überarbeitet und vereinheitlicht
+* _NEU_: Kompatibilität auf 6.0 hoch gesetzt
 * _FIX_: Interne Bibliotheken überarbeitet und vereinheitlicht
+* _FIX_: Bibliotheksdefinition überarbeitet und vereinheitlicht
 * _FIX_: Dokumentation überarbeitet
 
 v2.0.20210712
