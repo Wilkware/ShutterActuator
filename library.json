@@ -1,12 +1,12 @@
 {
     "id": "{CD040D40-8809-789E-323B-B68F45F8548A}",
-    "name": "Toolmatic Shutter Actuator",
+    "name": "Shutter Actuator",
     "author": "Wilkware (@Pitti)",
     "url": "https://wilkware.de",
     "compatibility": {
-        "version": "6.0"
+        "version": "6.4"
     },
-    "version": "3.0",
-    "build": 20221117,
-    "date": 1668682800
+    "version": "4.0",
+    "build": 20240907,
+    "date": 1725710400
 }

@@ -1,13 +1,10 @@
 {
     "id": "{4C9FA479-414D-E5D7-D68F-B269E30263FF}",
     "name": "Shutter Actuator",
+    "url": "https://wilkware.de/ip-symcon-module/rollladensteuerung/",
     "type": 3,
     "vendor": "",
-    "aliases": [
-        "Rollladensteuerung",
-        "Jalousiesteuerung"
-    ],
-    "url": "https://wilkware.de/ip-symcon-module/rollladensteuerung/",
+    "aliases": [],
     "parentRequirements": [],
     "childRequirements": [],
     "implemented": [],

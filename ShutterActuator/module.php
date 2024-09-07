@@ -2,16 +2,21 @@
 
 declare(strict_types=1);
 
-// Allgemeine Funktionen
+// General functions
 require_once __DIR__ . '/../libs/_traits.php';
 
-// CLASS ShutterActuator
+/**
+ * CLASS ShutterActuator
+ */
 class ShutterActuator extends IPSModule
 {
     use DebugHelper;
     use ProfileHelper;
     use VariableHelper;
 
+    /**
+     * Overrides the internal IPSModule::Create($id) function
+     */
     public function Create()
     {
         //Never delete this line!
@@ -29,28 +34,62 @@ class ShutterActuator extends IPSModule
         $this->RegisterPropertyFloat('Position100', 0.0);
     }
 
+    /**
+     * Overrides the internal IPSModule::Destroy($id) function
+     */
+    public function Destroy()
+    {
+        //Never delete this line!
+        parent::Destroy();
+    }
+
+    /**
+     * Overrides the internal IPSModule::ApplyChanges($id) function
+     */
     public function ApplyChanges()
     {
-        // Level Trigger
-        if ($this->ReadPropertyInteger('ReceiverVariable') != 0) {
-            $this->UnregisterMessage($this->ReadPropertyInteger('ReceiverVariable'), VM_UPDATE);
-        }
         // Never delete this line!
         parent::ApplyChanges();
-        // Profiles
-        $association = [
-            [0, 'Auf', '', 0x00FF00],
-            [25, '25 %%', '', 0x00FF00],
-            [50, '50 %%', '', 0x00FF00],
-            [75, '75 %%', '', 0x00FF00],
-            [99, '99 %%', '', 0x00FF00],
-            [100, 'Zu', '', -1],
+
+        //Delete all references in order to readd them
+        foreach ($this->GetReferenceList() as $referenceID) {
+            $this->UnregisterReference($referenceID);
+        }
+
+        //Delete all registrations in order to readd them
+        foreach ($this->GetMessageList() as $senderID => $messages) {
+            foreach ($messages as $message) {
+                $this->UnregisterMessage($senderID, $message);
+            }
+        }
+
+        //Register references
+        $variable = $this->ReadPropertyInteger('ReceiverVariable');
+        if (IPS_VariableExists($variable)) {
+            $this->RegisterReference($variable);
+        }
+        $variable = $this->ReadPropertyInteger('TransmitterVariable');
+        if (IPS_VariableExists($variable)) {
+            $this->RegisterReference($variable);
+        }
+
+        // Profile
+        $profile = [
+            [0, 'Open', '', -1],
+            [25, '25 %%', '', -1],
+            [50, '50 %%', '', -1],
+            [75, '75 %%', '', -1],
+            [99, '99 %%', '', -1],
+            [100, 'Close', '', -1],
         ];
-        $this->RegisterProfile(vtInteger, 'HM.ShutterActuator', 'Jalousie', '', '', 0, 100, 0, 0, $association);
+        $this->RegisterProfileInteger('HM.ShutterActuator', 'Jalousie', '', '', 0, 100, 0, $profile);
+
         // Position
-        $this->MaintainVariable('Position', 'Position', vtInteger, 'HM.ShutterActuator', 1, true);
+        $this->MaintainVariable('Position', 'Position', VARIABLETYPE_INTEGER, 'HM.ShutterActuator', 1, true);
+
         // Enable Action / Request Action
         $this->EnableAction('Position');
+
         // Create our trigger
         if (IPS_VariableExists($this->ReadPropertyInteger('ReceiverVariable'))) {
             $this->RegisterMessage($this->ReadPropertyInteger('ReceiverVariable'), VM_UPDATE);
@@ -58,11 +97,12 @@ class ShutterActuator extends IPSModule
     }
 
     /**
-     * Internal SDK funktion.
-     * data[0] = new value
-     * data[1] = value changed?
-     * data[2] = old value
-     * data[3] = timestamp.
+     * MessageSink - internal SDK funktion.
+     *
+     * @param mixed $timeStamp Message timeStamp
+     * @param mixed $senderID Sender ID
+     * @param mixed $message Message type
+     * @param mixed $data data[0] = new value, data[1] = value changed, data[2] = old value, data[3] = timestamp
      */
     public function MessageSink($timeStamp, $senderID, $message, $data)
     {
@@ -73,11 +113,11 @@ class ShutterActuator extends IPSModule
                 if ($senderID != $this->ReadPropertyInteger('ReceiverVariable')) {
                     $this->SendDebug(__FUNCTION__, 'SenderID: ' . $senderID . ' unknown!');
                 } else {
-                    // Aenderungen auslesen
-                    if ($data[1] == true) { // OnChange - neuer Wert?
+                    // Read changes!
+                    if ($data[1] == true) { // OnChange - new value?
                         $this->SendDebug(__FUNCTION__, 'Level: ' . $data[2] . ' => ' . $data[0]);
                         $this->LevelToPosition($data[0]);
-                    } else { // OnChange - keine Zustandsaenderung
+                    } else { // OnChange - nothing changed!
                         $this->SendDebug(__FUNCTION__, 'Level unchanged - no change in value!');
                     }
                 }
@@ -151,7 +191,7 @@ class ShutterActuator extends IPSModule
             $pid = IPS_GetParent($vid);
             $this->SendDebug(__FUNCTION__, 'Shutter stopped!');
             HM_WriteValueBoolean($pid, 'STOP', true);
-        //RequestAction($vid, true);
+            //RequestAction($vid, true);
         } else {
             $this->SendDebug(__FUNCTION__, 'VVariable to control the shutter not set!');
         }

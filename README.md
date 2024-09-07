@@ -1,10 +1,10 @@
 # Rollladensteuerung (Shutter Actuator)
 
-[![Version](https://img.shields.io/badge/Symcon-PHP--Modul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
-[![Product](https://img.shields.io/badge/Symcon%20Version-6.0-blue.svg)](https://www.symcon.de/produkt/)
-[![Version](https://img.shields.io/badge/Modul%20Version-3.0.20221117-orange.svg)](https://github.com/Wilkware/IPSymconShutterActuator)
-[![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
-[![Actions](https://github.com/Wilkware/IPSymconShutterActuator/workflows/Check%20Style/badge.svg)](https://github.com/Wilkware/IPSymconShutterActuator/actions)
+[![Version](https://img.shields.io/badge/Symcon-PHP--Modul-red.svg?style=flat-square)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
+[![Product](https://img.shields.io/badge/Symcon%20Version-6.4-blue.svg?style=flat-square)](https://www.symcon.de/produkt/)
+[![Version](https://img.shields.io/badge/Modul%20Version-4.0.20240907-orange.svg?style=flat-square)](https://github.com/Wilkware/ShutterActuator)
+[![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg?style=flat-square)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+[![Actions](https://img.shields.io/github/actions/workflow/status/wilkware/ShutterActuator/style.yml?branch=main&label=CheckStyle&style=flat-square)](https://github.com/Wilkware/ShutterActuator/actions)
 
 Das Modul dient zur Ansteuerung der korrekten Öffnungsposition in Abhängigkeit der Motor-laufzeit. Dabei wird die nicht lineare Laufzeit des Motors zur Position der Lamellen übersetzt.
 
@@ -25,17 +25,17 @@ Das Modul dient zur Ansteuerung der korrekten Öffnungsposition in Abhängigkeit
 
 ### 2. Voraussetzungen
 
-* IP-Symcon ab Version 6.0
+* IP-Symcon ab Version 6.4
 
 ### 3. Software-Installation
 
 * Über den Modul Store das Modul _Shutter Actuator_ installieren.
 * Alternativ Über das Modul-Control folgende URL hinzufügen.  
-`https://github.com/Wilkware/IPSymconShutterActuator` oder `git://github.com/Wilkware/IPSymconShutterActuator.git`
+`https://github.com/Wilkware/ShutterActuator` oder `git://github.com/Wilkware/ShutterActuator.git`
 
 ### 4. Einrichten der Instanzen in IP-Symcon
 
-* Unter "Instanz hinzufügen" ist das _'Rollladensteuerung'_-Modul (Alias: _'Jalousiesteuerung'_) unter dem Hersteller _'(Geräte)'_ aufgeführt.
+* Unter "Instanz hinzufügen" ist das _'Rollladensteuerung'_-Modul unter dem Hersteller _'(Geräte)'_ aufgeführt.
 
 __Konfigurationsseite__:
 
@@ -131,6 +131,17 @@ Die Funktion liefert keinerlei Rückgabewert.
 
 ### 8. Versionshistorie
 
+v4.0.20240907
+
+* _NEU_: Kompatibilität auf IPS 6.4 hoch gesetzt
+* _NEU_: Referenzieren der Gerätevariablen hinzugefügt
+* _NEU_: Farbedefinition aus Profil gelöscht wegen besserer Darstellung in der TileVisu
+* _FIX_: Bibliotheks- bzw. Modulinfos vereinheitlicht
+* _FIX_: Namensnennung und Repo vereinheitlicht
+* _FIX_: Update Style-Checks
+* _FIX_: Übersetzungen überarbeitet und verbessert
+* _FIX_: Dokumentation vereinheitlicht 
+
 v3.0.20221117
 
 * _NEU_: Konfigurationsformular überarbeitet und vereinheitlicht
@@ -169,7 +180,7 @@ Seit nunmehr über 10 Jahren fasziniert mich das Thema Haussteuerung. In den let
 
 ## Spenden
 
-Die Software ist für die nicht kommzerielle Nutzung kostenlos, über eine Spende bei Gefallen des Moduls würde ich mich freuen.
+Die Software ist für die nicht kommerzielle Nutzung kostenlos, über eine Spende bei Gefallen des Moduls würde ich mich freuen.
 
 [![PayPal](https://img.shields.io/badge/PayPal-spenden-00457C.svg?style=for-the-badge&logo=paypal)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8816166)
 
