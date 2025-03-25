@@ -8,7 +8,8 @@ require_once __DIR__ . '/../libs/_traits.php';
 /**
  * CLASS ShutterActuator
  */
-class ShutterActuator extends IPSModule
+//class ShutterActuator extends IPSModule
+class xcomfortshutter extends IPSModule
 {
     use DebugHelper;
     use ProfileHelper;
