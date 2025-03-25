@@ -176,8 +176,7 @@ class xcomfortshutter extends IPSModule
         if ($vid != 0) {
             $this->SendDebug(__FUNCTION__, 'Lower shutter!');
             //RequestAction($vid, 0.0);
-            XComfort_ShutterPosition($vid, 0);
-            //RequestAction($vid, 100);
+            RequestAction($vid, 2);
         } else {
             $this->SendDebug(__FUNCTION__, 'Variable to control the shutter not set!');
         }
