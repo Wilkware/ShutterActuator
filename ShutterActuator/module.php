@@ -29,7 +29,7 @@ class xcomfortshutter extends IPSModule
         // Position(Level) Variables
         $this->RegisterPropertyFloat('Position0', 0);
         //$this->RegisterPropertyFloat('Position25', 25);
-        $this->RegisterPropertyFloat('Position50', 80);
+        $this->RegisterPropertyFloat('Position50', 50);
         $this->RegisterPropertyFloat('Position75', 75);
         //$this->RegisterPropertyFloat('Position99', 99);
         $this->RegisterPropertyFloat('Position100', 100);
@@ -84,7 +84,7 @@ class xcomfortshutter extends IPSModule
             [100, 'Close', '', -1],*/
             [0, 'offen', '', -1],
             [50, 'Mitte', '', -1],
-            [80, 'unten', '', -1],
+            [75, 'unten', '', -1],
             [100, 'geschlossen', '', -1],
         ];
         $this->RegisterProfileInteger('HM.ShutterActuator', 'Jalousie', '', '', 0, 100, 0, $profile);
