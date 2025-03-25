@@ -137,7 +137,8 @@ class xcomfortshutter extends IPSModule
         //$this->SendDebug('RequestAction', 'Ident: '.$ident.' Value: '.$value, 0);
         switch ($ident) {
             case 'Position':
-                $this->SendDebug(__FUNCTION__, 'New position selected: ' . $value, 0);
+                $this->SendDebug('RequestAction', 'Ident: '.$ident.' Value: '.$value, 0);
+                //$this->SendDebug(__FUNCTION__, 'New position selected: ' . $value, 0);
                 $this->PositionToLevel($value);
                 break;
             default:
@@ -156,7 +157,8 @@ class xcomfortshutter extends IPSModule
         $vid = $this->ReadPropertyInteger('TransmitterVariable');
         if ($vid != 0) {
             $this->SendDebug(__FUNCTION__, 'Raise shutter!');
-            RequestAction($vid, 1.0);
+            //RequestAction($vid, 1.0);
+            RequestAction($vid, 0.0);
         } else {
             $this->SendDebug(__FUNCTION__, 'Variable to control the shutter not set!');
         }
@@ -173,6 +175,7 @@ class xcomfortshutter extends IPSModule
         $vid = $this->ReadPropertyInteger('TransmitterVariable');
         if ($vid != 0) {
             $this->SendDebug(__FUNCTION__, 'Lower shutter!');
+            //RequestAction($vid, 0.0);
             RequestAction($vid, 0.0);
         } else {
             $this->SendDebug(__FUNCTION__, 'Variable to control the shutter not set!');
@@ -191,7 +194,8 @@ class xcomfortshutter extends IPSModule
         if ($vid != 0) {
             $pid = IPS_GetParent($vid);
             $this->SendDebug(__FUNCTION__, 'Shutter stopped!');
-            HM_WriteValueBoolean($pid, 'STOP', true);
+            //HM_WriteValueBoolean($pid, 'STOP', true);
+            RequestAction($vid, false); // XComfort Stop-Befehl
             //RequestAction($vid, true);
         } else {
             $this->SendDebug(__FUNCTION__, 'VVariable to control the shutter not set!');
