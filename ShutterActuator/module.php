@@ -76,12 +76,6 @@ class xcomfortshutter extends IPSModule
 
         // Profile
         $profile = [
-            /*[0, 'Open', '', -1],
-            [25, '25 %%', '', -1],
-            [50, '50 %%', '', -1],
-            [75, '75 %%', '', -1],
-            [99, '99 %%', '', -1],
-            [100, 'Close', '', -1],*/
             [0, 'offen', '', -1],
             [50, 'Mitte', '', -1],
             [85, 'unten', '', -1],
