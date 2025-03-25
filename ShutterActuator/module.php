@@ -253,23 +253,19 @@ class xcomfortshutter extends IPSModule
     {
         // Mapping values
         $pos000 = $this->ReadPropertyFloat('Position0');
-        $pos025 = $this->ReadPropertyFloat('Position25');
+        //$pos025 = $this->ReadPropertyFloat('Position25');
         $pos050 = $this->ReadPropertyFloat('Position50');
         $pos075 = $this->ReadPropertyFloat('Position75');
-        $pos099 = $this->ReadPropertyFloat('Position99');
+        //$pos099 = $this->ReadPropertyFloat('Position99');
         $pos100 = $this->ReadPropertyFloat('Position100');
         // Level Position - Schalt Position zuweisen
         $pos = 0;
         if ($level == $pos100) {
             $pos = 100;
-        } elseif ($level > $pos100 && $level <= $pos099) {
-            $pos = 99;
-        } elseif ($level > $pos099 && $level <= $pos075) {
+        } elseif ($level > $pos100 && $level <= $pos075) {
             $pos = 75;
         } elseif ($level > $pos075 && $level <= $pos050) {
             $pos = 50;
-        } elseif ($level > $pos050 && $level <= $pos025) {
-            $pos = 25;
         } else {
             $pos = 0;
         }
@@ -289,21 +285,19 @@ class xcomfortshutter extends IPSModule
         $vid = $this->ReadPropertyInteger('TransmitterVariable');
         // Mapping values
         $pos000 = $this->ReadPropertyFloat('Position0');
-        $pos025 = $this->ReadPropertyFloat('Position25');
+        //$pos025 = $this->ReadPropertyFloat('Position25');
         $pos050 = $this->ReadPropertyFloat('Position50');
         $pos075 = $this->ReadPropertyFloat('Position75');
-        $pos099 = $this->ReadPropertyFloat('Position99');
+        //$pos099 = $this->ReadPropertyFloat('Position99');
         $pos100 = $this->ReadPropertyFloat('Position100');
         // Position kann manuell, via Voicontrol auch gesetzt worden sein
         // dann normieren auf Profilwerte :(
-        if ($position > 0 && $position < 25) {
-            $position = 25;
-        } elseif ($position > 25 && $position < 50) {
+        if ($position > 0 && $position < 50) {
             $position = 50;
         } elseif ($position > 50 && $position < 75) {
             $position = 75;
         } elseif ($position > 75 && $position < 100) {
-            $position = 99;
+            $position = 100;
         }
         // Schalt Position - Level Position - zuweisen
         $level = 0.;
@@ -312,18 +306,18 @@ class xcomfortshutter extends IPSModule
             case 0:
                 $level = $pos000;
                 break;
-            case 25:
+/*            case 25:
                 $level = $pos025;
-                break;
+                break;*/
             case 50:
                 $level = $pos050;
                 break;
             case 75:
                 $level = $pos075;
                 break;
-            case 99:
+  /*          case 99:
                 $level = $pos099;
-                break;
+                break;*/
             default:
                 $level = $pos100;
         }
