@@ -74,15 +74,7 @@
                             "name": "Position0",
                             "caption": "Open/Up (0%):",
                             "digits": 2,
-                            "suffix": "%",
-                            "width": "300px"
-                        },
-                        {
-                            "type": "NumberSpinner",
-                            "name": "Position25",
-                            "caption": "Quarter (25%):",
-                            "digits": 2,
-                            "suffix": "%",
+                            "suffix": "sec",
                             "width": "300px"
                         },
                         {
@@ -90,7 +82,7 @@
                             "name": "Position50",
                             "caption": "Half (50%):",
                             "digits": 2,
-                            "suffix": "%",
+                            "suffix": "sec",
                             "width": "300px"
                         }
                     ]
@@ -100,16 +92,8 @@
                     "items": [
                         {
                             "type": "NumberSpinner",
-                            "name": "Position75",
-                            "caption": "Three quarter (75%):",
-                            "digits": 2,
-                            "suffix": "%",
-                            "width": "300px"
-                        },
-                        {
-                            "type": "NumberSpinner",
-                            "name": "Position99",
-                            "caption": "Almost closed (99%):",
+                            "name": "Position85",
+                            "caption": "Down (85%):",
                             "digits": 2,
                             "suffix": "%",
                             "width": "300px"
