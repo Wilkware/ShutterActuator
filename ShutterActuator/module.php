@@ -158,7 +158,7 @@ class xcomfortshutter extends IPSModule
         if ($vid != 0) {
             $this->SendDebug(__FUNCTION__, 'Raise shutter!');
             //RequestAction($vid, 1.0);
-            RequestAction($vid, 0.0);
+            RequestAction($vid, 1.0);
         } else {
             $this->SendDebug(__FUNCTION__, 'Variable to control the shutter not set!');
         }
@@ -195,7 +195,7 @@ class xcomfortshutter extends IPSModule
             $pid = IPS_GetParent($vid);
             $this->SendDebug(__FUNCTION__, 'Shutter stopped!');
             //HM_WriteValueBoolean($pid, 'STOP', true);
-            RequestAction($vid, false); // XComfort Stop-Befehl
+            RequestAction($vid, true); // XComfort Stop-Befehl
             //RequestAction($vid, true);
         } else {
             $this->SendDebug(__FUNCTION__, 'VVariable to control the shutter not set!');
