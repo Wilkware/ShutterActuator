@@ -1,7 +1,7 @@
 {
-    "id": "{4C9FA479-414D-E5D7-D68F-B269E30263FF}",
-    "name": "Shutter Actuator",
-    "url": "https://wilkware.de/ip-symcon-module/rollladensteuerung/",
+    "id": "{9F9406D0-C822-6AE8-013D-EA7AF3035E47}",
+    "name": "xcomfort shutter",
+    "url": "https://github.com/madrosDK/xcomfort-Shutter",
     "type": 3,
     "vendor": "",
     "aliases": [],
