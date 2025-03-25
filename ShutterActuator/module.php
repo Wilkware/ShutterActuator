@@ -30,7 +30,7 @@ class xcomfortshutter extends IPSModule
         $this->RegisterPropertyFloat('Position0', 0);
         //$this->RegisterPropertyFloat('Position25', 25);
         $this->RegisterPropertyFloat('Position50', 50);
-        $this->RegisterPropertyFloat('Position75', 75);
+        $this->RegisterPropertyFloat('Position85', 85);
         //$this->RegisterPropertyFloat('Position99', 99);
         $this->RegisterPropertyFloat('Position100', 100);
     }
@@ -84,13 +84,13 @@ class xcomfortshutter extends IPSModule
             [100, 'Close', '', -1],*/
             [0, 'offen', '', -1],
             [50, 'Mitte', '', -1],
-            [75, 'unten', '', -1],
+            [85, 'unten', '', -1],
             [100, 'geschlossen', '', -1],
         ];
-        $this->RegisterProfileInteger('HM.ShutterActuator', 'Jalousie', '', '', 0, 100, 0, $profile);
+        $this->RegisterProfileInteger('xcomfort.ShutterActuator', 'Jalousie', '', '', 0, 100, 0, $profile);
 
         // Position
-        $this->MaintainVariable('Position', 'Position', VARIABLETYPE_INTEGER, 'HM.ShutterActuator', 1, true);
+        $this->MaintainVariable('Position', 'Position', VARIABLETYPE_INTEGER, 'xcomfort.ShutterActuator', 1, true);
 
         // Enable Action / Request Action
         $this->EnableAction('Position');
@@ -255,15 +255,15 @@ class xcomfortshutter extends IPSModule
         $pos000 = $this->ReadPropertyFloat('Position0');
         //$pos025 = $this->ReadPropertyFloat('Position25');
         $pos050 = $this->ReadPropertyFloat('Position50');
-        $pos075 = $this->ReadPropertyFloat('Position75');
+        $pos085 = $this->ReadPropertyFloat('Position85');
         //$pos099 = $this->ReadPropertyFloat('Position99');
         $pos100 = $this->ReadPropertyFloat('Position100');
         // Level Position - Schalt Position zuweisen
         $pos = 0;
         if ($level == $pos100) {
             $pos = 100;
-        } elseif ($level > $pos100 && $level <= $pos075) {
-            $pos = 75;
+        } elseif ($level > $pos100 && $level <= $pos085) {
+            $pos = 85;
         } elseif ($level > $pos075 && $level <= $pos050) {
             $pos = 50;
         } else {
@@ -287,15 +287,15 @@ class xcomfortshutter extends IPSModule
         $pos000 = $this->ReadPropertyFloat('Position0');
         //$pos025 = $this->ReadPropertyFloat('Position25');
         $pos050 = $this->ReadPropertyFloat('Position50');
-        $pos075 = $this->ReadPropertyFloat('Position75');
+        $pos085 = $this->ReadPropertyFloat('Position85');
         //$pos099 = $this->ReadPropertyFloat('Position99');
         $pos100 = $this->ReadPropertyFloat('Position100');
         // Position kann manuell, via Voicontrol auch gesetzt worden sein
         // dann normieren auf Profilwerte :(
         if ($position > 0 && $position < 50) {
             $position = 50;
-        } elseif ($position > 50 && $position < 75) {
-            $position = 75;
+        } elseif ($position > 50 && $position < 85) {
+            $position = 85;
         } elseif ($position > 75 && $position < 100) {
             $position = 100;
         }
@@ -312,8 +312,8 @@ class xcomfortshutter extends IPSModule
             case 50:
                 $level = $pos050;
                 break;
-            case 75:
-                $level = $pos075;
+            case 85:
+                $level = $pos085;
                 break;
   /*          case 99:
                 $level = $pos099;
