@@ -27,12 +27,12 @@ class xcomfortshutter extends IPSModule
         $this->RegisterPropertyInteger('ReceiverVariable', 0);
         $this->RegisterPropertyInteger('TransmitterVariable', 0);
         // Position(Level) Variables
-        $this->RegisterPropertyFloat('Position0', 1.0);
-        $this->RegisterPropertyFloat('Position25', 0.85);
-        $this->RegisterPropertyFloat('Position50', 0.70);
-        $this->RegisterPropertyFloat('Position75', 0.50);
-        $this->RegisterPropertyFloat('Position99', 0.25);
-        $this->RegisterPropertyFloat('Position100', 0.0);
+        $this->RegisterPropertyFloat('Position0', 0);
+        $this->RegisterPropertyFloat('Position25', 25);
+        $this->RegisterPropertyFloat('Position50', 80);
+        $this->RegisterPropertyFloat('Position75', 75);
+        $this->RegisterPropertyFloat('Position99', 99);
+        $this->RegisterPropertyFloat('Position100', 100);
     }
 
     /**
@@ -76,12 +76,16 @@ class xcomfortshutter extends IPSModule
 
         // Profile
         $profile = [
-            [0, 'Open', '', -1],
+            /*[0, 'Open', '', -1],
             [25, '25 %%', '', -1],
             [50, '50 %%', '', -1],
             [75, '75 %%', '', -1],
             [99, '99 %%', '', -1],
-            [100, 'Close', '', -1],
+            [100, 'Close', '', -1],*/
+            [0, 'offen', '', -1],
+            [50, 'Mitte', '', -1],
+            [80, 'unten', '', -1],
+            [100, 'geschlossen', '', -1],
         ];
         $this->RegisterProfileInteger('HM.ShutterActuator', 'Jalousie', '', '', 0, 100, 0, $profile);
 
