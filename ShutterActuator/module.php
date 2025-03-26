@@ -334,7 +334,7 @@ class xcomfortshutter extends IPSModule
         RequestAction($vid, $level);
     }
 
-    public function MoveShutter(int $position)
+    public function MoveShutter(int $targetPosition)
     {
         $shutterID = $this->ReadPropertyInteger('TransmitterVariable');
         $currentPosition = floatval($this->Level());
