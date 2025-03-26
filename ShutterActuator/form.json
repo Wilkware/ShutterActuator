@@ -109,6 +109,73 @@
                     ]
                 }
             ]
+        },
+        {
+            "type": "ExpansionPanel",
+            "caption": "Zeiten ...",
+            "items": [
+                {
+                    "type": "Label",
+                    "caption": "Please measure the running time for the respective position and enter the corresponding values!"
+                },
+                {
+                    "type": "RowLayout",
+                    "items": [
+                        {
+                            "type": "NumberSpinner",
+                            "name": "time_down_50",
+                            "caption": "open to middle:",
+                            "digits": 2,
+                            "suffix": "sec",
+                            "width": "300px"
+                        },
+                        {
+                            "type": "NumberSpinner",
+                            "name": "time_down_85",
+                            "caption": "open to down:",
+                            "digits": 2,
+                            "suffix": "sec",
+                            "width": "300px"
+                        },
+                        {
+                            "type": "NumberSpinner",
+                            "name": "time_down_100",
+                            "caption": "open to close:",
+                            "digits": 2,
+                            "suffix": "sec",
+                            "width": "300px"
+                        }
+                    ]
+                },
+                {
+                    "type": "RowLayout",
+                    "items": [
+                      {
+                          "type": "NumberSpinner",
+                          "name": "time_up_85",
+                          "caption": "close to down:",
+                          "digits": 2,
+                          "suffix": "sec",
+                          "width": "300px"
+                      },
+                      {
+                          "type": "NumberSpinner",
+                          "name": "time_up_50",
+                          "caption": "close to middle:",
+                          "digits": 2,
+                          "suffix": "sec",
+                          "width": "300px"
+                      },
+                      {
+                          "type": "NumberSpinner",
+                          "name": "time_up_100",
+                          "caption": "close to open:",
+                          "digits": 2,
+                          "suffix": "sec",
+                          "width": "300px"
+                      }
+                }
+            ]
         }
     ],
     "actions": [
