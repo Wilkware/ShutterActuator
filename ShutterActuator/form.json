@@ -141,6 +141,39 @@
                     ]
                 }
             ]
+        }
+
+
+    ],
+    "actions": [
+        {
+            "type": "Label",
+            "caption": "Use the button to measure the right values! The 'SHOW'-Button will display the internal level of the shutter!"
+        },
+        {
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "Button",
+                    "caption": "UP",
+                    "onClick": "TSA_Up($id);"
+                },
+                {
+                    "type": "Button",
+                    "caption": "STOP",
+                    "onClick": "TSA_Stop($id);"
+                },
+                {
+                    "type": "Button",
+                    "caption": "DOWN",
+                    "onClick": "TSA_Down($id);"
+                },
+                {
+                    "type": "Button",
+                    "caption": "SHOW",
+                    "onClick": "echo 'Position: '.TSA_Level($id).' %';"
+                }
+            ]
         },
         {
           "type": "ExpansionPanel",
@@ -176,38 +209,6 @@
               ]
             }
           ]
-        }
-
-    ],
-    "actions": [
-        {
-            "type": "Label",
-            "caption": "Use the button to measure the right values! The 'SHOW'-Button will display the internal level of the shutter!"
-        },
-        {
-            "type": "RowLayout",
-            "items": [
-                {
-                    "type": "Button",
-                    "caption": "UP",
-                    "onClick": "TSA_Up($id);"
-                },
-                {
-                    "type": "Button",
-                    "caption": "STOP",
-                    "onClick": "TSA_Stop($id);"
-                },
-                {
-                    "type": "Button",
-                    "caption": "DOWN",
-                    "onClick": "TSA_Down($id);"
-                },
-                {
-                    "type": "Button",
-                    "caption": "SHOW",
-                    "onClick": "echo 'Position: '.TSA_Level($id).' %';"
-                }
-            ]
         },
         {
             "type": "Label",
