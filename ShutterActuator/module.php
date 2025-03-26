@@ -208,7 +208,7 @@ class xcomfortshutter extends IPSModule
             $pid = IPS_GetParent($vid);
             $this->SendDebug(__FUNCTION__, 'Shutter stopped!');
             //HM_WriteValueBoolean($pid, 'STOP', true);
-            RequestAction($vid, true); // XComfort Stop-Befehl
+            RequestAction($vid, 2); // XComfort Stop-Befehl
             //RequestAction($vid, true);
         } else {
             $this->SendDebug(__FUNCTION__, 'VVariable to control the shutter not set!');
@@ -333,42 +333,54 @@ class xcomfortshutter extends IPSModule
         RequestAction($vid, $level);
     }
 
-    public function MoveShutter(int $targetPosition)
+    public function MoveShutter(float $targetPosition)
     {
-        $shutterID = $this->ReadPropertyInteger('TransmitterVariable');
         $currentPosition = floatval($this->Level());
 
+        // Vergleich mit Toleranz, um unnötige Bewegung zu vermeiden
         if (abs($currentPosition - $targetPosition) < 0.1) {
             $this->SendDebug(__FUNCTION__, "No movement needed. Current position ($currentPosition%) is close to $targetPosition%", 0);
             return;
         }
 
-        if ($currentPosition == -1) {
-            $this->SendDebug(__FUNCTION__, 'Shutter position could not be retrieved!', 0);
+        // Richtung ermitteln
+        $directionDown = $currentPosition < $targetPosition;
+
+        // Zeitwerte je Richtung laden
+        $times = $directionDown ? [
+            0   => 0,
+            50  => $this->ReadPropertyFloat('time_down_50'),
+            85  => $this->ReadPropertyFloat('time_down_85'),
+            100 => $this->ReadPropertyFloat('time_down_100')
+        ] : [
+            100 => 0,
+            85  => $this->ReadPropertyFloat('time_up_85'),
+            50  => $this->ReadPropertyFloat('time_up_50'),
+            0   => $this->ReadPropertyFloat('time_up_0')
+        ];
+
+        // Fahrzeit berechnen
+        $driveTime = $this->calculateDriveTime($currentPosition, $targetPosition, $times);
+
+        if ($driveTime <= 0) {
+            $this->SendDebug(__FUNCTION__, "Calculated drive time is 0. No movement.", 0);
             return;
         }
 
-        $directionDown = $currentPosition < $targetPosition; // true = runter, false = hoch
-
-        // Lade Fahrzeiten aus der form.json
-        $times = [];
+        // Richtige Fahrfunktion aufrufen
         if ($directionDown) {
-            // Runterfahren (0% → X%)
-            $times = [
-                0   => 0, // Startpunkt
-                50  => $this->ReadPropertyFloat('time_down_50'),
-                85  => $this->ReadPropertyFloat('time_down_85'),
-                100 => $this->ReadPropertyFloat('time_down_100')
-            ];
+            $this->SendDebug(__FUNCTION__, "Shutter moving down to $targetPosition% for $driveTime seconds", 0);
+            $this->Down();
         } else {
-            // Hochfahren (100% → X%)
-            $times = [
-                100 => 0, // Startpunkt
-                85  => $this->ReadPropertyFloat('time_up_85'),
-                50  => $this->ReadPropertyFloat('time_up_50'),
-                0   => $this->ReadPropertyFloat('time_up_0')
-            ];
+            $this->SendDebug(__FUNCTION__, "Shutter moving up to $targetPosition% for $driveTime seconds", 0);
+            $this->Up();
         }
+
+        // Warten und stoppen
+        IPS_Sleep($driveTime * 1000);
+        $this->Stop();
+        $this->SendDebug(__FUNCTION__, "Shutter movement stopped", 0);
+    }
 
         // Berechnung der tatsächlichen Fahrzeit
         $driveTime = $this->calculateDriveTime($currentPosition, $targetPosition, $times);
