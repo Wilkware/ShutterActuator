@@ -411,6 +411,7 @@ class xcomfortshutter extends IPSModule
 
      public function CalibrateUp(float $duration)
      {
+       echo "Kalibrierung wird gestartet...";
          $this->SendDebug(__FUNCTION__, "Starte Kalibrierung: Hochfahrt ({$duration} sec)", 0);
 
          $reverseTime = $duration + 2;
