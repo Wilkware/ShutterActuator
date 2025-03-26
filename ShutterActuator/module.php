@@ -337,16 +337,13 @@ class xcomfortshutter extends IPSModule
     {
         $currentPosition = floatval($this->Level());
 
-        // Vergleich mit Toleranz, um unnötige Bewegung zu vermeiden
         if (abs($currentPosition - $targetPosition) < 0.1) {
             $this->SendDebug(__FUNCTION__, "No movement needed. Current position ($currentPosition%) is close to $targetPosition%", 0);
             return;
         }
 
-        // Richtung ermitteln
         $directionDown = $currentPosition < $targetPosition;
 
-        // Zeitwerte je Richtung laden
         $times = $directionDown ? [
             0   => 0,
             50  => $this->ReadPropertyFloat('time_down_50'),
@@ -359,7 +356,6 @@ class xcomfortshutter extends IPSModule
             0   => $this->ReadPropertyFloat('time_up_0')
         ];
 
-        // Fahrzeit berechnen
         $driveTime = $this->calculateDriveTime($currentPosition, $targetPosition, $times);
 
         if ($driveTime <= 0) {
@@ -367,7 +363,6 @@ class xcomfortshutter extends IPSModule
             return;
         }
 
-        // Richtige Fahrfunktion aufrufen
         if ($directionDown) {
             $this->SendDebug(__FUNCTION__, "Shutter moving down to $targetPosition% for $driveTime seconds", 0);
             $this->Down();
@@ -376,26 +371,9 @@ class xcomfortshutter extends IPSModule
             $this->Up();
         }
 
-        // Warten und stoppen
         IPS_Sleep($driveTime * 1000);
         $this->Stop();
         $this->SendDebug(__FUNCTION__, "Shutter movement stopped", 0);
-    }
-
-        // Berechnung der tatsächlichen Fahrzeit
-        $driveTime = $this->calculateDriveTime($currentPosition, $targetPosition, $times);
-
-        if ($driveTime > 0) {
-            $this->SendDebug(__FUNCTION__, "Moving shutter to $targetPosition%. Estimated time: $driveTime s", 0);
-            RequestAction($shutterID, $directionDown); // Bewegung starten
-
-            IPS_Sleep($driveTime * 1000); // Wartezeit für die Bewegung
-
-            RequestAction($shutterID, 2); // Stoppen nach der berechneten Zeit
-            $this->SendDebug(__FUNCTION__, "Shutter movement stopped.", 0);
-        } else {
-            $this->SendDebug(__FUNCTION__, "No movement needed. Current position is already at $targetPosition%.", 0);
-        }
     }
 
     // Funktion zur Berechnung der Fahrzeit mit den vorgegebenen Messpunkten
