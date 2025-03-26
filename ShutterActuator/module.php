@@ -26,12 +26,6 @@ class xcomfortshutter extends IPSModule
         // Shutter variables
         $this->RegisterPropertyInteger('ReceiverVariable', 0);
         $this->RegisterPropertyInteger('TransmitterVariable', 0);
-        // Position(Level) Variables
-      /*  $this->RegisterPropertyFloat('Position0', 0);
-        $this->RegisterPropertyFloat('Position50', 50);
-        $this->RegisterPropertyFloat('Position85', 85);
-        $this->RegisterPropertyFloat('Position100', 100);*/
-
         // Fahrzeiten für Hoch- und Runterfahren
         $this->RegisterPropertyFloat('time_up_85', 0);
         $this->RegisterPropertyFloat('time_up_50', 0);
@@ -166,7 +160,6 @@ class xcomfortshutter extends IPSModule
             case 'Position':
                 $this->SendDebug('RequestAction', 'Ident: '.$ident.' Value: '.$value, 0);
                 $this->Position($value);
-                //$this->MoveShutter($value);
                 break;
             default:
                 throw new Exception('Invalid ident!');
@@ -184,7 +177,6 @@ class xcomfortshutter extends IPSModule
         $vid = $this->ReadPropertyInteger('TransmitterVariable');
         if ($vid != 0) {
             $this->SendDebug(__FUNCTION__, 'Raise shutter!');
-            //RequestAction($vid, 1.0);
             RequestAction($vid, 0);
         } else {
             $this->SendDebug(__FUNCTION__, 'Variable to control the shutter not set!');
@@ -202,7 +194,6 @@ class xcomfortshutter extends IPSModule
         $vid = $this->ReadPropertyInteger('TransmitterVariable');
         if ($vid != 0) {
             $this->SendDebug(__FUNCTION__, 'Lower shutter!');
-            //RequestAction($vid, 0.0);
             RequestAction($vid, 4);
         } else {
             $this->SendDebug(__FUNCTION__, 'Variable to control the shutter not set!');
