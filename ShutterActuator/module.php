@@ -223,19 +223,18 @@ class xcomfortshutter extends IPSModule
      *
      * @return float The actual internal level (position).
      */
-    public function Level()
-    {
-        $vid = $this->ReadPropertyInteger('ReceiverVariable');
-        if ($vid != 0) {
-            $level = GetValue($vid);
-            $this->SendDebug(__FUNCTION__, 'Current internal position is: ' . $level);
-            return sprintf('%.2f', $level);
-        } else {
-            $this->SendDebug(__FUNCTION__, 'Variable to control the shutter not set!');
-            return '-1';
-        }
-    }
-
+     public function Level()
+     {
+         $vid = $this->ReadPropertyInteger('ReceiverVariable');
+         if ($vid != 0) {
+             $level = GetValue($vid);
+             $this->SendDebug(__FUNCTION__, 'Current internal position is: ' . $level);
+             return floatval($level); // ⬅️ wichtig!
+         } else {
+             $this->SendDebug(__FUNCTION__, 'Variable to control the shutter not set!');
+             return -1;
+         }
+     }
     /**
      * This function will be available automatically after the module is imported with the module control.
      * Using the custom prefix this function will be callable from PHP and JSON-RPC through:.
@@ -339,6 +338,11 @@ class xcomfortshutter extends IPSModule
         $shutterID = $this->ReadPropertyInteger('TransmitterVariable');
         $currentPosition = floatval($this->Level());
 
+        if (abs($currentPosition - $targetPosition) < 0.1) {
+            $this->SendDebug(__FUNCTION__, "No movement needed. Current position ($currentPosition%) is close to $targetPosition%", 0);
+            return;
+        }
+        
         if ($currentPosition == -1) {
             $this->SendDebug(__FUNCTION__, 'Shutter position could not be retrieved!', 0);
             return;
