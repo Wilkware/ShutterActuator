@@ -135,7 +135,7 @@ class xcomfortshutter extends IPSModule
             case 'Position':
                 $this->SendDebug('RequestAction', 'Ident: '.$ident.' Value: '.$value, 0);
                 //$this->SendDebug(__FUNCTION__, 'New position selected: ' . $value, 0);
-                $this->PositionToLevel($value);
+                $this->MoveShutter($value);
                 break;
             default:
                 throw new Exception('Invalid ident!');
@@ -230,7 +230,7 @@ class xcomfortshutter extends IPSModule
         $vid = $this->ReadPropertyInteger('TransmitterVariable');
         if ($vid != 0) {
             $this->SendDebug(__FUNCTION__, 'Move roller shutter to position ' . $position . '%!');
-            $this->PositionToLevel($position);
+            $this->MoveShutter($position);
         } else {
             $this->SendDebug(__FUNCTION__, 'Variable to control the shutter not set!');
         }
@@ -316,4 +316,78 @@ class xcomfortshutter extends IPSModule
         $this->SendDebug(__FUNCTION__, 'Move to position: ' . $position . ', i.e. pevel: ' . $level);
         RequestAction($vid, $level);
     }
+
+public function MoveShutter($int $position)
+{
+    // XComfort-Rollladen-Instanz-ID auslesen
+    $shutterID = $this->ReadPropertyInteger('TransmitterVariable');
+
+    // Aktuelle Position des Rollladens holen
+    $currentPosition = floatval($this->Level());
+    if ($currentPosition == -1) {
+        $this->SendDebug(__FUNCTION__, 'Shutter position could not be retrieved!', 0);
+        return;
+    }
+
+    // Bestimmen, ob nach oben oder unten gefahren wird
+    $directionDown = $currentPosition < $targetPosition; // true = runter, false = hoch
+
+    // Lade die Fahrzeiten aus der form.json
+    $times = [];
+    $keyPrefix = $directionDown ? 'time_down_' : 'time_up_';
+    foreach ([0, 50, 85, 100] as $pos) {
+        $times[$pos] = $this->ReadPropertyFloat($keyPrefix . $pos);
+    }
+
+    // Berechnung der tatsächlichen Fahrzeit
+    $driveTime = $this->getDriveTime($currentPosition, $targetPosition, $times);
+
+    if ($driveTime > 0) {
+        $this->SendDebug(__FUNCTION__, "Moving shutter to $targetPosition%. Estimated time: $driveTime s", 0);
+        XComfort_Shutter($shutterID, $directionDown); // Bewegung starten
+
+        IPS_Sleep($driveTime * 1000); // Wartezeit für die Bewegung
+
+        XComfort_Shutter($shutterID, false); // Stoppen nach der berechneten Zeit
+        $this->SendDebug(__FUNCTION__, "Shutter movement stopped.", 0);
+    } else {
+        $this->SendDebug(__FUNCTION__, "No movement needed. Current position is already at $targetPosition%.", 0);
+    }
+}
+
+// Funktion zur Berechnung der interpolierten Fahrzeit
+private function getDriveTime($from, $to, $timeTable)
+{
+    if ($from == $to) return 0; // Keine Bewegung nötig
+
+    // Sortiere die Zeitwerte für die Berechnung
+    $sortedKeys = array_keys($timeTable);
+    sort($sortedKeys);
+
+    // Interpolation der Zeitwerte für die Start- und Zielposition
+    $fromTime = $this->interpolateTime($from, $sortedKeys, $timeTable);
+    $toTime   = $this->interpolateTime($to, $sortedKeys, $timeTable);
+
+    return abs($toTime - $fromTime);
+}
+
+// Hilfsfunktion zur Interpolation von Zeitwerten
+private function interpolateTime($position, $sortedKeys, $timeTable)
+{
+    foreach ($sortedKeys as $index => $key) {
+        if ($position == $key) {
+            return $timeTable[$key];
+        } elseif ($position < $key) {
+            $prevKey = $sortedKeys[$index - 1] ?? $key;
+            $prevTime = $timeTable[$prevKey];
+            $currentTime = $timeTable[$key];
+
+            // Lineare Interpolation
+            $ratio = ($position - $prevKey) / ($key - $prevKey);
+            return $prevTime + $ratio * ($currentTime - $prevTime);
+        }
+    }
+    return end($timeTable); // Falls Position über max. Wert hinausgeht
+}
+
 }
