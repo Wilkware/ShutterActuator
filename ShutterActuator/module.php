@@ -31,6 +31,14 @@ class xcomfortshutter extends IPSModule
         $this->RegisterPropertyFloat('Position50', 50);
         $this->RegisterPropertyFloat('Position85', 85);
         $this->RegisterPropertyFloat('Position100', 100);
+
+        // Fahrzeiten für Hoch- und Runterfahren
+        $this->RegisterPropertyFloat('time_up_85', 0);
+        $this->RegisterPropertyFloat('time_up_50', 0);
+        $this->RegisterPropertyFloat('time_up_0', 0);
+        $this->RegisterPropertyFloat('time_down_50', 0);
+        $this->RegisterPropertyFloat('time_down_85', 0);
+        $this->RegisterPropertyFloat('time_down_100', 0);
     }
 
     /**
@@ -89,35 +97,17 @@ class xcomfortshutter extends IPSModule
         // Enable Action / Request Action
         $this->EnableAction('Position');
 
-        // Profile für Fahrzeiten (time_up_* & time_down_*)
-$profile = [
-[0, 'Offen', '', -1],
-[50, 'Mitte', '', -1],
-[85, 'Unten', '', -1],
-[100, 'Geschlossen', '', -1]
-];
-$this->RegisterProfileInteger('xcomfort.ShutterTimes', 'Clock', '', ' sec', 0, 100, 1, $profile);
-
-// Variablen für die Fahrzeiten anlegen
-$this->MaintainVariable('time_up_85', 'Hochfahren 100% → 85%', VARIABLETYPE_INTEGER, 'xcomfort.ShutterTimes', 1, true);
-$this->MaintainVariable('time_up_50', 'Hochfahren 100% → 50%', VARIABLETYPE_INTEGER, 'xcomfort.ShutterTimes', 2, true);
-$this->MaintainVariable('time_up_0', 'Hochfahren 100% → 0%', VARIABLETYPE_INTEGER, 'xcomfort.ShutterTimes', 3, true);
-
-$this->MaintainVariable('time_down_50', 'Runterfahren 0% → 50%', VARIABLETYPE_INTEGER, 'xcomfort.ShutterTimes', 4, true);
-$this->MaintainVariable('time_down_85', 'Runterfahren 0% → 85%', VARIABLETYPE_INTEGER, 'xcomfort.ShutterTimes', 5, true);
-$this->MaintainVariable('time_down_100', 'Runterfahren 0% → 100%', VARIABLETYPE_INTEGER, 'xcomfort.ShutterTimes', 6, true);
-
-// Enable Action für Benutzersteuerung
-$this->EnableAction('time_up_85');
-$this->EnableAction('time_up_50');
-$this->EnableAction('time_up_0');
-$this->EnableAction('time_down_50');
-$this->EnableAction('time_down_85');
-$this->EnableAction('time_down_100');
-
         // Create our trigger
         if (IPS_VariableExists($this->ReadPropertyInteger('ReceiverVariable'))) {
             $this->RegisterMessage($this->ReadPropertyInteger('ReceiverVariable'), VM_UPDATE);
+        }
+        // Create triggers for time_down and time_up if they exist
+        if (IPS_VariableExists($timeDownVariable)) {
+            $this->RegisterMessage($timeDownVariable, VM_UPDATE);
+        }
+
+        if (IPS_VariableExists($timeUpVariable)) {
+            $this->RegisterMessage($timeUpVariable, VM_UPDATE);
         }
     }
 
