@@ -75,6 +75,15 @@ class xcomfortshutter extends IPSModule
 
          // Register Receiver/Transmitter references
          $receiverID = $this->ReadPropertyInteger('ReceiverVariable');
+         if (IPS_VariableExists($receiverID)) {
+              $this->RegisterReference($receiverID);
+              $this->RegisterMessage($receiverID, VM_UPDATE);
+
+              // Initialwert setzen
+              $current = GetValue($receiverID);
+              $this->SetValueInteger('Position', (int)$current);
+          }
+
          $transmitterID = $this->ReadPropertyInteger('TransmitterVariable');
 
          if (IPS_VariableExists($receiverID)) {
@@ -121,26 +130,28 @@ class xcomfortshutter extends IPSModule
      * @param mixed $message Message type
      * @param mixed $data data[0] = new value, data[1] = value changed, data[2] = old value, data[3] = timestamp
      */
-    public function MessageSink($timeStamp, $senderID, $message, $data)
-    {
-        //$this->SendDebug(__FUNCTION__, 'SenderId: '.$senderID.' Data: '.print_r($data, true), 0);
-        switch ($message) {
-            case VM_UPDATE:
-                // ReceiverVariable
-                if ($senderID != $this->ReadPropertyInteger('ReceiverVariable')) {
-                    $this->SendDebug(__FUNCTION__, 'SenderID: ' . $senderID . ' unknown!');
-                } else {
-                    // Read changes!
-                    if ($data[1] == true) { // OnChange - new value?
-                        $this->SendDebug(__FUNCTION__, 'Level: ' . $data[2] . ' => ' . $data[0]);
-                        $this->LevelToPosition($data[0]);
-                    } else { // OnChange - nothing changed!
-                        $this->SendDebug(__FUNCTION__, 'Level unchanged - no change in value!');
-                    }
-                }
-                break;
-        }
-    }
+     public function MessageSink($timeStamp, $senderID, $message, $data)
+     {
+         switch ($message) {
+             case VM_UPDATE:
+                 $receiverID = $this->ReadPropertyInteger('ReceiverVariable');
+
+                 if ($senderID != $receiverID) {
+                     $this->SendDebug(__FUNCTION__, 'SenderID: ' . $senderID . ' unknown!');
+                     return;
+                 }
+
+                 if ($data[1] === true) { // OnChange mit neuem Wert
+                     $newLevel = $data[0];
+                     $this->SendDebug(__FUNCTION__, 'Level changed: ' . $data[2] . ' → ' . $newLevel);
+                     $this->SetValueInteger('Position', (int)$newLevel); // Position-Variable im Modul setzen
+                 } else {
+                     $this->SendDebug(__FUNCTION__, 'Level unchanged – no update needed.');
+                 }
+                 break;
+         }
+     }
+
 
     /**
      * RequestAction (SDK function).
@@ -253,87 +264,6 @@ class xcomfortshutter extends IPSModule
         } else {
             $this->SendDebug(__FUNCTION__, 'Variable to control the shutter not set!');
         }
-    }
-
-    /**
-     * Map Level to Position.
-     *
-     * @param float $level Shutter level value
-     */
-    private function LevelToPosition(float $level)
-    {
-        // Mapping values
-        $pos000 = $this->ReadPropertyFloat('Position0');
-        //$pos025 = $this->ReadPropertyFloat('Position25');
-        $pos050 = $this->ReadPropertyFloat('Position50');
-        $pos085 = $this->ReadPropertyFloat('Position85');
-        //$pos099 = $this->ReadPropertyFloat('Position99');
-        $pos100 = $this->ReadPropertyFloat('Position100');
-        // Level Position - Schalt Position zuweisen
-        $pos = 0;
-        if ($level == $pos100) {
-            $pos = 100;
-        } elseif ($level > $pos100 && $level <= $pos085) {
-            $pos = 85;
-        } elseif ($level > $pos085 && $level <= $pos050) {
-            $pos = 50;
-        } else {
-            $pos = 0;
-        }
-        // Zuordnen
-        $this->SendDebug(__FUNCTION__, 'Level ' . $level . ' reached, i.e. position: ' . $pos);
-        $this->SetValueInteger('Position', $pos);
-    }
-
-    /**
-     * Map Position to Level.
-     *
-     * @param int $level Shutter level value
-     */
-    private function PositionToLevel(int $position)
-    {
-        // Level Variable
-        $vid = $this->ReadPropertyInteger('TransmitterVariable');
-        // Mapping values
-        $pos000 = $this->ReadPropertyFloat('Position0');
-        //$pos025 = $this->ReadPropertyFloat('Position25');
-        $pos050 = $this->ReadPropertyFloat('Position50');
-        $pos085 = $this->ReadPropertyFloat('Position85');
-        //$pos099 = $this->ReadPropertyFloat('Position99');
-        $pos100 = $this->ReadPropertyFloat('Position100');
-        // Position kann manuell, via Voicontrol auch gesetzt worden sein
-        // dann normieren auf Profilwerte :(
-        if ($position > 0 && $position < 50) {
-            $position = 50;
-        } elseif ($position > 50 && $position < 85) {
-            $position = 85;
-        } elseif ($position > 75 && $position < 100) {
-            $position = 100;
-        }
-        // Schalt Position - Level Position - zuweisen
-        $level = 0.;
-        // Positon übersetzen
-        switch ($position) {
-            case 0:
-                $level = $pos000;
-                break;
-/*            case 25:
-                $level = $pos025;
-                break;*/
-            case 50:
-                $level = $pos050;
-                break;
-            case 85:
-                $level = $pos085;
-                break;
-  /*          case 99:
-                $level = $pos099;
-                break;*/
-            default:
-                $level = $pos100;
-        }
-        $this->SendDebug(__FUNCTION__, 'Move to position: ' . $position . ', i.e. pevel: ' . $level);
-        RequestAction($vid, $level);
     }
 
     public function MoveShutter(float $targetPosition)
