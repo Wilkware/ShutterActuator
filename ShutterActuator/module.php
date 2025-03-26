@@ -372,84 +372,86 @@ class xcomfortshutter extends IPSModule
     }
 
     public function CalibrateDown()
-     {
-         $duration = $this->ReadPropertyFloat('calibration_duration');
-         $this->SendDebug(__FUNCTION__, "Starte Kalibrierung: Runterfahrt ({$duration} sec)", 0);
+    {
+        $duration = $this->ReadPropertyFloat('calibration_duration');
 
-         $reverseTime = $duration + 2;
-         $this->SendDebug(__FUNCTION__, "Vorherige Hochfahrt ({$reverseTime} sec)", 0);
-         $this->Up();
-         IPS_Sleep($reverseTime * 1000);
-         $this->Stop();
+        $this->SendDebug(__FUNCTION__, "Starte Kalibrierung: Runterfahrt ({$duration} sec)", 0);
 
-         $this->Down();
-         IPS_Sleep($duration * 1000);
-         $this->Stop();
+        $reverseTime = $duration + 2;
+        $this->SendDebug(__FUNCTION__, "Vorherige Hochfahrt ({$reverseTime} sec)", 0);
+        $this->Up();
+        IPS_Sleep($reverseTime * 1000);
+        $this->Stop();
 
-         $end = floatval($this->Level());
-         $this->SendDebug(__FUNCTION__, "Endposition: {$end}%", 0);
+        $this->Down();
+        IPS_Sleep($duration * 1000);
+        $this->Stop();
 
-         if ($end <= 0) {
-             $this->SendDebug(__FUNCTION__, "Shutter hat sich nicht bewegt.", 0);
-             return;
-         }
+        $end = floatval($this->Level());
+        $this->SendDebug(__FUNCTION__, "Endposition: {$end}%", 0);
 
-         $time_50 = $duration * (50 / $end);
-         $time_85 = $duration * (85 / $end);
-         $time_100 = $duration;
+        if ($end <= 0) {
+            $this->SendDebug(__FUNCTION__, "Shutter hat sich nicht bewegt.", 0);
+            return;
+        }
 
-         IPS_SetProperty($this->InstanceID, 'time_down_50', round($time_50, 2));
-         IPS_SetProperty($this->InstanceID, 'time_down_85', round($time_85, 2));
-         IPS_SetProperty($this->InstanceID, 'time_down_100', round($time_100, 2));
-         IPS_ApplyChanges($this->InstanceID);
+        $time_50 = $duration * (50 / $end);
+        $time_85 = $duration * (85 / $end);
+        $time_100 = $duration;
 
-         $this->SendDebug(__FUNCTION__, "Gespeicherte Zeiten (0 → X):", 0);
-         $this->SendDebug(__FUNCTION__, "0 → 50% = " . round($time_50, 2) . " s", 0);
-         $this->SendDebug(__FUNCTION__, "0 → 85% = " . round($time_85, 2) . " s", 0);
-         $this->SendDebug(__FUNCTION__, "0 → 100% = " . round($time_100, 2) . " s", 0);
+        IPS_SetProperty($this->InstanceID, 'time_down_50', round($time_50, 2));
+        IPS_SetProperty($this->InstanceID, 'time_down_85', round($time_85, 2));
+        IPS_SetProperty($this->InstanceID, 'time_down_100', round($time_100, 2));
+        IPS_ApplyChanges($this->InstanceID);
 
-         echo "✅ Kalibrierung abgeschlossen (Runterfahrt). Neue Zeiten gespeichert.";
-     }
+        $this->SendDebug(__FUNCTION__, "Gespeicherte Zeiten (0 → X):", 0);
+        $this->SendDebug(__FUNCTION__, "0 → 50% = " . round($time_50, 2) . " s", 0);
+        $this->SendDebug(__FUNCTION__, "0 → 85% = " . round($time_85, 2) . " s", 0);
+        $this->SendDebug(__FUNCTION__, "0 → 100% = " . round($time_100, 2) . " s", 0);
 
-     public function CalibrateUp()
-     {
-         $duration = $this->ReadPropertyFloat('calibration_duration');
-         $this->SendDebug(__FUNCTION__, "Starte Kalibrierung: Hochfahrt ({$duration} sec)", 0);
+        echo "✅ Kalibrierung abgeschlossen (Runterfahrt). Neue Zeiten gespeichert.";
+    }
 
-         $reverseTime = $duration + 2;
-         $this->SendDebug(__FUNCTION__, "Vorherige Runterfahrt ({$reverseTime} sec)", 0);
-         $this->Down();
-         IPS_Sleep($reverseTime * 1000);
-         $this->Stop();
+    public function CalibrateUp()
+    {
+        $duration = $this->ReadPropertyFloat('calibration_duration');
 
-         $this->Up();
-         IPS_Sleep($duration * 1000);
-         $this->Stop();
+        $this->SendDebug(__FUNCTION__, "Starte Kalibrierung: Hochfahrt ({$duration} sec)", 0);
 
-         $end = floatval($this->Level());
-         $this->SendDebug(__FUNCTION__, "Endposition: {$end}%", 0);
+        $reverseTime = $duration + 2;
+        $this->SendDebug(__FUNCTION__, "Vorherige Runterfahrt ({$reverseTime} sec)", 0);
+        $this->Down();
+        IPS_Sleep($reverseTime * 1000);
+        $this->Stop();
 
-         if ($end >= 100) {
-             $this->SendDebug(__FUNCTION__, "Shutter hat sich nicht bewegt.", 0);
-             return;
-         }
+        $this->Up();
+        IPS_Sleep($duration * 1000);
+        $this->Stop();
 
-         $delta = 100 - $end;
+        $end = floatval($this->Level());
+        $this->SendDebug(__FUNCTION__, "Endposition: {$end}%", 0);
 
-         $time_85 = $duration * ((100 - 85) / $delta);
-         $time_50 = $duration * ((100 - 50) / $delta);
-         $time_0  = $duration;
+        if ($end >= 100) {
+            $this->SendDebug(__FUNCTION__, "Shutter hat sich nicht bewegt.", 0);
+            return;
+        }
 
-         IPS_SetProperty($this->InstanceID, 'time_up_85', round($time_85, 2));
-         IPS_SetProperty($this->InstanceID, 'time_up_50', round($time_50, 2));
-         IPS_SetProperty($this->InstanceID, 'time_up_0', round($time_0, 2));
-         IPS_ApplyChanges($this->InstanceID);
+        $delta = 100 - $end;
 
-         $this->SendDebug(__FUNCTION__, "Gespeicherte Zeiten (100 → X):", 0);
-         $this->SendDebug(__FUNCTION__, "100 → 85% = " . round($time_85, 2) . " s", 0);
-         $this->SendDebug(__FUNCTION__, "100 → 50% = " . round($time_50, 2) . " s", 0);
-         $this->SendDebug(__FUNCTION__, "100 → 0%  = " . round($time_0, 2) . " s", 0);
+        $time_85 = $duration * ((100 - 85) / $delta);
+        $time_50 = $duration * ((100 - 50) / $delta);
+        $time_0  = $duration;
 
-         echo "✅ Kalibrierung abgeschlossen (Hochfahrt). Neue Zeiten gespeichert.";
-     }
+        IPS_SetProperty($this->InstanceID, 'time_up_85', round($time_85, 2));
+        IPS_SetProperty($this->InstanceID, 'time_up_50', round($time_50, 2));
+        IPS_SetProperty($this->InstanceID, 'time_up_0', round($time_0, 2));
+        IPS_ApplyChanges($this->InstanceID);
+
+        $this->SendDebug(__FUNCTION__, "Gespeicherte Zeiten (100 → X):", 0);
+        $this->SendDebug(__FUNCTION__, "100 → 85% = " . round($time_85, 2) . " s", 0);
+        $this->SendDebug(__FUNCTION__, "100 → 50% = " . round($time_50, 2) . " s", 0);
+        $this->SendDebug(__FUNCTION__, "100 → 0%  = " . round($time_0, 2) . " s", 0);
+
+        echo "✅ Kalibrierung abgeschlossen (Hochfahrt). Neue Zeiten gespeichert.";
+    }
 }
