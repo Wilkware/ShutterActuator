@@ -98,9 +98,9 @@ class xcomfortshutter extends IPSModule
          // Register Profile for Shutter Position
          $profile = [
              [0, 'offen', '', -1],
-             [50, 'Mitte', '', -1],
-             [85, 'unten', '', -1],
-             [100, 'geschlossen', '', -1],
+             [26, 'Mitte', '', -1],
+             [76, 'unten', '', -1],
+             [91, 'geschlossen', '', -1],
          ];
          $this->RegisterProfileInteger('xcomfort.ShutterActuator', 'Jalousie', '', '', 0, 100, 0, $profile);
 
