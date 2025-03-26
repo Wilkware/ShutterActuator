@@ -144,6 +144,14 @@
                             "digits": 2,
                             "suffix": "sec",
                             "width": "300px"
+                        },
+                        {
+                          "type": "NumberSpinner",
+                          "name": "time_start_delay",
+                          "caption": "Trägheit beim Start (sec)",
+                          "digits": 1,
+                          "suffix": "sec",
+                          "width": "300px"
                         }
                     ]
                 },
