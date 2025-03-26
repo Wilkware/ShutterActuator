@@ -166,12 +166,12 @@
                 {
                   "type": "Button",
                   "caption": "Kalibrieren – Runterfahrt",
-                  "onClick": "TSA_CalibrateDown()"
+                  "onClick": "TSA_CalibrateDown($calibration_duration)"
                 },
                 {
                   "type": "Button",
                   "caption": "Kalibrieren – Hochfahrt",
-                  "onClick": "TSA_CalibrateUp()"
+                  "onClick": "TSA_CalibrateUp($calibration_duration)"
                 }
               ]
             }
