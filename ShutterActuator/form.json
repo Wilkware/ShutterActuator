@@ -60,58 +60,6 @@
         },
         {
             "type": "ExpansionPanel",
-            "caption": "Control ...",
-            "items": [
-                {
-                    "type": "Label",
-                    "caption": "Please measure the running time for the respective position and enter the corresponding values!"
-                },
-                {
-                    "type": "RowLayout",
-                    "items": [
-                        {
-                            "type": "NumberSpinner",
-                            "name": "Position0",
-                            "caption": "Open/Up (0%):",
-                            "digits": 2,
-                            "suffix": "sec",
-                            "width": "300px"
-                        },
-                        {
-                            "type": "NumberSpinner",
-                            "name": "Position50",
-                            "caption": "Half (50%):",
-                            "digits": 2,
-                            "suffix": "sec",
-                            "width": "300px"
-                        }
-                    ]
-                },
-                {
-                    "type": "RowLayout",
-                    "items": [
-                        {
-                            "type": "NumberSpinner",
-                            "name": "Position85",
-                            "caption": "Down (85%):",
-                            "digits": 2,
-                            "suffix": "%",
-                            "width": "300px"
-                        },
-                        {
-                            "type": "NumberSpinner",
-                            "name": "Position100",
-                            "caption": "Close/Down (100%):",
-                            "digits": 2,
-                            "suffix": "%",
-                            "width": "300px"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "type": "ExpansionPanel",
             "caption": "Zeiten ...",
             "items": [
                 {
