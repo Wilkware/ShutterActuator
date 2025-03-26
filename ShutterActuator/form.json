@@ -173,6 +173,14 @@
                           "digits": 2,
                           "suffix": "sec",
                           "width": "300px"
+                        },
+                        {
+                          "type": "NumberSpinner",
+                          "name": "time_full_move_extra",
+                          "caption": "Zusätzliche Zeit für 0 % / 100 % (sec)",
+                          "digits": 1,
+                          "suffix": "sec",
+                          "width": "300px"
                         }
                     ]
                 }

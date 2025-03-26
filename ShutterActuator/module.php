@@ -39,6 +39,7 @@ class xcomfortshutter extends IPSModule
         $this->RegisterPropertyFloat('time_down_50', 0);
         $this->RegisterPropertyFloat('time_down_85', 0);
         $this->RegisterPropertyFloat('time_down_100', 0);
+        $this->RegisterPropertyFloat('time_full_move_extra', 0);
     }
 
     /**
@@ -357,6 +358,13 @@ class xcomfortshutter extends IPSModule
         ];
 
         $driveTime = $this->calculateDriveTime($currentPosition, $targetPosition, $times);
+
+        // Wenn ganz geöffnet oder geschlossen → zusätzliche Zeit aus form.json addieren
+        if (in_array((int)$targetPosition, [0, 100])) {
+            $extraTime = $this->ReadPropertyFloat('time_full_move_extra');
+            $driveTime += $extraTime;
+            $this->SendDebug(__FUNCTION__, "Added $extraTime seconds buffer for full open/close", 0);
+        }
 
         if ($driveTime <= 0) {
             $this->SendDebug(__FUNCTION__, "Calculated drive time is 0. No movement.", 0);
