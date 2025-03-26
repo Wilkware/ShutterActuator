@@ -371,7 +371,7 @@ class xcomfortshutter extends IPSModule
         return end($timeTable); // Falls Position über max. Wert hinausgeht
     }
 
-    public function CalibrateDown(float $duration)
+    public function CalibrateDown()
      {
          $duration = $this->ReadPropertyFloat('calibration_duration');
          $this->SendDebug(__FUNCTION__, "Starte Kalibrierung: Runterfahrt ({$duration} sec)", 0);
@@ -411,7 +411,7 @@ class xcomfortshutter extends IPSModule
          echo "✅ Kalibrierung abgeschlossen (Runterfahrt). Neue Zeiten gespeichert.";
      }
 
-     public function CalibrateUp(float $duration)
+     public function CalibrateUp()
      {
          $duration = $this->ReadPropertyFloat('calibration_duration');
          $this->SendDebug(__FUNCTION__, "Starte Kalibrierung: Hochfahrt ({$duration} sec)", 0);

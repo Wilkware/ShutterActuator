@@ -166,12 +166,12 @@
                 {
                   "type": "Button",
                   "caption": "Kalibrieren – Runterfahrt",
-                  "onClick": "CalibrateDown($calibration_duration)"
+                  "onClick": "CalibrateDown()"
                 },
                 {
                   "type": "Button",
                   "caption": "Kalibrieren – Hochfahrt",
-                  "onClick": "CalibrateUp($calibration_duration)"
+                  "onClick": "CalibrateUp()"
                 }
               ]
             }
