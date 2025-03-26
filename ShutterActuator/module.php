@@ -342,7 +342,7 @@ class xcomfortshutter extends IPSModule
             $this->SendDebug(__FUNCTION__, "No movement needed. Current position ($currentPosition%) is close to $targetPosition%", 0);
             return;
         }
-        
+
         if ($currentPosition == -1) {
             $this->SendDebug(__FUNCTION__, 'Shutter position could not be retrieved!', 0);
             return;
@@ -379,7 +379,7 @@ class xcomfortshutter extends IPSModule
 
             IPS_Sleep($driveTime * 1000); // Wartezeit für die Bewegung
 
-            RequestAction($shutterID, false); // Stoppen nach der berechneten Zeit
+            RequestAction($shutterID, 2); // Stoppen nach der berechneten Zeit
             $this->SendDebug(__FUNCTION__, "Shutter movement stopped.", 0);
         } else {
             $this->SendDebug(__FUNCTION__, "No movement needed. Current position is already at $targetPosition%.", 0);
