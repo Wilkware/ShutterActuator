@@ -457,5 +457,5 @@ class xcomfortshutter extends IPSModule
         echo "✅ Kalibrierung abgeschlossen (Hochfahrt). Neue Zeiten gespeichert.";
 
     }
-
+  }
 }
