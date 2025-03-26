@@ -81,11 +81,39 @@ class xcomfortshutter extends IPSModule
         ];
         $this->RegisterProfileInteger('xcomfort.ShutterActuator', 'Jalousie', '', '', 0, 100, 0, $profile);
 
+
+
         // Position
         $this->MaintainVariable('Position', 'Position', VARIABLETYPE_INTEGER, 'xcomfort.ShutterActuator', 1, true);
 
         // Enable Action / Request Action
         $this->EnableAction('Position');
+
+        // Profile für Fahrzeiten (time_up_* & time_down_*)
+$profile = [
+[0, 'Offen', '', -1],
+[50, 'Mitte', '', -1],
+[85, 'Unten', '', -1],
+[100, 'Geschlossen', '', -1]
+];
+$this->RegisterProfileInteger('xcomfort.ShutterTimes', 'Clock', '', ' sec', 0, 100, 1, $profile);
+
+// Variablen für die Fahrzeiten anlegen
+$this->MaintainVariable('time_up_85', 'Hochfahren 100% → 85%', VARIABLETYPE_INTEGER, 'xcomfort.ShutterTimes', 1, true);
+$this->MaintainVariable('time_up_50', 'Hochfahren 100% → 50%', VARIABLETYPE_INTEGER, 'xcomfort.ShutterTimes', 2, true);
+$this->MaintainVariable('time_up_0', 'Hochfahren 100% → 0%', VARIABLETYPE_INTEGER, 'xcomfort.ShutterTimes', 3, true);
+
+$this->MaintainVariable('time_down_50', 'Runterfahren 0% → 50%', VARIABLETYPE_INTEGER, 'xcomfort.ShutterTimes', 4, true);
+$this->MaintainVariable('time_down_85', 'Runterfahren 0% → 85%', VARIABLETYPE_INTEGER, 'xcomfort.ShutterTimes', 5, true);
+$this->MaintainVariable('time_down_100', 'Runterfahren 0% → 100%', VARIABLETYPE_INTEGER, 'xcomfort.ShutterTimes', 6, true);
+
+// Enable Action für Benutzersteuerung
+$this->EnableAction('time_up_85');
+$this->EnableAction('time_up_50');
+$this->EnableAction('time_up_0');
+$this->EnableAction('time_down_50');
+$this->EnableAction('time_down_85');
+$this->EnableAction('time_down_100');
 
         // Create our trigger
         if (IPS_VariableExists($this->ReadPropertyInteger('ReceiverVariable'))) {
