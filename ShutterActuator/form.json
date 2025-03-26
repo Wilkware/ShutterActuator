@@ -139,43 +139,44 @@
                           "width": "300px"
                         }
                     ]
+                }
+
+            ]
+        },
+        {
+          "type": "ExpansionPanel",
+          "caption": "Kalibrierung",
+          "items": [
+            {
+              "type": "RowLayout",
+              "items": [
+                {
+                  "type": "NumberSpinner",
+                  "name": "calibration_duration",
+                  "caption": "Fahrzeit für Kalibrierung",
+                  "digits": 1,
+                  "suffix": "s",
+                  "default": 6,
+                  "save": true
+                }
+              ]
+            },
+            {
+              "type": "RowLayout",
+              "items": [
+                {
+                  "type": "Button",
+                  "caption": "Kalibrieren – Runterfahrt",
+                  "onClick": "TSA_CalibrateDown($id)"
                 },
                 {
-                  "type": "ExpansionPanel",
-                  "caption": "Kalibrierung",
-                  "items": [
-                    {
-                      "type": "RowLayout",
-                      "items": [
-                        {
-                          "type": "NumberSpinner",
-                          "name": "calibration_duration",
-                          "caption": "Fahrzeit für Kalibrierung",
-                          "digits": 1,
-                          "suffix": "s",
-                          "default": 6,
-                          "save": true
-                        }
-                      ]
-                    },
-                    {
-                      "type": "RowLayout",
-                      "items": [
-                        {
-                          "type": "Button",
-                          "caption": "Kalibrieren – Runterfahrt",
-                          "onClick": "TSA_CalibrateDown($id)"
-                        },
-                        {
-                          "type": "Button",
-                          "caption": "Kalibrieren – Hochfahrt",
-                          "onClick": "TSA_CalibrateUp($id)"
-                        }
-                      ]
-                    }
-                  ]
+                  "type": "Button",
+                  "caption": "Kalibrieren – Hochfahrt",
+                  "onClick": "TSA_CalibrateUp($id)"
                 }
-            ]
+              ]
+            }
+          ]
         }
 
 
