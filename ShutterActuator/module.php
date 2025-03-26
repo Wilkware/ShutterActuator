@@ -165,8 +165,8 @@ class xcomfortshutter extends IPSModule
         switch ($ident) {
             case 'Position':
                 $this->SendDebug('RequestAction', 'Ident: '.$ident.' Value: '.$value, 0);
-                //$this->SendDebug(__FUNCTION__, 'New position selected: ' . $value, 0);
-                $this->MoveShutter($value);
+                $this->Position($value);
+                //$this->MoveShutter($value);
                 break;
             default:
                 throw new Exception('Invalid ident!');
