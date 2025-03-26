@@ -190,7 +190,7 @@
                 {
                     "type": "Button",
                     "caption": "UP",
-                    "onClick": "TSA_Up($id);"
+                    "onClick": "CalibrateDown();"
                 },
                 {
                     "type": "Button",
