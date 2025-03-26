@@ -33,12 +33,12 @@ class xcomfortshutter extends IPSModule
         $this->RegisterPropertyFloat('Position100', 100);
 
         // Fahrzeiten für Hoch- und Runterfahren
-        /*$this->RegisterPropertyFloat('time_up_85', 0);
+        $this->RegisterPropertyFloat('time_up_85', 0);
         $this->RegisterPropertyFloat('time_up_50', 0);
         $this->RegisterPropertyFloat('time_up_0', 0);
         $this->RegisterPropertyFloat('time_down_50', 0);
         $this->RegisterPropertyFloat('time_down_85', 0);
-        $this->RegisterPropertyFloat('time_down_100', 0);*/
+        $this->RegisterPropertyFloat('time_down_100', 0);
     }
 
     /**
