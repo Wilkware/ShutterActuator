@@ -35,6 +35,7 @@ class xcomfortshutter extends IPSModule
         $this->RegisterPropertyFloat('time_down_100', 0);
         $this->RegisterPropertyFloat('time_full_move_extra', 0);
         $this->RegisterPropertyFloat('time_start_delay', 0);
+        $this->RegisterPropertyFloat('calibration_duration', 10.0);
 
     }
 
@@ -372,6 +373,7 @@ class xcomfortshutter extends IPSModule
 
     public function CalibrateDown(float $duration)
      {
+         $duration = $this->ReadPropertyFloat('calibration_duration');
          $this->SendDebug(__FUNCTION__, "Starte Kalibrierung: Runterfahrt ({$duration} sec)", 0);
 
          $reverseTime = $duration + 2;
@@ -411,7 +413,7 @@ class xcomfortshutter extends IPSModule
 
      public function CalibrateUp(float $duration)
      {
-       echo "Kalibrierung wird gestartet...";
+         $duration = $this->ReadPropertyFloat('calibration_duration');
          $this->SendDebug(__FUNCTION__, "Starte Kalibrierung: Hochfahrt ({$duration} sec)", 0);
 
          $reverseTime = $duration + 2;

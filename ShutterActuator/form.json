@@ -152,11 +152,11 @@
                 {
                   "type": "NumberSpinner",
                   "name": "calibration_duration",
-                  "caption": "Fahrzeit für Kalibrierung (sek)",
+                  "caption": "Fahrzeit für Kalibrierung",
                   "digits": 1,
                   "suffix": "s",
-                  "width": "250px",
-                  "default": 10
+                  "default": 10,
+                  "save": true
                 }
               ]
             },
@@ -166,12 +166,12 @@
                 {
                   "type": "Button",
                   "caption": "Kalibrieren – Runterfahrt",
-                  "onClick": "CalibrateDown($calibration_duration)"
+                  "onClick": "CalibrateDown()"
                 },
                 {
                   "type": "Button",
                   "caption": "Kalibrieren – Hochfahrt",
-                  "onClick": "CalibrateUp($calibration_duration)"
+                  "onClick": "CalibrateUp()"
                 }
               ]
             }
