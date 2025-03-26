@@ -27,10 +27,10 @@ class xcomfortshutter extends IPSModule
         $this->RegisterPropertyInteger('ReceiverVariable', 0);
         $this->RegisterPropertyInteger('TransmitterVariable', 0);
         // Position(Level) Variables
-        $this->RegisterPropertyFloat('Position0', 0);
+      /*  $this->RegisterPropertyFloat('Position0', 0);
         $this->RegisterPropertyFloat('Position50', 50);
         $this->RegisterPropertyFloat('Position85', 85);
-        $this->RegisterPropertyFloat('Position100', 100);
+        $this->RegisterPropertyFloat('Position100', 100);*/
 
         // Fahrzeiten für Hoch- und Runterfahren
         $this->RegisterPropertyFloat('time_up_85', 0);
