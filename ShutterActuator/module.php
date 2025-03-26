@@ -53,63 +53,62 @@ class xcomfortshutter extends IPSModule
     /**
      * Overrides the internal IPSModule::ApplyChanges($id) function
      */
-    public function ApplyChanges()
-    {
-        // Never delete this line!
-        parent::ApplyChanges();
+     public function ApplyChanges()
+     {
+         // Never delete this line!
+         parent::ApplyChanges();
 
-        //Delete all references in order to readd them
-        foreach ($this->GetReferenceList() as $referenceID) {
-            $this->UnregisterReference($referenceID);
-        }
+         // Delete all references
+         foreach ($this->GetReferenceList() as $referenceID) {
+             $this->UnregisterReference($referenceID);
+         }
 
-        //Delete all registrations in order to readd them
-        foreach ($this->GetMessageList() as $senderID => $messages) {
-            foreach ($messages as $message) {
-                $this->UnregisterMessage($senderID, $message);
-            }
-        }
+         // Delete all messages
+         foreach ($this->GetMessageList() as $senderID => $messages) {
+             foreach ($messages as $message) {
+                 $this->UnregisterMessage($senderID, $message);
+             }
+         }
 
-        //Register references
-        $variable = $this->ReadPropertyInteger('ReceiverVariable');
-        if (IPS_VariableExists($variable)) {
-            $this->RegisterReference($variable);
-        }
-        $variable = $this->ReadPropertyInteger('TransmitterVariable');
-        if (IPS_VariableExists($variable)) {
-            $this->RegisterReference($variable);
-        }
+         // Register Receiver/Transmitter references
+         $receiverID = $this->ReadPropertyInteger('ReceiverVariable');
+         $transmitterID = $this->ReadPropertyInteger('TransmitterVariable');
 
-        // Profile
-        $profile = [
-            [0, 'offen', '', -1],
-            [50, 'Mitte', '', -1],
-            [85, 'unten', '', -1],
-            [100, 'geschlossen', '', -1],
-        ];
-        $this->RegisterProfileInteger('xcomfort.ShutterActuator', 'Jalousie', '', '', 0, 100, 0, $profile);
+         if (IPS_VariableExists($receiverID)) {
+             $this->RegisterReference($receiverID);
+             $this->RegisterMessage($receiverID, VM_UPDATE);
+         }
 
+         if (IPS_VariableExists($transmitterID)) {
+             $this->RegisterReference($transmitterID);
+         }
 
+         // Register Profile for Shutter Position
+         $profile = [
+             [0, 'offen', '', -1],
+             [50, 'Mitte', '', -1],
+             [85, 'unten', '', -1],
+             [100, 'geschlossen', '', -1],
+         ];
+         $this->RegisterProfileInteger('xcomfort.ShutterActuator', 'Jalousie', '', '', 0, 100, 0, $profile);
 
-        // Position
-        $this->MaintainVariable('Position', 'Position', VARIABLETYPE_INTEGER, 'xcomfort.ShutterActuator', 1, true);
+         // Maintain main Position variable
+         $this->MaintainVariable('Position', 'Position', VARIABLETYPE_INTEGER, 'xcomfort.ShutterActuator', 1, true);
+         $this->EnableAction('Position');
 
-        // Enable Action / Request Action
-        $this->EnableAction('Position');
+         // Optionale Trigger für Zeitwerte (falls du später reagieren willst)
+         $timeProps = [
+             'time_up_0', 'time_up_50', 'time_up_85',
+             'time_down_50', 'time_down_85', 'time_down_100'
+         ];
 
-        // Create our trigger
-        if (IPS_VariableExists($this->ReadPropertyInteger('ReceiverVariable'))) {
-            $this->RegisterMessage($this->ReadPropertyInteger('ReceiverVariable'), VM_UPDATE);
-        }
-        // Create triggers for time_down and time_up if they exist
-        if (IPS_VariableExists($timeDownVariable)) {
-            $this->RegisterMessage($timeDownVariable, VM_UPDATE);
-        }
+         foreach ($timeProps as $propName) {
+             $value = $this->ReadPropertyFloat($propName);
+             // Hier optional: Validierung oder Logik für Trigger
+             // Beispiel: $this->SendDebug(__FUNCTION__, "$propName: $value", 0);
+         }
+     }
 
-        if (IPS_VariableExists($timeUpVariable)) {
-            $this->RegisterMessage($timeUpVariable, VM_UPDATE);
-        }
-    }
 
     /**
      * MessageSink - internal SDK funktion.
