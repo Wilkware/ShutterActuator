@@ -155,7 +155,7 @@
                   "caption": "Fahrzeit für Kalibrierung",
                   "digits": 1,
                   "suffix": "s",
-                  "default": 10,
+                  "default": 6,
                   "save": true
                 }
               ]
@@ -166,12 +166,12 @@
                 {
                   "type": "Button",
                   "caption": "Kalibrieren – Runterfahrt",
-                  "onClick": "CalibrateDown()"
+                  "onClick": "CalibrateDown($calibration_duration)"
                 },
                 {
                   "type": "Button",
                   "caption": "Kalibrieren – Hochfahrt",
-                  "onClick": "CalibrateUp()"
+                  "onClick": "CalibrateUp($calibration_duration)"
                 }
               ]
             }
