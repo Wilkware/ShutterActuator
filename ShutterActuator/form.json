@@ -168,12 +168,13 @@
                       },
                       {
                           "type": "NumberSpinner",
-                          "name": "time_up_100",
+                          "name": "time_up_0",
                           "caption": "close to open:",
                           "digits": 2,
                           "suffix": "sec",
                           "width": "300px"
-                      }
+                        }
+                    ]
                 }
             ]
         }
