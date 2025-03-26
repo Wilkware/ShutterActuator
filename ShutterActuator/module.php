@@ -255,16 +255,39 @@ class xcomfortshutter extends IPSModule
      *
      * TSA_Position($id, $position);
      */
-    public function Position(int $position)
-    {
-        $vid = $this->ReadPropertyInteger('TransmitterVariable');
-        if ($vid != 0) {
-            $this->SendDebug(__FUNCTION__, 'Move roller shutter to position ' . $position . '%!');
-            $this->MoveShutter($position);
-        } else {
-            $this->SendDebug(__FUNCTION__, 'Variable to control the shutter not set!');
-        }
-    }
+     public function Position(int $value)
+     {
+         $vid = $this->ReadPropertyInteger('TransmitterVariable');
+
+         if ($vid != 0) {
+             $this->SendDebug(__FUNCTION__, 'Requested symbolic position: ' . $value . '%');
+
+             // Symbolische Anzeige-Werte (aus dem Profil) auf reale Zielpositionen mappen
+             switch ($value) {
+                 case 0:
+                     $realPosition = 0;
+                     break;
+                 case 26:
+                     $realPosition = 50;
+                     break;
+                 case 76:
+                     $realPosition = 85;
+                     break;
+                 case 91:
+                     $realPosition = 100;
+                     break;
+                 default:
+                     $realPosition = $value; // Falls manuell ein direkter Prozentwert kommt
+                     break;
+             }
+
+             $this->SendDebug(__FUNCTION__, 'Mapped to real position: ' . $realPosition . '%');
+             $this->MoveShutter($realPosition);
+         } else {
+             $this->SendDebug(__FUNCTION__, 'TransmitterVariable not set!');
+         }
+     }
+
 
     public function MoveShutter(float $targetPosition)
     {
