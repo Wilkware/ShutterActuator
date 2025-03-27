@@ -142,38 +142,7 @@
                 }
 
             ]
-        },
-        {
-          "type": "ExpansionPanel",
-          "caption": "Kalibrierung",
-          "items": [
-            {
-              "type": "RowLayout",
-              "items": [
-                {
-                  "type": "NumberSpinner",
-                  "name": "calibration_duration",
-                  "caption": "Fahrzeit für Kalibrierung",
-                  "digits": 1,
-                  "suffix": "s",
-                  "default": 6,
-                  "save": true
-                }
-              ]
-            },
-            {
-              "type": "RowLayout",
-              "items": [
-                {
-                  "type": "Button",
-                  "caption": "TEST",
-                  "onClick": "Test"
-                }
-              ]
-            }
-          ]
         }
-
 
     ],
     "actions": [
@@ -203,6 +172,11 @@
                     "type": "Button",
                     "caption": "SHOW",
                     "onClick": "echo 'Position: '.TSA_Level($id).' %';"
+                },
+                {
+                  "type": "Button",
+                  "caption": "TEST",
+                  "onClick": "Test"
                 }
             ]
         },
