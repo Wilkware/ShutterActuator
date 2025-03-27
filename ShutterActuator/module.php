@@ -382,8 +382,8 @@ class xcomfortshutter extends IPSModule
        IPS_Sleep($reverseTime * 1000);
        $this->Stop();
 
-        IPS_Sleep(1000);
-        
+        IPS_Sleep(2000);
+
        // Startposition messen
        $start = floatval($this->Level());
        $this->SendDebug(__FUNCTION__, "Startposition vor Messfahrt: {$start}%", 0);
@@ -393,15 +393,15 @@ class xcomfortshutter extends IPSModule
        IPS_Sleep($duration * 1000);
        $this->Stop();
 
-       IPS_Sleep(1000);
+       IPS_Sleep(2000);
 
        $end = floatval($this->Level());
        $this->SendDebug(__FUNCTION__, "Gemessene Endposition: {$end}%", 0);
 
        $distance = $end - $start;
-       if ($distance <= 0) {
-           $this->SendDebug(__FUNCTION__, "Shutter hat sich nicht bewegt oder falsche Richtung.", 0);
-           echo "❌ Keine gültige Bewegung erkannt.";
+       if ($distance < 1) {
+           $this->SendDebug(__FUNCTION__, "Bewegung zu gering (<1%).", 0);
+           echo "❌ Bewegung zu gering – keine zuverlässige Kalibrierung möglich.";
            return;
        }
 
@@ -433,7 +433,7 @@ class xcomfortshutter extends IPSModule
        IPS_Sleep($reverseTime * 1000);
        $this->Stop();
 
-        IPS_Sleep(1000);
+        IPS_Sleep(2000);
 
        // Startposition messen
        $start = floatval($this->Level());
@@ -444,15 +444,15 @@ class xcomfortshutter extends IPSModule
        IPS_Sleep($duration * 1000);
        $this->Stop();
 
-       IPS_Sleep(1000);
+       IPS_Sleep(2000);
 
        $end = floatval($this->Level());
        $this->SendDebug(__FUNCTION__, "Gemessene Endposition: {$end}%", 0);
 
        $distance = $start - $end;
-       if ($distance <= 0) {
-           $this->SendDebug(__FUNCTION__, "Shutter hat sich nicht bewegt oder falsche Richtung.", 0);
-           echo "❌ Keine gültige Bewegung erkannt.";
+       if ($distance < 1) {
+           $this->SendDebug(__FUNCTION__, "Bewegung zu gering (<1%).", 0);
+           echo "❌ Bewegung zu gering – keine zuverlässige Kalibrierung möglich.";
            return;
        }
 
