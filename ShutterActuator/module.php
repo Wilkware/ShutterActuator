@@ -391,6 +391,8 @@ class xcomfortshutter extends IPSModule
        IPS_Sleep($duration * 1000);
        $this->Stop();
 
+       IPS_Sleep(1000);
+
        $end = floatval($this->Level());
        $this->SendDebug(__FUNCTION__, "Gemessene Endposition: {$end}%", 0);
 
@@ -437,6 +439,8 @@ class xcomfortshutter extends IPSModule
        $this->Up();
        IPS_Sleep($duration * 1000);
        $this->Stop();
+
+       IPS_Sleep(1000);
 
        $end = floatval($this->Level());
        $this->SendDebug(__FUNCTION__, "Gemessene Endposition: {$end}%", 0);
