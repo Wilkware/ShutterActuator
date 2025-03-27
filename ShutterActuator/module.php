@@ -382,6 +382,8 @@ class xcomfortshutter extends IPSModule
        IPS_Sleep($reverseTime * 1000);
        $this->Stop();
 
+        IPS_Sleep(1000);
+        
        // Startposition messen
        $start = floatval($this->Level());
        $this->SendDebug(__FUNCTION__, "Startposition vor Messfahrt: {$start}%", 0);
@@ -430,6 +432,8 @@ class xcomfortshutter extends IPSModule
        $this->Down();
        IPS_Sleep($reverseTime * 1000);
        $this->Stop();
+
+        IPS_Sleep(1000);
 
        // Startposition messen
        $start = floatval($this->Level());
