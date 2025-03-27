@@ -455,8 +455,8 @@ class xcomfortshutter extends IPSModule
         echo "✅ Kalibrierung abgeschlossen (Hochfahrt). Neue Zeiten gespeichert.";
     }
     public function Test()
-{
-    echo "✅ Test erfolgreich!";
-}
+    {
+        echo "✅ Test erfolgreich!";
+    }
 
 }
