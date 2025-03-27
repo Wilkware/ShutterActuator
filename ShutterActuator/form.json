@@ -56,7 +56,7 @@
                         {
                             "type": "NumberSpinner",
                             "name": "time_down_50",
-                            "caption": "open to middle:",
+                            "caption": "open → middle:",
                             "digits": 2,
                             "suffix": "sec",
                             "width": "300px"
@@ -64,7 +64,7 @@
                         {
                             "type": "NumberSpinner",
                             "name": "time_down_85",
-                            "caption": "open to down:",
+                            "caption": "open → down:",
                             "digits": 2,
                             "suffix": "sec",
                             "width": "300px"
@@ -72,18 +72,10 @@
                         {
                             "type": "NumberSpinner",
                             "name": "time_down_100",
-                            "caption": "open to close:",
+                            "caption": "open → close:",
                             "digits": 2,
                             "suffix": "sec",
                             "width": "300px"
-                        },
-                        {
-                          "type": "NumberSpinner",
-                          "name": "time_start_delay",
-                          "caption": "Trägheit beim Start (sec)",
-                          "digits": 1,
-                          "suffix": "sec",
-                          "width": "300px"
                         }
                     ]
                 },
@@ -93,7 +85,7 @@
                       {
                           "type": "NumberSpinner",
                           "name": "time_up_85",
-                          "caption": "close to down:",
+                          "caption": "close → down:",
                           "digits": 2,
                           "suffix": "sec",
                           "width": "300px"
@@ -101,7 +93,7 @@
                       {
                           "type": "NumberSpinner",
                           "name": "time_up_50",
-                          "caption": "close to middle:",
+                          "caption": "close → middle:",
                           "digits": 2,
                           "suffix": "sec",
                           "width": "300px"
@@ -109,32 +101,44 @@
                       {
                           "type": "NumberSpinner",
                           "name": "time_up_0",
-                          "caption": "close to open:",
+                          "caption": "close → open:",
                           "digits": 2,
-                          "suffix": "sec",
-                          "width": "300px"
-                        },
-                        {
-                          "type": "NumberSpinner",
-                          "name": "time_full_move_extra",
-                          "caption": "Zusätzliche Zeit für 0 % / 100 % (sec)",
-                          "digits": 1,
                           "suffix": "sec",
                           "width": "300px"
                         }
                     ]
+                },
+                {
+                    "type": "RowLayout",
+                    "items": [
+                      {
+                        "type": "NumberSpinner",
+                        "name": "time_start_delay",
+                        "caption": "delay on start (sec)",
+                        "digits": 1,
+                        "suffix": "sec",
+                        "width": "300px"
+                      },
+                      {
+                        "type": "NumberSpinner",
+                        "name": "time_full_move_extra",
+                        "caption": "additional time for full close / open (sec)",
+                        "digits": 1,
+                        "suffix": "sec",
+                        "width": "300px"
+                      }
+                    ]
                 }
-
             ]
         },
         {
           "type": "ExpansionPanel",
-          "caption": "Kalibrierung",
+          "caption": "calibration",
           "items": [
             {
               "type": "NumberSpinner",
               "name": "calibration_duration",
-              "caption": "Fahrzeit für Kalibrierung (sek)",
+              "caption": "calibration time (sec)",
               "digits": 1,
               "suffix": "s",
               "default": 6,
