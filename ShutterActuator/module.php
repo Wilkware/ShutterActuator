@@ -371,98 +371,97 @@ class xcomfortshutter extends IPSModule
         return end($timeTable); // Falls Position über max. Wert hinausgeht
   }
 
-    public function CalibrateDown()
-  {
-      $duration = $this->ReadPropertyFloat('calibration_duration');
-      $this->SendDebug(__FUNCTION__, "Starte Kalibrierung: Runterfahrt ({$duration} s)", 0);
+  public function CalibrateDown()
+   {
+       $duration = $this->ReadPropertyFloat('calibration_duration');
+       $this->SendDebug(__FUNCTION__, "Starte Kalibrierung: Runterfahrt ({$duration} s)", 0);
 
-      $reverseTime = $duration + 2;
-      $this->SendDebug(__FUNCTION__, "Vorherige Hochfahrt ({$reverseTime} s) – wird ignoriert", 0);
-      $this->Up();
-      IPS_Sleep($reverseTime * 1000);
-      $this->Stop();
+       $reverseTime = $duration + 2;
+       $this->SendDebug(__FUNCTION__, "Vorherige Hochfahrt ({$reverseTime} s) – wird ignoriert", 0);
+       $this->Up();
+       IPS_Sleep($reverseTime * 1000);
+       $this->Stop();
 
-      $this->SendDebug(__FUNCTION__, "Messfahrt: Runter für {$duration} s", 0);
-      $this->Down();
-      IPS_Sleep($duration * 1000);
-      $this->Stop();
+       // Startposition messen
+       $start = floatval($this->Level());
+       $this->SendDebug(__FUNCTION__, "Startposition vor Messfahrt: {$start}%", 0);
 
-      $end = floatval($this->Level());
-      $this->SendDebug(__FUNCTION__, "Gemessene Endposition: {$end}%", 0);
+       $this->SendDebug(__FUNCTION__, "Messfahrt: Runter für {$duration} s", 0);
+       $this->Down();
+       IPS_Sleep($duration * 1000);
+       $this->Stop();
 
-      if ($end <= 0) {
-          $this->SendDebug(__FUNCTION__, "Shutter hat sich nicht bewegt.", 0);
-          echo "❌ Keine Bewegung erkannt.";
-          return;
-      }
+       $end = floatval($this->Level());
+       $this->SendDebug(__FUNCTION__, "Gemessene Endposition: {$end}%", 0);
 
-      $time_50  = $duration * (50 / $end);
-      $time_85  = $duration * (85 / $end);
-      $time_100 = $duration;
+       $distance = $end - $start;
+       if ($distance <= 0) {
+           $this->SendDebug(__FUNCTION__, "Shutter hat sich nicht bewegt oder falsche Richtung.", 0);
+           echo "❌ Keine gültige Bewegung erkannt.";
+           return;
+       }
 
-      IPS_SetProperty($this->InstanceID, 'time_down_50', round($time_50, 2));
-      IPS_SetProperty($this->InstanceID, 'time_down_85', round($time_85, 2));
-      IPS_SetProperty($this->InstanceID, 'time_down_100', round($time_100, 2));
-      IPS_ApplyChanges($this->InstanceID);
+       $factor = $duration / $distance;
+       $time_50  = $factor * (50 - $start);
+       $time_85  = $factor * (85 - $start);
+       $time_100 = $factor * (100 - $start);
 
-      $this->SendDebug(__FUNCTION__, "Gespeicherte Zeiten (0 → x):", 0);
-      $this->SendDebug(__FUNCTION__, "0 → 50% = " . round($time_50, 2) . " s", 0);
-      $this->SendDebug(__FUNCTION__, "0 → 85% = " . round($time_85, 2) . " s", 0);
-      $this->SendDebug(__FUNCTION__, "0 → 100% = " . round($time_100, 2) . " s", 0);
+       IPS_SetProperty($this->InstanceID, 'time_down_50', round($time_50, 2));
+       IPS_SetProperty($this->InstanceID, 'time_down_85', round($time_85, 2));
+       IPS_SetProperty($this->InstanceID, 'time_down_100', round($time_100, 2));
+       IPS_ApplyChanges($this->InstanceID);
 
-      echo "✅ Kalibrierung abgeschlossen (Runterfahrt).\n";
-      echo "Ermittelte Zeiten:\n";
-      echo "0 → 50% = " . round($time_50, 2) . " s\n";
-      echo "0 → 85% = " . round($time_85, 2) . " s\n";
-      echo "0 → 100% = " . round($time_100, 2) . " s\n";
-  }
+       echo "✅ Kalibrierung abgeschlossen (Runterfahrt).\n";
+       echo "Ermittelte Zeiten:\n";
+       echo "0 → 50% = " . round($time_50, 2) . " s\n";
+       echo "0 → 85% = " . round($time_85, 2) . " s\n";
+       echo "0 → 100% = " . round($time_100, 2) . " s\n";
+   }
 
-  public function CalibrateUp()
-  {
-      $duration = $this->ReadPropertyFloat('calibration_duration');
-      $this->SendDebug(__FUNCTION__, "Starte Kalibrierung: Hochfahrt ({$duration} s)", 0);
+   public function CalibrateUp()
+   {
+       $duration = $this->ReadPropertyFloat('calibration_duration');
+       $this->SendDebug(__FUNCTION__, "Starte Kalibrierung: Hochfahrt ({$duration} s)", 0);
 
-      $reverseTime = $duration + 2;
-      $this->SendDebug(__FUNCTION__, "Vorherige Runterfahrt ({$reverseTime} s) – wird ignoriert", 0);
-      $this->Down();
-      IPS_Sleep($reverseTime * 1000);
-      $this->Stop();
+       $reverseTime = $duration + 2;
+       $this->SendDebug(__FUNCTION__, "Vorherige Runterfahrt ({$reverseTime} s) – wird ignoriert", 0);
+       $this->Down();
+       IPS_Sleep($reverseTime * 1000);
+       $this->Stop();
 
-      $this->SendDebug(__FUNCTION__, "Messfahrt: Hoch für {$duration} s", 0);
-      $this->Up();
-      IPS_Sleep($duration * 1000);
-      $this->Stop();
+       // Startposition messen
+       $start = floatval($this->Level());
+       $this->SendDebug(__FUNCTION__, "Startposition vor Messfahrt: {$start}%", 0);
 
-      $end = floatval($this->Level());
-      $this->SendDebug(__FUNCTION__, "Gemessene Endposition: {$end}%", 0);
+       $this->SendDebug(__FUNCTION__, "Messfahrt: Hoch für {$duration} s", 0);
+       $this->Up();
+       IPS_Sleep($duration * 1000);
+       $this->Stop();
 
-      if ($end >= 100) {
-          $this->SendDebug(__FUNCTION__, "Shutter hat sich nicht bewegt.", 0);
-          echo "❌ Keine Bewegung erkannt.";
-          return;
-      }
+       $end = floatval($this->Level());
+       $this->SendDebug(__FUNCTION__, "Gemessene Endposition: {$end}%", 0);
 
-      $delta = 100 - $end;
+       $distance = $start - $end;
+       if ($distance <= 0) {
+           $this->SendDebug(__FUNCTION__, "Shutter hat sich nicht bewegt oder falsche Richtung.", 0);
+           echo "❌ Keine gültige Bewegung erkannt.";
+           return;
+       }
 
-      $time_85 = $duration * ((100 - 85) / $delta);
-      $time_50 = $duration * ((100 - 50) / $delta);
-      $time_0  = $duration;
+       $factor = $duration / $distance;
+       $time_85 = $factor * ($start - 85);
+       $time_50 = $factor * ($start - 50);
+       $time_0  = $factor * ($start - 0);
 
-      IPS_SetProperty($this->InstanceID, 'time_up_85', round($time_85, 2));
-      IPS_SetProperty($this->InstanceID, 'time_up_50', round($time_50, 2));
-      IPS_SetProperty($this->InstanceID, 'time_up_0', round($time_0, 2));
-      IPS_ApplyChanges($this->InstanceID);
+       IPS_SetProperty($this->InstanceID, 'time_up_85', round($time_85, 2));
+       IPS_SetProperty($this->InstanceID, 'time_up_50', round($time_50, 2));
+       IPS_SetProperty($this->InstanceID, 'time_up_0', round($time_0, 2));
+       IPS_ApplyChanges($this->InstanceID);
 
-      $this->SendDebug(__FUNCTION__, "Gespeicherte Zeiten (100 → x):", 0);
-      $this->SendDebug(__FUNCTION__, "100 → 85% = " . round($time_85, 2) . " s", 0);
-      $this->SendDebug(__FUNCTION__, "100 → 50% = " . round($time_50, 2) . " s", 0);
-      $this->SendDebug(__FUNCTION__, "100 → 0%  = " . round($time_0, 2) . " s", 0);
-
-      echo "✅ Kalibrierung abgeschlossen (Hochfahrt).\n";
-      echo "Ermittelte Zeiten:\n";
-      echo "100 → 85% = " . round($time_85, 2) . " s\n";
-      echo "100 → 50% = " . round($time_50, 2) . " s\n";
-      echo "100 → 0%  = " . round($time_0, 2) . " s\n";
-  }
-
+       echo "✅ Kalibrierung abgeschlossen (Hochfahrt).\n";
+       echo "Ermittelte Zeiten:\n";
+       echo "100 → 85% = " . round($time_85, 2) . " s\n";
+       echo "100 → 50% = " . round($time_50, 2) . " s\n";
+       echo "100 → 0%  = " . round($time_0, 2) . " s\n";
+   }
 }
