@@ -176,7 +176,7 @@
                 {
                   "type": "Button",
                   "caption": "TEST",
-                  "onClick": "Test"
+                  "onClick": "Test()"
                 }
             ]
         },
