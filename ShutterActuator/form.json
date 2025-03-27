@@ -173,7 +173,7 @@
                   "type": "Button",
                   "caption": "Kalibrieren – Hochfahrt",
                   "onClick": "TSA_CalibrateUp($id)"
-                }
+                },
                 {
                   "type": "Button",
                   "caption": "TEST",
