@@ -114,6 +114,9 @@ class xcomfortshutter extends IPSModule
              // Hier optional: Validierung oder Logik für Trigger
              // Beispiel: $this->SendDebug(__FUNCTION__, "$propName: $value", 0);
          }
+         // Wert aus dem Formular übernehmen
+        $duration = $this->ReadPropertyFloat('calibration_duration');
+        $this->SendDebug(__FUNCTION__, "Aktuelle Kalibrierzeit: {$duration} s", 0);
      }
 
 
