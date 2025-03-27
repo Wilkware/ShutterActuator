@@ -142,6 +142,21 @@
                 }
 
             ]
+        },
+        {
+          "type": "ExpansionPanel",
+          "caption": "Kalibrierung",
+          "items": [
+            {
+              "type": "NumberSpinner",
+              "name": "calibration_duration",
+              "caption": "Fahrzeit für Kalibrierung (sek)",
+              "digits": 1,
+              "suffix": "s",
+              "default": 6,
+              "save": true
+            }
+          ]
         }
 
     ],
@@ -178,15 +193,6 @@
         {
               "type": "RowLayout",
               "items": [
-                {
-                  "type": "NumberSpinner",
-                  "name": "calibration_duration",
-                  "caption": "Fahrzeit für Kalibrierung (sek)",
-                  "digits": 1,
-                  "suffix": "s",
-                  "default": 6,
-                  "save": true
-                },
                 {
                   "type": "Button",
                   "caption": "Kalibrieren – Runterfahrt",
