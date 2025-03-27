@@ -23,7 +23,7 @@
             "close → open:": "Geschlossen → Geöffnet:",
             "delay on start (sec)": "Trägheit beim Start (sec)",
             "additional time for full close / open (sec)": "Zusätzliche Zeit für 0 % / 100 % (sec)",
-            "calibration": "Zusätzliche Zeit für 0 % / 100 % (sec)",
+            "calibration": "Kalibrierung",
             "calibration time (sec)": "Fahrzeit für Kalibrierung (sec)",
             "Use the button to measure the right values! The 'SHOW'-Button will display the internal level of the shutter!": "Verwenden Sie die Schaltflächen, um die richtigen Werte zu ermitteln! Der 'ANZEIGE'-Button zeigt die interne Position des Rollladens an!",
             "UP": "HOCH",
