@@ -183,12 +183,12 @@
               "items": [
                 {
                   "type": "Button",
-                  "caption": "Kalibrieren – Runterfahrt",
+                  "caption": "calibration - lower shutters",
                   "onClick": "TSA_CalibrateDown($id);"
                 },
                 {
                   "type": "Button",
-                  "caption": "Kalibrieren – Hochfahrt",
+                  "caption": "calibration - raise shutters",
                   "onClick": "TSA_CalibrateUp($id);"
                 }
             ]
