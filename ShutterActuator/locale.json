@@ -11,7 +11,7 @@
             "Mapping:": "Zuordnung:",
             "Level": "Laufzeit",
             "Position": "Position",
-            "Please select the vatiable for receive and transmit the level(position).": "Bitte wählen Sie die Variablen für Übertragung der Position (Level) aus und die Variable zum Bewegen.",
+            "Please select the vatiable for receive and transmit the level(position).": "Bitte wählen Sie die Variablen für Übertragung der Position (Level) und die Variable zum Bewegen aus.",
             "Receiver:": "Empfänger (Position):",
             "Transmitter:": "Sender:",
             "Please measure the running time for the respective position and enter the corresponding values!": "Bitte messen Sie die Laufzeit für die jeweilige Position und geben Sie die entsprechenden Werte ein!",

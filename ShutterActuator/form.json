@@ -48,7 +48,7 @@
             "items": [
                 {
                     "type": "Label",
-                    "caption": "Please measure the running time for the respective position and enter the corresponding values!"
+                    "caption": "Please measure the running time for the respective position and enter the corresponding values or start the automatic calibration!"
                 },
                 {
                     "type": "RowLayout",
