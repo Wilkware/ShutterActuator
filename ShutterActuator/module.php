@@ -138,8 +138,8 @@ class xcomfortshutter extends IPSModule
                  }
 
                  if ($data[1] === true) { // OnChange mit neuem Wert
-                     $newLevel = floatval($data[0]);
-                     $this->SendDebug(__FUNCTION__, "Level changed to: {$newLevel}%");
+                     $newLevel = $data[0];
+                     $this->SendDebug(__FUNCTION__, 'Level changed: ' . $data[2] . ' → ' . $newLevel);
                      $this->SetValueInteger('Position', (int)$newLevel); // Position-Variable im Modul setzen
                  } else {
                      $this->SendDebug(__FUNCTION__, 'Level unchanged – no update needed.');
@@ -147,7 +147,6 @@ class xcomfortshutter extends IPSModule
                  break;
          }
      }
-
 
     /**
      * RequestAction (SDK function).
@@ -211,21 +210,15 @@ class xcomfortshutter extends IPSModule
      public function Stop()
      {
          $vid = $this->ReadPropertyInteger('TransmitterVariable');
-         if ($vid == 0) {
-             $this->SendDebug(__FUNCTION__, 'Variable zur Steuerung nicht gesetzt!');
-             return;
+         if ($vid != 0) {
+             $pid = IPS_GetParent($vid);
+             $this->SendDebug(__FUNCTION__, 'Shutter stopped!');
+             //HM_WriteValueBoolean($pid, 'STOP', true);
+             RequestAction($vid, 2); // XComfort Stop-Befehl
+             //RequestAction($vid, true);
+         } else {
+             $this->SendDebug(__FUNCTION__, 'VVariable to control the shutter not set!');
          }
-
-         $level = floatval($this->Level());
-
-         // Stop NICHT senden, wenn wir bei einem Endanschlag angekommen sind
-         if ($level <= 1.0 || $level >= 99.0) {
-             $this->SendDebug(__FUNCTION__, "Level ist bei Endposition ({$level}%) – kein Stop-Befehl gesendet.");
-             return;
-         }
-
-         $this->SendDebug(__FUNCTION__, "Shutter stopped! Level aktuell: {$level}%");
-         RequestAction($vid, 2); // XComfort Stop-Befehl
      }
 
     /**
