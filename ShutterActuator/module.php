@@ -139,15 +139,8 @@ class xcomfortshutter extends IPSModule
 
                  if ($data[1] === true) { // OnChange mit neuem Wert
                      $newLevel = floatval($data[0]);
-                     $lastLevel = floatval($this->GetValue('Position'));
-
-                     $this->SendDebug(__FUNCTION__, "Level changed: {$lastLevel} → {$newLevel}");
-
-                     // Interne Position speichern
-                     $this->SetValueInteger('Position', (int)$newLevel);
-
-                     // LastLevel in Buffer merken für spätere Abfragen (z. B. in Stop())
-                     $this->SetBuffer('LastLevel', (string)$lastLevel);
+                     $this->SendDebug(__FUNCTION__, "Level changed to: {$newLevel}%");
+                     $this->SetValueInteger('Position', (int)$newLevel); // Position-Variable im Modul setzen
                  } else {
                      $this->SendDebug(__FUNCTION__, 'Level unchanged – no update needed.');
                  }
@@ -224,22 +217,17 @@ class xcomfortshutter extends IPSModule
          }
 
          $level = floatval($this->Level());
-         $lastLevel = floatval($this->GetBuffer('LastLevel'));
 
-         // Wenn die Bewegung aktiv zur Endposition ging → kein Stop senden
-         if (
-             ($lastLevel > 50.0 && $level <= 1.0) ||  // runter in 0 %
-             ($lastLevel < 50.0 && $level >= 99.0)    // hoch in 100 %
-         ) {
-             $this->SendDebug(__FUNCTION__, "Keine Stop-Aktion – Bewegung ging gezielt zu Endlage ({$lastLevel} → {$level}).");
+         // Stop NICHT senden, wenn wir bei einem Endanschlag angekommen sind
+         if ($level <= 1.0 || $level >= 99.0) {
+             $this->SendDebug(__FUNCTION__, "Level ist bei Endposition ({$level}%) – kein Stop-Befehl gesendet.");
              return;
          }
 
-         // Normale Stop-Bedingung
-         $this->SendDebug(__FUNCTION__, "Shutter stopped! Level aktuell: {$level}% (zuvor: {$lastLevel}%)");
+         $this->SendDebug(__FUNCTION__, "Shutter stopped! Level aktuell: {$level}%");
          RequestAction($vid, 2); // XComfort Stop-Befehl
      }
-     
+
     /**
      * This function will be available automatically after the module is imported with the module control.
      * Using the custom prefix this function will be callable from PHP and JSON-RPC through:.
