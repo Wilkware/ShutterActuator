@@ -224,22 +224,22 @@ class xcomfortshutter extends IPSModule
          }
 
          $level = floatval($this->Level());
-         $lastLevel = $this->GetBuffer('LastLevel'); // z. B. via Buffer gespeichert
+         $lastLevel = floatval($this->GetBuffer('LastLevel'));
 
-         // Wenn die letzte Bewegung aktiv zur Endposition ging → kein Stop senden
+         // Wenn die Bewegung aktiv zur Endposition ging → kein Stop senden
          if (
-             ($lastLevel > 50.0 && $level <= 1.0) ||  // runter in 0%
-             ($lastLevel < 50.0 && $level >= 99.0)    // hoch in 100%
+             ($lastLevel > 50.0 && $level <= 1.0) ||  // runter in 0 %
+             ($lastLevel < 50.0 && $level >= 99.0)    // hoch in 100 %
          ) {
-             $this->SendDebug(__FUNCTION__, "Level änderte sich aktiv zu Endposition ({$lastLevel} → {$level}) – kein Stop gesendet.");
+             $this->SendDebug(__FUNCTION__, "Keine Stop-Aktion – Bewegung ging gezielt zu Endlage ({$lastLevel} → {$level}).");
              return;
          }
 
-         // Bei normalen Zwischenpositionen stoppen
-         $this->SendDebug(__FUNCTION__, "Shutter stopped! Level: {$level}% (zuvor: {$lastLevel}%)");
+         // Normale Stop-Bedingung
+         $this->SendDebug(__FUNCTION__, "Shutter stopped! Level aktuell: {$level}% (zuvor: {$lastLevel}%)");
          RequestAction($vid, 2); // XComfort Stop-Befehl
      }
-
+     
     /**
      * This function will be available automatically after the module is imported with the module control.
      * Using the custom prefix this function will be callable from PHP and JSON-RPC through:.
