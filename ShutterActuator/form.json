@@ -196,6 +196,11 @@
                   "type": "Button",
                   "caption": "calibration - raise shutters",
                   "onClick": "TSA_CalibrateUp($id);"
+                },
+                {
+                  "type": "Button",
+                  "caption": "calibration - delay",
+                  "onClick": "TSA_Calibratedelay($id);"
                 }
             ]
         },

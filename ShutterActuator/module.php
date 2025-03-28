@@ -485,6 +485,62 @@ class xcomfortshutter extends IPSModule
        echo "100 → 85% = " . round($time_85, 2) . " s\n";
        echo "100 → 50% = " . round($time_50, 2) . " s\n";
        echo "100 → 0%  = " . round($time_0, 2) . " s\n";
+     }
    }
+   public function Calibratedelay()
+{
+    $duration = $this->ReadPropertyFloat('calibration_duration');
+    $halfDuration = $duration / 2;
+
+    $this->SendDebug(__FUNCTION__, "Starte Trägheitsanalyse: Runterfahrt", 0);
+
+    // Fahrt 1: Volle Dauer
+    $this->Up();
+    IPS_Sleep(($duration + 2) * 1000);
+    $this->Stop();
+    IPS_Sleep(2000);
+    $start1 = floatval($this->Level());
+    $this->Down();
+    IPS_Sleep($duration * 1000);
+    $this->Stop();
+    IPS_Sleep(2000);
+    $end1 = floatval($this->Level());
+
+    $dist1 = $end1 - $start1;
+    $rate1 = $dist1 / $duration;
+
+    // Fahrt 2: Halbe Dauer
+    $this->Up();
+    IPS_Sleep(($duration + 2) * 1000);
+    $this->Stop();
+    IPS_Sleep(2000);
+    $start2 = floatval($this->Level());
+    $this->Down();
+    IPS_Sleep($halfDuration * 1000);
+    $this->Stop();
+    IPS_Sleep(2000);
+    $end2 = floatval($this->Level());
+
+    $dist2 = $end2 - $start2;
+    $rate2 = $dist2 / $halfDuration;
+
+    if ($dist1 < 1 || $dist2 < 1) {
+        echo "❌ Bewegung zu gering – Trägheitsmessung nicht möglich.\n";
+        return;
+    }
+
+    // Trägheit: Differenz im Steigungsverhältnis
+    $inertia = $rate1 - $rate2;
+
+    echo "✅ Trägheitsanalyse abgeschlossen (Runterfahrt):\n";
+    echo "→ Volle Fahrt:     {$dist1}% in {$duration}s → {$rate1} %/s\n";
+    echo "→ Halbe Fahrt:     {$dist2}% in {$halfDuration}s → {$rate2} %/s\n";
+    echo "→ Trägheit (∆Rate): " . round($inertia, 3) . " %/s\n";
+
+    if ($this->ReadPropertyBoolean('auto_save_calibration')) {
+    IPS_SetProperty($this->InstanceID, 'time_start_delay', $delay);
+    IPS_ApplyChanges($this->InstanceID);
+    echo "→ Startverzögerung automatisch gespeichert in 'time_start_delay'.\n";
+}
 }
 }
