@@ -138,9 +138,16 @@ class xcomfortshutter extends IPSModule
                  }
 
                  if ($data[1] === true) { // OnChange mit neuem Wert
-                     $newLevel = $data[0];
-                     $this->SendDebug(__FUNCTION__, 'Level changed: ' . $data[2] . ' → ' . $newLevel);
-                     $this->SetValueInteger('Position', (int)$newLevel); // Position-Variable im Modul setzen
+                     $newLevel = floatval($data[0]);
+                     $lastLevel = floatval($this->GetValue('Position'));
+
+                     $this->SendDebug(__FUNCTION__, "Level changed: {$lastLevel} → {$newLevel}");
+
+                     // Interne Position speichern
+                     $this->SetValueInteger('Position', (int)$newLevel);
+
+                     // LastLevel in Buffer merken für spätere Abfragen (z. B. in Stop())
+                     $this->SetBuffer('LastLevel', (string)$lastLevel);
                  } else {
                      $this->SendDebug(__FUNCTION__, 'Level unchanged – no update needed.');
                  }
@@ -211,19 +218,26 @@ class xcomfortshutter extends IPSModule
      public function Stop()
      {
          $vid = $this->ReadPropertyInteger('TransmitterVariable');
-         if ($vid != 0) {
-             $level = floatval($this->Level());
-             if ($level <= 1.0 || $level >= 99.0) {
-                 $this->SendDebug(__FUNCTION__, "Level ist bereits bei {$level}% – kein Stop-Befehl gesendet.");
-                 return;
-             }
-
-             $pid = IPS_GetParent($vid);
-             $this->SendDebug(__FUNCTION__, 'Shutter stopped!');
-             RequestAction($vid, 2); // XComfort Stop-Befehl
-         } else {
+         if ($vid == 0) {
              $this->SendDebug(__FUNCTION__, 'Variable zur Steuerung nicht gesetzt!');
+             return;
          }
+
+         $level = floatval($this->Level());
+         $lastLevel = $this->GetBuffer('LastLevel'); // z. B. via Buffer gespeichert
+
+         // Wenn die letzte Bewegung aktiv zur Endposition ging → kein Stop senden
+         if (
+             ($lastLevel > 50.0 && $level <= 1.0) ||  // runter in 0%
+             ($lastLevel < 50.0 && $level >= 99.0)    // hoch in 100%
+         ) {
+             $this->SendDebug(__FUNCTION__, "Level änderte sich aktiv zu Endposition ({$lastLevel} → {$level}) – kein Stop gesendet.");
+             return;
+         }
+
+         // Bei normalen Zwischenpositionen stoppen
+         $this->SendDebug(__FUNCTION__, "Shutter stopped! Level: {$level}% (zuvor: {$lastLevel}%)");
+         RequestAction($vid, 2); // XComfort Stop-Befehl
      }
 
     /**
