@@ -145,7 +145,13 @@
               "save": true
             }
           ]
-        }
+        },
+
+            {
+              "type": "CheckBox",
+              "name": "auto_save_calibration",
+              "caption": "Kalibrierwerte automatisch speichern"
+            }
 
     ],
     "actions": [
@@ -192,15 +198,6 @@
                   "onClick": "TSA_CalibrateUp($id);"
                 }
             ]
-        },
-        {
-          "elements": [
-            {
-              "type": "CheckBox",
-              "name": "auto_save_calibration",
-              "caption": "Kalibrierwerte automatisch speichern"
-            }
-          ]
         },
         {
             "type": "Label",
