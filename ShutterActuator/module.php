@@ -410,16 +410,23 @@ class xcomfortshutter extends IPSModule
        $time_85  = $factor * (85 - $start);
        $time_100 = $factor * (100 - $start);
 
-       IPS_SetProperty($this->InstanceID, 'time_down_50', round($time_50, 2));
-       IPS_SetProperty($this->InstanceID, 'time_down_85', round($time_85, 2));
-       IPS_SetProperty($this->InstanceID, 'time_down_100', round($time_100, 2));
-       IPS_ApplyChanges($this->InstanceID);
-
-       echo "✅ Kalibrierung abgeschlossen (Runterfahrt).\n";
-       echo "Ermittelte Zeiten:\n";
-       echo "0 → 50% = " . round($time_50, 2) . " s\n";
-       echo "0 → 85% = " . round($time_85, 2) . " s\n";
-       echo "0 → 100% = " . round($time_100, 2) . " s\n";
+    if ($this->ReadPropertyBoolean('auto_save_calibration')) {
+          IPS_SetProperty($this->InstanceID, 'time_down_50', round($time_50, 2));
+          IPS_SetProperty($this->InstanceID, 'time_down_85', round($time_85, 2));
+          IPS_SetProperty($this->InstanceID, 'time_down_100', round($time_100, 2));
+          IPS_ApplyChanges($this->InstanceID);
+          echo "✅ Kalibrierung abgeschlossen (Runterfahrt) und gespeichert.\n";
+          echo "Ermittelte Zeiten:\n";
+          echo "0 → 50% = " . round($time_50, 2) . " s\n";
+          echo "0 → 85% = " . round($time_85, 2) . " s\n";
+          echo "0 → 100% = " . round($time_100, 2) . " s\n";
+    } else {
+         echo "✅ Kalibrierung abgeschlossen (Runterfahrt).\n";
+         echo "Ermittelte Zeiten:\n";
+         echo "0 → 50% = " . round($time_50, 2) . " s\n";
+         echo "0 → 85% = " . round($time_85, 2) . " s\n";
+         echo "0 → 100% = " . round($time_100, 2) . " s\n";
+      }
    }
 
    public function CalibrateUp()
@@ -461,15 +468,22 @@ class xcomfortshutter extends IPSModule
        $time_50 = $factor * ($start - 50);
        $time_0  = $factor * ($start - 0);
 
+    if ($this->ReadPropertyBoolean('auto_save_calibration')) {
        IPS_SetProperty($this->InstanceID, 'time_up_85', round($time_85, 2));
        IPS_SetProperty($this->InstanceID, 'time_up_50', round($time_50, 2));
        IPS_SetProperty($this->InstanceID, 'time_up_0', round($time_0, 2));
        IPS_ApplyChanges($this->InstanceID);
-
+       echo "✅ Kalibrierung abgeschlossen (Hochfahrt) und gespeichert.\n";
+       echo "Ermittelte Zeiten:\n";
+       echo "100 → 85% = " . round($time_85, 2) . " s\n";
+       echo "100 → 50% = " . round($time_50, 2) . " s\n";
+       echo "100 → 0%  = " . round($time_0, 2) . " s\n";
+    } else {
        echo "✅ Kalibrierung abgeschlossen (Hochfahrt).\n";
        echo "Ermittelte Zeiten:\n";
        echo "100 → 85% = " . round($time_85, 2) . " s\n";
        echo "100 → 50% = " . round($time_50, 2) . " s\n";
        echo "100 → 0%  = " . round($time_0, 2) . " s\n";
    }
+}
 }

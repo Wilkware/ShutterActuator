@@ -14,7 +14,7 @@
             "Please select the vatiable for receive and transmit the level(position).": "Bitte wählen Sie die Variablen für Übertragung der Position (Level) und die Variable zum Bewegen aus.",
             "Receiver:": "Empfänger (Position):",
             "Transmitter:": "Sender:",
-            "Please measure the running time for the respective position and enter the corresponding values!": "Bitte messen Sie die Laufzeit für die jeweilige Position und geben Sie die entsprechenden Werte ein!",
+            "Please measure the running time for the respective position and enter the corresponding values or start the automatic calibration!": "Bitte messen Sie die Laufzeit für die jeweilige Position und geben Sie die entsprechenden Werte ein oder führen dia automatische Kalibrierung durch!",
             "open → middle:": "Geöffnet → Mitte:",
             "open → down:": "Geöffnet → Unten:",
             "open → close:": "Geöffnet → Geschlossen:",
@@ -32,6 +32,7 @@
             "SHOW": "ANZEIGEN",
             "calibration - lower shutters": "Kalibrieren – Runterfahrt",
             "calibration - raise shutters": "Kalibrieren – Hochfahrt",
+            "auto save calibration": "Kalibrierwerte automatisch speichern",            
             "Source code and licence ...": "Quellcode und Lizenz ...",
             "The software is free of charge for non-commercial use.": "Die Software ist für die nicht kommerzielle Nutzung kostenlos."
         }
