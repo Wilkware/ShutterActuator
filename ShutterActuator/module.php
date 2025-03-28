@@ -36,6 +36,7 @@ class xcomfortshutter extends IPSModule
         $this->RegisterPropertyFloat('time_full_move_extra', 0);
         $this->RegisterPropertyFloat('time_start_delay', 0);
         $this->RegisterPropertyFloat('calibration_duration', 6.0);
+        $this->RegisterPropertyBoolean('auto_save_calibration', false);
 
     }
 
