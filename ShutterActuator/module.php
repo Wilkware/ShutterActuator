@@ -208,19 +208,23 @@ class xcomfortshutter extends IPSModule
      *
      * TSA_Stop($id);
      */
-    public function Stop()
-    {
-        $vid = $this->ReadPropertyInteger('TransmitterVariable');
-        if ($vid != 0) {
-            $pid = IPS_GetParent($vid);
-            $this->SendDebug(__FUNCTION__, 'Shutter stopped!');
-            //HM_WriteValueBoolean($pid, 'STOP', true);
-            RequestAction($vid, 2); // XComfort Stop-Befehl
-            //RequestAction($vid, true);
-        } else {
-            $this->SendDebug(__FUNCTION__, 'VVariable to control the shutter not set!');
-        }
-    }
+     public function Stop()
+     {
+         $vid = $this->ReadPropertyInteger('TransmitterVariable');
+         if ($vid != 0) {
+             $level = floatval($this->Level());
+             if ($level <= 1.0 || $level >= 99.0) {
+                 $this->SendDebug(__FUNCTION__, "Level ist bereits bei {$level}% – kein Stop-Befehl gesendet.");
+                 return;
+             }
+
+             $pid = IPS_GetParent($vid);
+             $this->SendDebug(__FUNCTION__, 'Shutter stopped!');
+             RequestAction($vid, 2); // XComfort Stop-Befehl
+         } else {
+             $this->SendDebug(__FUNCTION__, 'Variable zur Steuerung nicht gesetzt!');
+         }
+     }
 
     /**
      * This function will be available automatically after the module is imported with the module control.
@@ -534,7 +538,7 @@ class xcomfortshutter extends IPSModule
        $missingDist = $expectedDist - $dist2;
 
        // Berechne, wie lange der Motor bei voller Rate für die fehlende Strecke gebraucht hätte
-       $delay = $missingDist / $rate1;
+       $delay = ($missingDist / $rate1) / 2;
        $delay = round($delay, 2);
 
        echo "✅ Trägheitsanalyse abgeschlossen (Runterfahrt):\n";
@@ -546,7 +550,7 @@ class xcomfortshutter extends IPSModule
        if ($this->ReadPropertyBoolean('auto_save_calibration')) {
            IPS_SetProperty($this->InstanceID, 'time_start_delay', $delay);
            IPS_ApplyChanges($this->InstanceID);
-           echo "→ Startverzögerung automatisch gespeichert in 'time_start_delay'.\n";
+           echo "→ Startverzögerung automatisch gespeichert in 'Trägheit beim Start'.\n";
        }
     }
 }
