@@ -190,13 +190,17 @@
                   "type": "Button",
                   "caption": "calibration - raise shutters",
                   "onClick": "TSA_CalibrateUp($id);"
-                },
-                {
-                  "type": "CheckBox",
-                  "name": "auto_save_calibration",
-                  "caption": "auto save calibration"
                 }
             ]
+        },
+        {
+          "elements": [
+            {
+              "type": "CheckBox",
+              "name": "auto_save_calibration",
+              "caption": "Kalibrierwerte automatisch speichern"
+            }
+          ]
         },
         {
             "type": "Label",
