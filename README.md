@@ -141,11 +141,11 @@ Die Funktion liefert keinerlei Rückgabewert.
 
 v4.1.20250529
 
-* _NEU_: Mudul in Rollladenaktor umbennant, Steuerung gab es schon von Symcon
-* _NEU_: Blockiermodus eingebaut (Kontakt)
-* _FIX_: Test auf Variablenauswahl vereinheitlicht (nicht mehr nur auf 0)
+* _NEU_: Das Modul wurde in Rollladenaktor umbenannt. Die Steuerung gab es bereits von Symcon.
+* _NEU_: Blockiermodus (Kontakt) eingebaut.
+* _FIX_: Test auf Variablenauswahl vereinheitlicht (nicht mehr nur auf 0).
 * _FIX_: Interne Bibliotheken überarbeitet und vereinheitlicht
-* _FIX_: Dokumentation vereinheitlicht 
+* _FIX_: Dokumentation vereinheitlicht
 
 v4.0.20240907
 
