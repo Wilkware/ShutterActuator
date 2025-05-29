@@ -136,7 +136,8 @@
                     "caption": "Blocking contact:",
                     "width": "450px",
                     "validVariableTypes": [
-                        0, 1
+                        0,
+                        1
                     ]
                 },
                 {

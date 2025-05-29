@@ -345,17 +345,17 @@ class ShutterActuator extends IPSModule
             if (boolval(GetValue($bid))) {
                 $current = $this->GetValue('Position');
                 // Level goes Up
-                if($position > $current) {
+                if ($position > $current) {
                     $doit = $this->ReadPropertyBoolean('BlockingUpCheck');
-                    if($doit) {
+                    if ($doit) {
                         $this->SendDebug(__FUNCTION__, 'Blocking to move up to new position: ' . $position . ', current: ' . $current);
                         return;
                     }
                 }
                 // Level goes Down
-                if($position < $current) {
+                if ($position < $current) {
                     $doit = $this->ReadPropertyBoolean('BlockingDownCheck');
-                    if($doit) {
+                    if ($doit) {
                         $this->SendDebug(__FUNCTION__, 'Blocking to move down to new position: ' . $position . ', current: ' . $current);
                         return;
                     }
