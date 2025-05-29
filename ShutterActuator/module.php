@@ -14,8 +14,13 @@ class ShutterActuator extends IPSModule
     use ProfileHelper;
     use VariableHelper;
 
+    // Min IPS Object ID
+    private const IPS_MIN_ID = 10000;
+
     /**
-     * Overrides the internal IPSModule::Create($id) function
+     * In contrast to Construct, this function is called only once when creating the instance and starting IP-Symcon.
+     * Therefore, status variables and module properties which the module requires permanently should be created here.
+     *
      */
     public function Create()
     {
@@ -23,8 +28,8 @@ class ShutterActuator extends IPSModule
         parent::Create();
 
         // Shutter variables
-        $this->RegisterPropertyInteger('ReceiverVariable', 0);
-        $this->RegisterPropertyInteger('TransmitterVariable', 0);
+        $this->RegisterPropertyInteger('ReceiverVariable', 1);
+        $this->RegisterPropertyInteger('TransmitterVariable', 1);
         // Position(Level) Variables
         $this->RegisterPropertyFloat('Position0', 1.0);
         $this->RegisterPropertyFloat('Position25', 0.85);
@@ -32,10 +37,15 @@ class ShutterActuator extends IPSModule
         $this->RegisterPropertyFloat('Position75', 0.50);
         $this->RegisterPropertyFloat('Position99', 0.25);
         $this->RegisterPropertyFloat('Position100', 0.0);
+        // Advanced variables
+        $this->RegisterPropertyInteger('BlockingVariable', 1);
+        $this->RegisterPropertyBoolean('BlockingUpCheck', true);
+        $this->RegisterPropertyBoolean('BlockingDownCheck', true);
     }
 
     /**
-     * Overrides the internal IPSModule::Destroy($id) function
+     * This function is called when deleting the instance during operation and when updating via "Module Control".
+     * The function is not called when exiting IP-Symcon.
      */
     public function Destroy()
     {
@@ -44,7 +54,7 @@ class ShutterActuator extends IPSModule
     }
 
     /**
-     * Overrides the internal IPSModule::ApplyChanges($id) function
+     * Is executed when "Apply" is pressed on the configuration page and immediately after the instance has been created.
      */
     public function ApplyChanges()
     {
@@ -72,8 +82,12 @@ class ShutterActuator extends IPSModule
         if (IPS_VariableExists($variable)) {
             $this->RegisterReference($variable);
         }
+        $variable = $this->ReadPropertyInteger('BlockingVariable');
+        if (IPS_VariableExists($variable)) {
+            $this->RegisterReference($variable);
+        }
 
-        // Profile
+        // Profiles
         $profile = [
             [0, 'Open', '', -1],
             [25, '25 %%', '', -1],
@@ -97,21 +111,27 @@ class ShutterActuator extends IPSModule
     }
 
     /**
-     * MessageSink - internal SDK funktion.
+     * The content of the function can be overwritten in order to carry out own reactions to certain messages.
+     * The function is only called for registered MessageIDs/SenderIDs combinations.
      *
-     * @param mixed $timeStamp Message timeStamp
-     * @param mixed $senderID Sender ID
-     * @param mixed $message Message type
-     * @param mixed $data data[0] = new value, data[1] = value changed, data[2] = old value, data[3] = timestamp
+     * data[0] = new value
+     * data[1] = value changed?
+     * data[2] = old value
+     * data[3] = timestamp.
+     *
+     * @param mixed $timestamp Continuous counter timestamp
+     * @param mixed $sender Sender ID
+     * @param mixed $message ID of the message
+     * @param mixed $data Data of the message
      */
-    public function MessageSink($timeStamp, $senderID, $message, $data)
+    public function MessageSink($timestamp, $sender, $message, $data)
     {
-        //$this->SendDebug(__FUNCTION__, 'SenderId: '.$senderID.' Data: '.print_r($data, true), 0);
+        //$this->SendDebug(__FUNCTION__, 'SenderId: '.$sender.' Data: '.print_r($data, true), 0);
         switch ($message) {
             case VM_UPDATE:
                 // ReceiverVariable
-                if ($senderID != $this->ReadPropertyInteger('ReceiverVariable')) {
-                    $this->SendDebug(__FUNCTION__, 'SenderID: ' . $senderID . ' unknown!');
+                if ($sender != $this->ReadPropertyInteger('ReceiverVariable')) {
+                    $this->SendDebug(__FUNCTION__, 'SenderID: ' . $sender . ' unknown!');
                 } else {
                     // Read changes!
                     if ($data[1] == true) { // OnChange - new value?
@@ -126,10 +146,10 @@ class ShutterActuator extends IPSModule
     }
 
     /**
-     * RequestAction (SDK function).
+     * Is called when, for example, a button is clicked in the visualization.
      *
-     * @param string $ident Ident.
-     * @param string $value Value.
+     *  @param string $ident Ident of the variable
+     *  @param string $value The value to be set
      */
     public function RequestAction($ident, $value)
     {
@@ -187,7 +207,7 @@ class ShutterActuator extends IPSModule
     public function Stop()
     {
         $vid = $this->ReadPropertyInteger('TransmitterVariable');
-        if ($vid != 0) {
+        if (($vid >= self::IPS_MIN_ID) && IPS_VariableExists($vid)) {
             $pid = IPS_GetParent($vid);
             $this->SendDebug(__FUNCTION__, 'Shutter stopped!');
             HM_WriteValueBoolean($pid, 'STOP', true);
@@ -208,7 +228,7 @@ class ShutterActuator extends IPSModule
     public function Level()
     {
         $vid = $this->ReadPropertyInteger('ReceiverVariable');
-        if ($vid != 0) {
+        if (($vid >= self::IPS_MIN_ID) && IPS_VariableExists($vid)) {
             $level = GetValue($vid);
             $this->SendDebug(__FUNCTION__, 'Current internal position is: ' . $level);
             return sprintf('%.2f', $level);
@@ -227,7 +247,7 @@ class ShutterActuator extends IPSModule
     public function Position(int $position)
     {
         $vid = $this->ReadPropertyInteger('TransmitterVariable');
-        if ($vid != 0) {
+        if (($vid >= self::IPS_MIN_ID) && IPS_VariableExists($vid)) {
             $this->SendDebug(__FUNCTION__, 'Move roller shutter to position ' . $position . '%!');
             $this->PositionToLevel($position);
         } else {
@@ -249,7 +269,7 @@ class ShutterActuator extends IPSModule
         $pos075 = $this->ReadPropertyFloat('Position75');
         $pos099 = $this->ReadPropertyFloat('Position99');
         $pos100 = $this->ReadPropertyFloat('Position100');
-        // Level Position - Schalt Position zuweisen
+        // Level Position assign
         $pos = 0;
         if ($level == $pos100) {
             $pos = 100;
@@ -264,20 +284,21 @@ class ShutterActuator extends IPSModule
         } else {
             $pos = 0;
         }
-        // Zuordnen
+        // Mapping
         $this->SendDebug(__FUNCTION__, 'Level ' . $level . ' reached, i.e. position: ' . $pos);
         $this->SetValueInteger('Position', $pos);
     }
 
     /**
-     * Map Position to Level.
+     * Map position to Level.
      *
      * @param int $level Shutter level value
      */
     private function PositionToLevel(int $position)
     {
         // Level Variable
-        $vid = $this->ReadPropertyInteger('TransmitterVariable');
+        $tid = $this->ReadPropertyInteger('TransmitterVariable');
+        $bid = $this->ReadPropertyInteger('BlockingVariable');
         // Mapping values
         $pos000 = $this->ReadPropertyFloat('Position0');
         $pos025 = $this->ReadPropertyFloat('Position25');
@@ -285,8 +306,8 @@ class ShutterActuator extends IPSModule
         $pos075 = $this->ReadPropertyFloat('Position75');
         $pos099 = $this->ReadPropertyFloat('Position99');
         $pos100 = $this->ReadPropertyFloat('Position100');
-        // Position kann manuell, via Voicontrol auch gesetzt worden sein
-        // dann normieren auf Profilwerte :(
+        // Position can also be set manually via Voicontrol
+        // then normalise to profile values :(
         if ($position > 0 && $position < 25) {
             $position = 25;
         } elseif ($position > 25 && $position < 50) {
@@ -296,9 +317,9 @@ class ShutterActuator extends IPSModule
         } elseif ($position > 75 && $position < 100) {
             $position = 99;
         }
-        // Schalt Position - Level Position - zuweisen
+        // Switch position - Level position - assign
         $level = 0.;
-        // Positon übersetzen
+        // Translate position
         switch ($position) {
             case 0:
                 $level = $pos000;
@@ -318,7 +339,32 @@ class ShutterActuator extends IPSModule
             default:
                 $level = $pos100;
         }
-        $this->SendDebug(__FUNCTION__, 'Move to position: ' . $position . ', i.e. pevel: ' . $level);
-        RequestAction($vid, $level);
+        $this->SendDebug(__FUNCTION__, 'Move to position: ' . $position . ', i.e. level: ' . $level);
+        // Check Blocking
+        if (($bid >= self::IPS_MIN_ID) && IPS_VariableExists($bid)) {
+            if (boolval(GetValue($bid))) {
+                $current = $this->GetValue('Position');
+                // Level goes Up
+                if($position > $current) {
+                    $doit = $this->ReadPropertyBoolean('BlockingUpCheck');
+                    if($doit) {
+                        $this->SendDebug(__FUNCTION__, 'Blocking to move up to new position: ' . $position . ', current: ' . $current);
+                        return;
+                    }
+                }
+                // Level goes Down
+                if($position < $current) {
+                    $doit = $this->ReadPropertyBoolean('BlockingDownCheck');
+                    if($doit) {
+                        $this->SendDebug(__FUNCTION__, 'Blocking to move down to new position: ' . $position . ', current: ' . $current);
+                        return;
+                    }
+                }
+            }
+        }
+        // Send Action
+        if (($tid >= self::IPS_MIN_ID) && IPS_VariableExists($tid)) {
+            RequestAction($tid, $level);
+        }
     }
 }

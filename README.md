@@ -1,8 +1,8 @@
-# Rollladensteuerung (Shutter Actuator)
+# Rollladenaktor (Shutter Actuator)
 
 [![Version](https://img.shields.io/badge/Symcon-PHP--Modul-red.svg?style=flat-square)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
 [![Product](https://img.shields.io/badge/Symcon%20Version-6.4-blue.svg?style=flat-square)](https://www.symcon.de/produkt/)
-[![Version](https://img.shields.io/badge/Modul%20Version-4.0.20240907-orange.svg?style=flat-square)](https://github.com/Wilkware/ShutterActuator)
+[![Version](https://img.shields.io/badge/Modul%20Version-4.1.20250529-orange.svg?style=flat-square)](https://github.com/Wilkware/ShutterActuator)
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg?style=flat-square)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 [![Actions](https://img.shields.io/github/actions/workflow/status/wilkware/ShutterActuator/style.yml?branch=main&label=CheckStyle&style=flat-square)](https://github.com/Wilkware/ShutterActuator/actions)
 
@@ -15,7 +15,7 @@ Das Modul dient zur Ansteuerung der korrekten Öffnungsposition in Abhängigkeit
 3. [Installation](#user-content-3-installation)
 4. [Einrichten der Instanzen in IP-Symcon](#user-content-4-einrichten-der-instanzen-in-ip-symcon)
 5. [Statusvariablen und Profile](#user-content-5-statusvariablen-und-profile)
-6. [WebFront](#user-content-6-webfront)
+6. [Visualisierung](#user-content-6-visualisierung)
 7. [PHP-Befehlsreferenz](#user-content-7-php-befehlsreferenz)
 8. [Versionshistorie](#user-content-8-versionshistorie)
 
@@ -35,7 +35,7 @@ Das Modul dient zur Ansteuerung der korrekten Öffnungsposition in Abhängigkeit
 
 ### 4. Einrichten der Instanzen in IP-Symcon
 
-* Unter "Instanz hinzufügen" ist das _'Rollladensteuerung'_-Modul unter dem Hersteller _'(Geräte)'_ aufgeführt.
+* Unter "Instanz hinzufügen" ist das _'Rollladenaktor'_-Modul unter dem Hersteller _'(Geräte)'_ aufgeführt.
 
 __Konfigurationsseite__:
 
@@ -65,6 +65,14 @@ Geschlossen/Unten (100%)      | Levelwert bei geschlossenen Rollläden
 
 Die Laufzeit (Level) muss vorher manuell gestoppt und aus der 'Level' Gerätevariable ausgelesen werden (siehe nachfolgenden Aktionsbereich)!
 
+> Erweiterte Einstellungen ...
+
+Name                          | Beschreibung
+------------------------------| ---------------------------------
+Blockier-Kontakt              | Variable, die beim Ein- bzw. Ausfahren vorher geprüft wird  (Test auf TRUE).
+Berücksichtigen beim Ausfahren| Prüfung bzw. Berücksichtigung des Variablewertes nur beim Ausfahren
+Berücksichtigen beim Einfahren| Prüfung bzw. Berücksichtigung des Variablewertes nur beim Einfahren
+
 Aktionsbereich:
 
 Aktion         | Beschreibung
@@ -88,9 +96,9 @@ Name                 | Typ       | Beschreibung
 -------------------- | --------- | ----------------
 HM.ShutterActuator   | Integer   | Öffnungsgrad in Prozent(-schritte) (0% = Auf, 25%, 50%, 75%, 99%, 100% = Zu)
 
-### 6. WebFront
+### 6. Visualisierung
 
-Die erzeugten Variable kann direkt ins Webfront verlinkt werden.
+Die erzeugten Variable kann direkt in die Visualisierung verlinkt werden.
 
 ### 7. PHP-Befehlsreferenz
 
@@ -130,6 +138,14 @@ Fährt den Rollladen an die übergebene Postion (0-100).
 Die Funktion liefert keinerlei Rückgabewert.  
 
 ### 8. Versionshistorie
+
+v4.1.20250529
+
+* _NEU_: Mudul in Rollladenaktor umbennant, Steuerung gab es schon von Symcon
+* _NEU_: Blockiermodus eingebaut (Kontakt)
+* _FIX_: Test auf Variablenauswahl vereinheitlicht (nicht mehr nur auf 0)
+* _FIX_: Interne Bibliotheken überarbeitet und vereinheitlicht
+* _FIX_: Dokumentation vereinheitlicht 
 
 v4.0.20240907
 

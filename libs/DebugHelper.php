@@ -44,9 +44,9 @@ trait DebugHelper
     }
 
     /**
-     * DebugPrint
+     * Better print_r variante for debug output.
      *
-     * @param mixed $arr    Array to print.
+     * @param mixed $arr Array to print.
      * @return string Pretty formated array data.
      */
     protected function DebugPrint($arr)
@@ -55,7 +55,7 @@ trait DebugHelper
         if (is_array($arr)) {
             foreach ($arr as $key=>$val) {
                 if (is_array($val)) {
-                    $retStr .= '[' . $key . '] => ' . $this->PrettyPrint($val);
+                    $retStr .= '[' . $key . '] => ' . $this->SafePrint($val);
                 }else {
                     $retStr .= '[' . $key . '] => ' . $val . ', ';
                 }
@@ -65,7 +65,7 @@ trait DebugHelper
     }
 
     /**
-     * Safe Print
+     * Wrapper to print various object/variable types.
      *
      * @param mixed $var Variable to log
      */

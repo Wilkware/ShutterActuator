@@ -125,6 +125,54 @@
                     ]
                 }
             ]
+        },
+        {
+            "type": "ExpansionPanel",
+            "caption": "Advanced Settings ...",
+            "items": [
+                {
+                    "name": "BlockingVariable",
+                    "type": "SelectVariable",
+                    "caption": "Blocking contact:",
+                    "width": "450px",
+                    "validVariableTypes": [
+                        0, 1
+                    ]
+                },
+                {
+                    "type": "Label",
+                    "label": "Specify an optional contact that will prevent the shutter from moving up or down.",
+                    "italic": true
+                },
+                {
+                    "type": "RowLayout",
+                    "items": [
+                        {
+                            "type": "Label",
+                            "caption": "    "
+                        },
+                        {
+                            "name": "BlockingUpCheck",
+                            "type": "CheckBox",
+                            "caption": "Consider when moving up"
+                        }
+                    ]
+                },
+                {
+                    "type": "RowLayout",
+                    "items": [
+                        {
+                            "type": "Label",
+                            "caption": "    "
+                        },
+                        {
+                            "name": "BlockingDownCheck",
+                            "type": "CheckBox",
+                            "caption": "Consider when moving down"
+                        }
+                    ]
+                }
+            ]
         }
     ],
     "actions": [
@@ -156,10 +204,6 @@
                     "onClick": "echo 'Position: '.TSA_Level($id).' %';"
                 }
             ]
-        },
-        {
-            "type": "Label",
-            "caption": "\n"
         },
         {
             "type": "ExpansionPanel",
