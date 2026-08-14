@@ -4,7 +4,7 @@
 [![Product](https://img.shields.io/badge/Symcon%20Version-6.4-blue.svg?style=flat-square)](https://www.symcon.de/produkt/)
 [![Version](https://img.shields.io/badge/Modul%20Version-4.1.20250529-orange.svg?style=flat-square)](https://github.com/Wilkware/ShutterActuator)
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg?style=flat-square)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
-[![Actions](https://img.shields.io/github/actions/workflow/status/wilkware/ShutterActuator/style.yml?branch=main&label=CheckStyle&style=flat-square)](https://github.com/Wilkware/ShutterActuator/actions)
+[![Actions](https://img.shields.io/github/actions/workflow/status/wilkware/ShutterActuator/ci.yml?branch=main&label=CI&style=flat-square)](https://github.com/Wilkware/ShutterActuator/actions)
 
 Das Modul dient zur Ansteuerung der korrekten Öffnungsposition in Abhängigkeit der Motor-laufzeit. Dabei wird die nicht lineare Laufzeit des Motors zur Position der Lamellen übersetzt.
 

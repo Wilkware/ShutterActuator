@@ -1,0 +1,23 @@
+parameters:
+    level: 6 # 0 is the loosest and 10 is the strictest
+    phpVersion: 80200 # PHP 8.2
+
+    # Analyse your module directory
+    paths:
+        - ./
+
+    # Stubs with IPS functions
+    scanDirectories:
+        - %env.IPS_STUBS_PATH%
+
+    # Exclude stubs self
+    excludePaths:
+        analyse:
+            - %env.IPS_STUBS_PATH%/*
+            
+    # Supress call to an undefined method OR function not found
+    ignoreErrors:
+        - '#Function HM_WriteValueBoolean not found.#'
+
+    # Supress ignore errors
+    reportUnmatchedIgnoredErrors: false
