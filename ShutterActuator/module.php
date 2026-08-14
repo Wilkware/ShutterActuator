@@ -184,7 +184,7 @@ class ShutterActuator extends IPSModuleStrict
      * Using the custom prefix this function will be callable from PHP and JSON-RPC through:.
      *
      * TSA_Up($id);
-     * 
+     *
      * @return void
      */
     public function Up(): void
@@ -203,7 +203,7 @@ class ShutterActuator extends IPSModuleStrict
      * Using the custom prefix this function will be callable from PHP and JSON-RPC through:.
      *
      * TSA_Down($id);
-     * 
+     *
      * @return void
      */
     public function Down(): void
@@ -222,7 +222,7 @@ class ShutterActuator extends IPSModuleStrict
      * Using the custom prefix this function will be callable from PHP and JSON-RPC through:.
      *
      * TSA_Stop($id);
-     * 
+     *
      * @return void
      */
     public function Stop(): void
@@ -252,7 +252,7 @@ class ShutterActuator extends IPSModuleStrict
         if (($vid >= self::IPS_MIN_ID) && IPS_VariableExists($vid)) {
             $level = GetValue($vid);
             $this->LogDebug(__FUNCTION__, 'Current internal position is: ' . $level);
-            return (float)sprintf('%.2f', $level);
+            return (float) sprintf('%.2f', $level);
         } else {
             $this->LogDebug(__FUNCTION__, 'Variable to control the shutter not set!');
             return -1;
@@ -264,9 +264,9 @@ class ShutterActuator extends IPSModuleStrict
      * Using the custom prefix this function will be callable from PHP and JSON-RPC through:.
      *
      * TSA_Position($id, $position);
-     * 
+     *
      * @param int $position Position value to set (0-100)
-     * 
+     *
      * @return void
      */
     public function Position(int $position): void
@@ -284,7 +284,7 @@ class ShutterActuator extends IPSModuleStrict
      * Map Level to Position.
      *
      * @param float $level Shutter level value
-     * 
+     *
      * @return void
      */
     private function LevelToPosition(float $level): void
@@ -320,7 +320,7 @@ class ShutterActuator extends IPSModuleStrict
      * Map position to Level.
      *
      * @param int $position Shutter position value
-     * 
+     *
      * @return void
      */
     private function PositionToLevel(int $position): void
