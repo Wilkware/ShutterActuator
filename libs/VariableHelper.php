@@ -156,13 +156,32 @@ trait VariableHelper
      *
      * @return array<string,mixed> Modified configuration array
      */
-    protected function TranslatePresentation(array $configuration, string $index, string $key): array
+    protected function TranslatePresentation(array $configuration, ?string $index = null, ?string $key = null): array
     {
-        $template = json_decode($configuration[$index], true);
-        foreach ($template as &$a) {
-            $a[$key] = $this->Translate($a[$key]);
+        // Case 1: JSON array of objects at a specific index (e.g. OPTIONS -> Caption)
+        if ($index !== null && $index !== '' && $key !== null && $key !== '' && array_key_exists($index, $configuration)) {
+            $template = json_decode($configuration[$index], true);
+            if (is_array($template)) {
+                foreach ($template as &$a) {
+                    if (isset($a[$key])) {
+                        $a[$key] = $this->Translate($a[$key]);
+                    }
+                }
+                unset($a);
+                $configuration[$index] = json_encode($template, JSON_UNESCAPED_UNICODE);
+            }
         }
-        $configuration[$index] = json_encode($template, JSON_UNESCAPED_UNICODE);
+
+        // Case 2: all "normal" string values on the top level translate (e.g. PREFIX, SUFFIX)
+        foreach ($configuration as $k => $v) {
+            if ($k === $index) {
+                continue; // was possibly already handled above as a JSON array
+            }
+            if (is_string($v) && $v !== '') {
+                $configuration[$k] = $this->Translate($v);
+            }
+        }
+
         return $configuration;
     }
 }

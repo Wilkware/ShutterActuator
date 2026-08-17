@@ -28,6 +28,22 @@ class ShutterActuator extends IPSModuleStrict
     /** @var int Min IPS Object ID */
     private const IPS_MIN_ID = 10000;
 
+
+    // -------------------------------------------------------------------------
+    // Presentations
+    // -------------------------------------------------------------------------
+
+    /**
+     * @var array<string,mixed> Shutter Presentation (Enumeration)
+     */
+    private const TSA_PRESENTATION_SHUTTER = [
+        'PRESENTATION' => VARIABLE_PRESENTATION_ENUMERATION,
+        'OPTIONS' => '[{"Caption":"Open","Color":-1,"IconActive":false,"IconValue":"","Value":0},{"Caption":"25 %","Color":-1,"IconActive":false,"IconValue":"","Value":25},{"Caption":"50 %","Color":-1,"IconActive":false,"IconValue":"","Value":50},{"Caption":"75 %","Color":-1,"IconActive":false,"IconValue":"","Value":75},{"Caption":"99 %","Color":-1,"IconActive":false,"IconValue":"","Value":99},{"Caption":"Close","Color":-1,"IconActive":false,"IconValue":"","Value":100}]',
+        'LAYOUT' => 0,
+        'ICON' => 'shutters',
+        'DISPLAY' => 0,
+    ];
+
     // -------------------------------------------------------------------------
     // Methods
     // -------------------------------------------------------------------------
@@ -109,8 +125,11 @@ class ShutterActuator extends IPSModuleStrict
             $this->RegisterReference($variable);
         }
 
+        // Presentation
+        $shutter = $this->TranslatePresentation(self::TSA_PRESENTATION_SHUTTER, 'OPTIONS', 'Caption');
+        
         // Position
-        $this->MaintainVariable('Position', 'Position', VARIABLETYPE_INTEGER, 'HM.ShutterActuator', 1, true);
+        $this->MaintainVariable('Position', 'Position', VARIABLETYPE_INTEGER, $shutter, 1, true);
 
         // Enable Action / Request Action
         $this->EnableAction('Position');
